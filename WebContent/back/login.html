@@ -9,11 +9,9 @@
 <link rel="stylesheet" href="css/login.css">
 <script src="../js/jquery-1.12.4.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<!--[if lt IE 9]>
-	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
-    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
-<![endif]-->
+
+<script src="../js/basic_navy.js"  ></script>
+
 <script>
 	$(function() {
 		$(".container").css("position", "fixed").css("top",
@@ -37,6 +35,23 @@
 									($(window).width() - $(".container")
 											.width()) / 2);
 				});
+		
+		//$("#div1").moveDiv();
+		
+		$.post("../servlet/RolesServlet",{op:"findAllRoles"},function(data){
+			
+			var str="";
+			var str1="";
+			$.each(data,function(index,item){
+				str+="<li><a id='"+item.rid+"' href=\"javascript:login('"+item.rid+"','loginrole')\">"+item.rname+"</a></li>";
+				str1+="<li><a id='"+item.rid+"' href=\"javascript:login('"+item.rid+"','role')\">"+item.rname+"</a></li>";
+			});
+			
+			$("#loginRoles").html("").append($(str));
+			$("#registerRoles").html("").append($(str1));
+			
+		},"json");
+		
 
 	});
 
@@ -54,6 +69,19 @@
 		$(".register-page").removeClass("slidePageInFromLeft").addClass(
 				"slidePageBackLeft");
 	}
+	
+	function changeCode(obj){
+		obj.src="valiCodeImg.jsp?="+new Date().getTime();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </script>
 </head>
 
@@ -76,15 +104,15 @@
 										data-toggle="dropdown">
 										角&nbsp;&nbsp;色<span class="caret"></span>
 									</button>
-									<ul class="dropdown-menu">
-										<li><a id="role1"
+									<ul class="dropdown-menu"  id="loginRoles">
+										<!-- <li><a id="role1"
 											href="javascript:login('role1','loginrole')">董事</a></li>
 										<li><a id="role2"
 											href="javascript:login('role2','loginrole')">总经理</a></li>
 										<li><a id="role3"
 											href="javascript:login('role3','loginrole')">总监</a></li>
 										<li><a id="role4"
-											href="javascript:login('role4','loginrole')">部门经理</a></li>
+											href="javascript:login('role4','loginrole')">部门经理</a></li> -->
 									</ul>
 								</div>
 								<input id="loginrole" type="text" class="form-control"
@@ -108,8 +136,8 @@
 							<div class="input-group">
 								<label for="vcode" class="input-group-addon">验证码</label> <input
 									type="text" class="form-control" name="vcode" id="vcode"
-									required placeholder="请输入右边的验证码" /> <label
-									class="input-group-btn">&nbsp;&nbsp;123445454&nbsp;&nbsp;</label>
+									required placeholder="请输入右边的验证码" /> 
+									<label  class="input-group-btn"><img src="valiCodeImg.jsp"  onclick="changeCode(this)"/></label>
 							</div>
 							<br />
 							<div class="input-group">
@@ -144,12 +172,12 @@
 									data-toggle="dropdown">
 									角&nbsp;&nbsp;色<span class="caret"></span>
 								</button>
-								<ul class="dropdown-menu">
-									<li><a id="role1" href="javascript:login('role1','role')">学工处</a></li>
+								<ul class="dropdown-menu"  id="registerRoles">
+									<!-- <li><a id="role1" href="javascript:login('role1','role')">学工处</a></li>
 									<li><a id="role2" href="javascript:login('role2','role')">保卫处</a></li>
 									<li><a id="role3" href="javascript:login('role3','role')">书记</a></li>
 									<li><a id="role4" href="javascript:login('role4','role')">辅导员</a></li>
-									<li><a id="role5" href="javascript:login('role5','role')">超级管理员</a></li>
+									<li><a id="role5" href="javascript:login('role5','role')">超级管理员</a></li> -->
 								</ul>
 							</div>
 							<input id="role" type="text" class="form-control"
@@ -206,7 +234,11 @@
 	</div>
 
 	<script>
-			var dragObj = document.getElementById("div1");
+	
+		
+	
+	
+		/* 	var dragObj = document.getElementById("div1");
 		    dragObj.style.left = "0px";
 		    dragObj.style.top = "0px";
 		
@@ -238,7 +270,7 @@
 		
 		    document.onmouseup = function () {
 		        dragging = false;
-		    }
+		    } */
 	</script>
 
 

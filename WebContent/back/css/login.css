@@ -1,6 +1,6 @@
 @charset "utf-8";
 body{
-	background:url(img/loginbg.png) repeat;
+	background:url(../img/loginbg.png) repeat;
 }
 
 *{
