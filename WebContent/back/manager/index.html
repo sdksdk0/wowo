@@ -6,14 +6,77 @@
 	<link rel="stylesheet" type="text/css" href="../../easyui/css/easyui.css">
 	<link rel="stylesheet" type="text/css" href="../../easyui/css/icon.css">
 	<link rel="stylesheet" type="text/css" href="../../easyui/css/demo.css">
+	<link rel="stylesheet" type="text/css" href="../css/index.css">
 	<script type="text/javascript" src="../../js/jquery-1.12.4.js"></script>
 	<script type="text/javascript" src="../../easyui/js/jquery.easyui.min.js"></script>
 </head>
 <body class="easyui-layout">
-	<div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px">north region</div>
-	<div data-options="region:'west',split:true,title:'West'" style="width:150px;padding:10px;">west content</div>
-	<div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">east region</div>
-	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;">south region</div>
-	<div data-options="region:'center',title:'Center'"></div>
+	<div data-options="region:'north',border:false" style="height:110px;background:#B3DFDA;padding:10px">
+		<img src="../img/logo.png"   id="logo" />
+		<div class="navy_header" >
+			<img src="../../images/zanwu.jpg"  id="photopic" />
+			<div>
+				<p id="welcome">当前用户:<span></span></p>
+				<p id="change"> [ 注销 ] </p>
+			</div>
+		</div>
+	</div>
+	<div data-options="region:'west',split:true,title:'菜单'" style="width:150px;padding:10px;">
+	
+	
+		<ul class="easyui-tree">
+		<li>
+			<span>My Documents</span>
+			<ul>
+				<li data-options="state:'closed'">
+					<span>Photos</span>
+					<ul>
+						<li>
+							<span>Friend</span>
+						</li>
+						<li>
+							<span>Wife</span>
+						</li>
+						<li>
+							<span>Company</span>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<span>Program Files</span>
+					<ul>
+						<li>Intel</li>
+						<li>Java</li>
+						<li>Microsoft Office</li>
+						<li>Games</li>
+					</ul>
+				</li>
+				<li>index.html</li>
+				<li>about.html</li>
+				<li>welcome.html</li>
+			</ul>
+		</li>
+	</ul>
+	
+	
+	</div>
+	<div data-options="region:'east',split:true,collapsed:true,title:'帮助'" style="width:100px;padding:10px;">
+	
+	
+	</div>
+	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;">
+	
+		<center><p>指令汇科技 &copy; 版权所有</p></center>
+	
+	</div>
+	<div data-options="region:'center',title:'内容'">
+	
+	
+	
+	
+	
+	
+	
+	</div>
 </body>
 </html>

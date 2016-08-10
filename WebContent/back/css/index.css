@@ -1,0 +1,23 @@
+
+
+#photopic{
+	width:90px;
+	height:90px;
+}
+
+#welcome{
+	margin-right:40px;
+	float:right;
+}
+
+.navy_header{
+	
+	float:right;
+	margin-right:20px;
+}
+
+.navy_header div,.navy_head img{
+	float:left;
+	margin-left:50px;
+}
+
