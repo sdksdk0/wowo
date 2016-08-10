@@ -10,17 +10,18 @@ import cn.tf.utils.DBHelper;
 public class AdminInfoDaoImpl implements IAdminInfoDao{
 
 	@Override
-	public AdminInfo login(String name, String pwd) {
+	public AdminInfo login(String name, String pwd,String rid) {
 		DBHelper db=new DBHelper();
 		String sql=null;
 		if(name.contains("@")){  //说明是邮箱登录
-			sql="select * from adminInfos where email=? and pwd=?  and status=2" ;		
+			sql="select * from adminInfos where email=? and pwd=?  and status=2 and rid=? " ;		
 		}else{
-			sql="select * from adminInfos where aid=? and pwd=?  and status=2" ;
+			sql="select * from adminInfos where aid=? and pwd=?  and status=2  and rid=? " ;
 		}
 		List<Object>  params=new ArrayList<Object>();
 		params.add(name);
 		params.add(pwd);
+		params.add(rid);
 		return db.findByOne(sql, params, AdminInfo.class);
 	}
 

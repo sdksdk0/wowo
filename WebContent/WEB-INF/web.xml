@@ -18,14 +18,9 @@
     </init-param>
     <load-on-startup>0</load-on-startup>
   </servlet>
-  
-  
   <listener>
-      <listener-class>cn.tf.listener.ServletContextListener</listener-class>
+    <listener-class>cn.tf.listener.ServletContextListener</listener-class>
   </listener>
-  
-  
-
   <servlet>
     <description></description>
     <display-name>RolesServlet</display-name>
@@ -36,7 +31,6 @@
     <servlet-name>RolesServlet</servlet-name>
     <url-pattern>/servlet/RolesServlet</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>BasicServlet</servlet-name>
     <servlet-class>cn.tf.servlets.BasicServlet</servlet-class>
@@ -45,14 +39,14 @@
     <servlet-name>BasicServlet</servlet-name>
     <url-pattern>/servlet/BasicServlet</url-pattern>
   </servlet-mapping>
-  
-    <welcome-file-list>
-    <welcome-file>/back/login.html</welcome-file>
-    <welcome-file>/back/login.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
-  
+  <servlet>
+    <description></description>
+    <display-name>adminLogin</display-name>
+    <servlet-name>adminLogin</servlet-name>
+    <servlet-class>cn.tf.servlets.adminLogin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminLogin</servlet-name>
+    <url-pattern>/adminLogin</url-pattern>
+  </servlet-mapping>
 </web-app>

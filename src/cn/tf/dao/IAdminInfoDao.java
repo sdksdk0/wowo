@@ -14,7 +14,7 @@ public interface IAdminInfoDao {
 	 * @param pwd
 	 * @return
 	 */
-	public AdminInfo  login(String name,String pwd);
+	public AdminInfo  login(String name,String pwd,String rid);
 	
 	
 	//根据编号查询管理员信息

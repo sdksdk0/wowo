@@ -11,7 +11,7 @@ import cn.tf.entities.AdminInfo;
 public class AdminInfoBizImpl implements IAdminInfoBiz{
 
 	@Override
-	public AdminInfo login(String name, String pwd) {
+	public AdminInfo login(String name, String pwd,String rid) {
 		if(name==null || "".equals(name)){
 			return null;
 		}
@@ -20,7 +20,7 @@ public class AdminInfoBizImpl implements IAdminInfoBiz{
 			return null;
 		}
 		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
-		return adminInfoDao.login(name, pwd);
+		return adminInfoDao.login(name, pwd,rid);
 	}
 
 	@Override
