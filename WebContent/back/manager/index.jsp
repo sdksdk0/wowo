@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +18,7 @@
 		<div class="navy_header" >
 			<img src="../../images/zanwu.jpg"  id="photopic" />
 			<div>
-				<p id="welcome">当前用户:<span></span></p>
+				<p id="welcome">当前用户: ${sessionScope.adminInfo.name }<span></span></p>
 				<p id="change"> [ 注销 ] </p>
 				
 				<a href="javascript:void(0)" id="mb" class="easyui-menubutton"     

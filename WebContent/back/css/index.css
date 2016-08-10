@@ -11,12 +11,11 @@
 }
 
 .navy_header{
-	
 	float:right;
 	margin-right:20px;
 }
 
-.navy_header div,.navy_head img{
+.navy_header div,.navy_header img{
 	float:left;
 	margin-left:50px;
 }
