@@ -3,6 +3,7 @@
 #photopic{
 	width:90px;
 	height:90px;
+	border-radius:100px;
 }
 
 #welcome{
@@ -20,3 +21,6 @@
 	margin-left:50px;
 }
 
+#head_exit{
+	cursor:pointer;
+}

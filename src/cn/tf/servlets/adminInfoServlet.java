@@ -27,10 +27,34 @@ public class adminInfoServlet extends BasicServlet {
 		
 		if("adminLogin".equals(op)){
 			adminLogin(request,response);
+		}else if("getLoginInfo".equals(op)){
+			getLoginInfo(request,response);
+		}else if("LoginOut".equals(op)){
+			LoginOut(request,response);
 		}
 		
 		
 
+	}
+
+	//退出登录
+	private void LoginOut(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		request.getSession().removeAttribute(AttributeData.CURRENTADMINLOGIN);
+		this.out(response, 1);
+	}
+
+	//获取当前登录用户的信息
+	private void getLoginInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		Object obj=session.getAttribute(AttributeData.CURRENTADMINLOGIN);
+		if(obj==null){
+			this.out(response,obj);
+		}else{
+			this.out(response, (AdminInfo)obj );
+		}
+		
 	}
 
 	private void adminLogin(HttpServletRequest request,

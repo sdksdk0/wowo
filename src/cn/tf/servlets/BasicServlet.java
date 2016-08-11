@@ -25,6 +25,7 @@ public class BasicServlet extends HttpServlet {
 		doPost(request,response);
 	}
 
+	//返回一个状态值
 	
 	protected void out(HttpServletResponse response,int result){
 		PrintWriter out=null;
@@ -39,6 +40,7 @@ public class BasicServlet extends HttpServlet {
 		}
 	}
 	
+	
 	protected void out(HttpServletResponse response,String result){
 		PrintWriter out=null;
 		try {
@@ -52,6 +54,23 @@ public class BasicServlet extends HttpServlet {
 		}
 	}
 	
+	//获取当个对象
+	protected  <T>  void out(HttpServletResponse response,T obj){
+		PrintWriter out=null;
+		try {
+
+			out=response.getWriter();
+			out.print(JSONObject.fromObject(obj));
+			out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			out.close();
+		}
+	}
+	
+	
+	//返回一个集合
 	protected <T> void out(HttpServletResponse response,List<T> list){
 		PrintWriter out=null;
 		JSONArray json=JSONArray.fromObject(list);

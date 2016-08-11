@@ -9,6 +9,9 @@
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
 	<script type="text/javascript" src="../../js/jquery-1.12.4.js"></script>
 	<script type="text/javascript" src="../../easyui/js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../../easyui/js/index.js"  ></script>
+	
+	
 </head>
 <body class="easyui-layout">
 	<div data-options="region:'north',border:false" style="height:110px;background:#B3DFDA;padding:10px">
@@ -16,8 +19,8 @@
 		<div class="navy_header" >
 			<img src="../../images/zanwu.jpg"  id="photopic" />
 			<div>
-				<p id="welcome">当前用户:<span></span></p>
-				<p id="change"> [ 注销 ] </p>
+				<p id="welcome">当前用户:<span  id="index_loginuser"></span></p>
+				<p id="head_exit"  onclick="headexit()" > [ 注销 ] </p>
 				
 				<a href="javascript:void(0)" id="mb" class="easyui-menubutton"     
 				        data-options="menu:'#mm'">个人中心</a>   
@@ -30,28 +33,20 @@
 		</div>
 	</div>
 	<div data-options="region:'west',split:true,title:'菜单'" style="width:180px;padding:10px;">
-		<ul class="easyui-tree">
+		<ul class="easyui-tree"  id="index_menu_tree">
 				<li>
 					<span>主菜单</span>
 					<ul>
-						<li>
-							角色管理
-						</li>
-						<li>
-							管理员信息
-						</li>
-						<li>
-							会员信息
-						</li>
-						<li>
-							商品类型信息
-						</li>
+						<li  id="index_role">角色管理</li>
+						<li  id="index_admin">管理员信息</li>
+						<li  id="index_user">会员信息</li>
+						<li  id="index_types">商品类型信息</li>
 						<li>
 							<span>店铺信息</span>
 							<ul>
-								<li>审核店铺信息</li>
-								<li>查看店铺信息</li>
-								<li>管理店铺信息</li>
+								<li  id="index_sgopping1">审核店铺信息</li>
+								<li  id="index_sgopping2">查看店铺信息</li>
+								<li  id="index_sgopping3">管理店铺信息</li>
 							</ul>
 						</li>
 						
@@ -60,13 +55,13 @@
 				<li>
 					<span>商品信息</span>
 					<ul>
-						<li>添加商品信息</li>
-						<li>查看商品信息</li>
-						<li>修改商品信息</li>
+						<li  id="index_goods1">添加商品信息</li>
+						<li  id="index_goods2">查看商品信息</li>
+						<li  id="index_goods3">修改商品信息</li>
 					</ul>
 				</li>
-				<li>消息管理</li>
-				<li>订单管理</li>
+				<li  id="index_message">消息管理</li>
+				<li  id="index_order">订单管理</li>
 			</ul>
 	
 	
@@ -80,14 +75,19 @@
 		<center><p>指令汇科技 &copy; 版权所有</p></center>
 	
 	</div>
-	<div data-options="region:'center',title:'内容'">
+	<div data-options="region:'center',title:'内容',tools:[{
+		iconCls:'icon-full',
+		handler:function(){full();}
+		},{
+		iconCls:'icon-unfull',
+		handler:function(){unFull();}
 	
+	}]">
 	
-	
-	
-	
-	
-	
+		<div id="index_content_info" class="easyui-tabs" data-options="fit:true">   
+			
+		
+		</div>
 	</div>
 </body>
 </html>

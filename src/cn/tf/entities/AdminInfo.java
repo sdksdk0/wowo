@@ -70,9 +70,21 @@ public class AdminInfo  implements Serializable {
 	}
 
 	public String getPhoto() {
+		
 		return photo;
 	}
 
+	public String getPhotos(){
+		if(photo==null || "".equals(photo)){
+			return "images/zanwu.jpg";
+		}else{
+			return photo;
+		}
+	}
+	
+	
+	
+	
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
