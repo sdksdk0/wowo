@@ -22,39 +22,42 @@ $(function() {
 	$('#index_menu_tree').tree({
 		onClick : function(node) {
 			var tabs = $('#index_content_info');
+			var title="指令汇科技";
+			var href="welcome.html";
+			
+			
+			
 			if (node.id == "index_role") {
 
 				if (tabs.tabs("exists", "角色管理")) {
 					// 如果存在则选中
 					tabs.tabs("select", "角色管理");
-
+					return;	
 				} else {
-
-					tabs.tabs("add", {
-						title : '角色管理',
-						closable : true,
-						fit : true,
-						href : "roles.html"
-					});
-
+					title="角色管理";
+					href="roles.html";
 				}
 			} else if (node.id == "index_admin") {
 
 				if (tabs.tabs("exists", "管理员信息")) {
 					// 如果存在则选中
 					tabs.tabs("select", "管理员信息");
-
+					return;
 				} else {
-					tabs.tabs("add", {
-						title : '管理员信息',
-						closable : true,
-						fit : true,
-						href : "admin.html"
-					});
-
+					title="管理员信息";
+					href="admin.html";
 				}
 
 			}
+			
+			tabs.tabs("add", {
+				title : title,
+				closable : true,
+				fit : true,
+				href : href
+			});
+			
+
 		}
 	});
 

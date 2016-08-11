@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>角色管理</title>
-</head>
-<body>
-   角色管理
-</body>
-</html>
+<table id="roles_dataInfo"></table>  
+
+<script>
+$('#roles_dataInfo').datagrid({    
+    url:'../../servlet/RolesServlet',   
+    queryParams:{op:"findAllRoles"},
+    loadMsg:"数据加载中",
+    fitColumns:true,
+    striped:true,
+    nowrap:true,
+    pagination:true,
+    fit:true,
+    rownumbers:true,   
+    sortName:"rid",  
+    remoteSort:false,
+    columns:[[    
+        {field:'rid',title:'角色编号',width:100,align:'center'},    
+        {field:'rname',title:'角色名',width:100,align:'center'},    
+        {field:'mark',title:'角色描述',width:100,align:'center'},    
+        {field:'statusStr',title:'角色状态',width:100,align:'center'}    
+    ]]    
+});  
+
+
+</script>

@@ -35,6 +35,23 @@ public class Roles  implements Serializable {
 	public Integer getStatus() {
 		return status;
 	}
+	
+	public String  getStatusStr() {
+		
+		if(status==1){
+			return "正常";
+		}else {
+			return "禁用";
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
