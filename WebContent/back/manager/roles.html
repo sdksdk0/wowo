@@ -17,11 +17,11 @@
     fit:true,
     rownumbers:true,   
     pageList:[2,5,10],
-    pageSize:2,
+    pageSize:5,
     sortName:"rid",  
     remoteSort:false,
     columns:[[   
-		{field:'rids',title:'选择',width:10,align:'center',checkbox:true}, 
+		{field:'rids',title:'选择',width:10,align:'center',checkbox:true},  
         {field:'rid',title:'角色编号',width:100,align:'center',sortable:true},    
         {field:'rname',title:'角色名',width:100,align:'center',editor:{type:"text",options:{required:true}}},    
         {field:'mark',title:'角色描述',width:100,align:'center',editor:{type:"text"}},    
@@ -67,7 +67,7 @@
 		text:"删除",
 		handler: function(){
 			
-			var rows=var rows=datagrid.datagrid("getChecked");
+			var rows=datagrid.datagrid("getChecked");
 			if(rows.length<=0){
 				$.messager.show({title:'温馨提示',msg:'请选择需要删除的数据',timeout:2000,showType:'slide'});
 			}else{
@@ -101,13 +101,9 @@
 						
 						});
 					}
-				})
+				});
 			}
-			
-		
-		}
-			
-			
+		}	
 	},'-',{
 			iconCls: 'icon-save',
 			text:"保存",
