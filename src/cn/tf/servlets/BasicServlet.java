@@ -85,6 +85,7 @@ public class BasicServlet extends HttpServlet {
 		}
 	}
 	
+	//返回多个值
 	protected <T> void out(HttpServletResponse response,Map<String,List<T>> map){
 		PrintWriter out=null;
 		
@@ -110,6 +111,23 @@ public class BasicServlet extends HttpServlet {
 		}
 	}
 	
+	protected <T> void out(HttpServletResponse response,List<T> list, int total){
+		PrintWriter out=null;
+		
+		JSONArray json=JSONArray.fromObject(list);
+		JSONObject   jb=new JSONObject();
+		try {
+			out=response.getWriter();
+			jb.put("total", total);
+			jb.put("rows", json);
+			out.print(jb);
+			out.flush();
 	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			out.close();
+		}
+	}
 
 }

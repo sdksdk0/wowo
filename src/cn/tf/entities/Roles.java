@@ -17,9 +17,19 @@ public class Roles  implements Serializable {
 	public Integer getRid() {
 		return rid;
 	}
+	
+	public Integer getRids() {
+		return rid;
+	}
+	
+	
 	public void setRid(Integer rid) {
 		this.rid = rid;
 	}
+	
+	
+	
+	
 	public String getRname() {
 		return rname;
 	}

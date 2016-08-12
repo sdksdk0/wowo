@@ -19,6 +19,19 @@ public class AdminInfo  implements Serializable {
 	private Integer  status; //状态
 	private  String mark;  //状态说明
 	
+	private String code;
+	
+	
+	
+	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	private String rname;  //角色名称
 
 	public Integer getAid() {

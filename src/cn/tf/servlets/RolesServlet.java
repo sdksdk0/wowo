@@ -24,7 +24,60 @@ public class RolesServlet extends BasicServlet {
 		
 		if("findAllRoles".equals(op)){
 			findAllRoles(request,response);
-		}	
+		}else if("addRoles".equals(op)){
+			addRoles(request,response);
+		}else if("findRolesByPage".equals(op)){
+			findRolesByPage(request,response);
+		}else if("delteRoles".equals(op)){
+			delteRoles(request,response);
+		}
+	}
+
+
+	//删除角色信息
+	private void delteRoles(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		String rid=request.getParameter("rid");
+		IRolesBiz roleBiz=new RolesBizImpl();
+		this.out(response, (int) roleBiz.del(rid));
+		
+		
+		
+	}
+
+
+	//分页查询角色信息
+	private void findRolesByPage(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		String pageNo=request.getParameter("page");
+		String pageSize=request.getParameter("rows");
+		IRolesBiz roleBiz=new RolesBizImpl();
+		
+		List<Roles>  list=roleBiz.find(Integer.parseInt(pageNo),Integer.parseInt(pageSize));
+		List<Roles>  rs=(List<Roles>) this.getServletContext().getAttribute(AttributeData.ALLROLES);
+		
+		this.out(response, list,rs.size());
+		
+	}
+
+
+
+	private void addRoles(HttpServletRequest request,
+			HttpServletResponse response) {
+		String rname=request.getParameter("rname");
+		String mark=request.getParameter("mark");
+		String status=request.getParameter("status");
+
+		IRolesBiz roleBiz=new RolesBizImpl();
+		
+		int result=roleBiz.add(rname,mark);
+		
+		if(result>0){
+			this.getServletContext().setAttribute(AttributeData.ALLROLES, roleBiz.find());
+		}
+		this.out(response, result);
 	}
 
 

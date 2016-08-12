@@ -1,6 +1,8 @@
 package cn.tf.servlets;
 
 import java.io.IOException;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,8 @@ import cn.tf.biz.IAdminInfoBiz;
 import cn.tf.biz.impl.AdminInfoBizImpl;
 import cn.tf.entities.AdminInfo;
 import cn.tf.utils.AttributeData;
+import cn.tf.utils.SendMailThread;
+import cn.tf.utils.WebUtil;
 
 
 @WebServlet(name="adminInfoServlet",urlPatterns="/servlet/adminInfoServlet")
@@ -31,12 +35,31 @@ public class adminInfoServlet extends BasicServlet {
 			getLoginInfo(request,response);
 		}else if("LoginOut".equals(op)){
 			LoginOut(request,response);
+		}else if("sendEmail".equals(op)){
+			//sendEmail(request,response);
 		}
 		
 		
 
 	}
 
+	/*//注册发送邮件
+	private void sendEmail(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		
+		AdminInfo adminInfo=WebUtil.fillBean(request,AdminInfo.class);
+		
+		String code =Random.next(;
+		adminInfo.setCode(code);
+		
+		SendMailThread smt=new SendMailThread(adminInfo);
+		smt.start();
+		
+		this.out(response, code);
+		
+	}
+*/
 	//退出登录
 	private void LoginOut(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {

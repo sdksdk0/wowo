@@ -1,9 +1,14 @@
-<table id="roles_dataInfo"></table>  
+<table id="roles_dataInfo"></table>
 
 <script>
-$('#roles_dataInfo').datagrid({    
+
+	var datagrid;
+	var editRow=undefined;  //当前编辑的行
+	var statusObj=[{sid:1,statusStr:'正常'},{sid:0,statusStr:'禁用'}];
+
+	datagrid=$('#roles_dataInfo').datagrid({    
     url:'../../servlet/RolesServlet',   
-    queryParams:{op:"findAllRoles"},
+    queryParams:{op:"findRolesByPage"},
     loadMsg:"数据加载中",
     fitColumns:true,
     striped:true,
@@ -11,14 +16,152 @@ $('#roles_dataInfo').datagrid({
     pagination:true,
     fit:true,
     rownumbers:true,   
+    pageList:[2,5,10],
+    pageSize:2,
     sortName:"rid",  
     remoteSort:false,
-    columns:[[    
-        {field:'rid',title:'角色编号',width:100,align:'center'},    
-        {field:'rname',title:'角色名',width:100,align:'center'},    
-        {field:'mark',title:'角色描述',width:100,align:'center'},    
-        {field:'statusStr',title:'角色状态',width:100,align:'center'}    
-    ]]    
+    columns:[[   
+		{field:'rids',title:'选择',width:10,align:'center',checkbox:true}, 
+        {field:'rid',title:'角色编号',width:100,align:'center',sortable:true},    
+        {field:'rname',title:'角色名',width:100,align:'center',editor:{type:"text",options:{required:true}}},    
+        {field:'mark',title:'角色描述',width:100,align:'center',editor:{type:"text"}},    
+        {field:'status',title:'角色状态',width:100,align:'center',editor:{type:"combobox",options:{
+        	required:true,valueField:'sid',textField:'statusStr',data:statusObj}},
+        	formatter:function(value,row,index){
+        		for(var i=0;i<statusObj.length;i++){
+        			if(statusObj[i].sid==value){
+        				return statusObj[i].statusStr;
+        			}	
+        		}
+        		return value;
+        	}
+        }  
+    ]] ,
+    toolbar: [{
+		iconCls: 'icon-add',
+		text:"添加",
+		handler: function(){
+			
+			//判断当前有没有行在被编辑
+			if(editRow!=undefined){
+				//说明当前有正在被编辑的行
+				datagrid.datagrid('rejectChanges');
+				datagrid.datagrid('endEdit',editRow);  //结束正在被编辑的行
+				editRow=undefined;
+				
+			}else{
+				datagrid.datagrid('insertRow',{index:0,row:{}});  //在最前面添加一行
+				datagrid.datagrid('beginEdit',0);  //开始编辑第一行
+				editRow=0;  //记录当前正在被编辑的行
+			}
+		}
+	},'-',{
+		iconCls: 'icon-edit',
+		text:"修改",
+		handler: function(){
+			
+			
+		}
+	},'-',{
+		iconCls: 'icon-remove',
+		text:"删除",
+		handler: function(){
+			
+			var rows=var rows=datagrid.datagrid("getChecked");
+			if(rows.length<=0){
+				$.messager.show({title:'温馨提示',msg:'请选择需要删除的数据',timeout:2000,showType:'slide'});
+			}else{
+				$.messager.confirm('确认删除么','确认删除么',function(rt){
+					if(rt){
+						var rids="";
+						for(var i=0;i<rows.length-1;i++){
+							rids+=rows[i].rid+",";
+						}
+						rids+=rows[i].rid;
+						
+						//发送到后台，从数据库中删除
+						$.post("../../servlet/RolesServlet",{op:"delteRoles",rid:rids},function(data){
+							data=parseInt($.trim(data));
+						if(data>0){
+							
+							$.messager.show({
+								title:'成功',
+								msg:'角色删除成功',
+								timeout:5000,
+								showType:'slide'
+							});
+							datagrid.datagrid('endEdit',editRow); 
+							rows=null;
+							datagrid.datagrid('reload');
+							datagrid.datagrid('rejectChanges');
+							datagrid.datagrid('unselectAll');
+						}else{
+							$.messager.alert('失败','删除失败','error');   
+						}
+						
+						});
+					}
+				})
+			}
+			
+		
+		}
+			
+			
+	},'-',{
+			iconCls: 'icon-save',
+			text:"保存",
+			handler: function(){
+				//结束编辑
+				datagrid.datagrid('endEdit',editRow); 
+				
+				//获取当前正在被编辑的行
+				var rows=datagrid.datagrid("getChanges")[0];
+				if(rows==undefined){
+					//如果没有获取到正在被编辑的行，说明用户没有修改任何数据
+					datagrid.datagrid('rejectChanges');
+					datagrid.datagrid('unselectAll');
+					editRow=undefined;
+				}else{
+					
+					//添加op属性
+					rows["op"]="addRoles";
+					
+					$.post("../../servlet/RolesServlet",rows,function(data){
+						data=parseInt($.trim(data));
+						if(data>0){
+							
+							$.messager.show({
+								title:'成功',
+								msg:'角色添加成功',
+								timeout:5000,
+								showType:'slide'
+							});
+							datagrid.datagrid('endEdit',editRow); 
+							rows=null;
+							datagrid.datagrid('reload');
+							datagrid.datagrid('rejectChanges');
+							datagrid.datagrid('unselectAll');
+						}else{
+							$.messager.alert('失败','添加失败','error');   
+						}
+					});
+				}	
+			}
+				
+	},'-',{
+			iconCls: 'icon-undo',
+			text:"撤销",
+			handler: function(){
+				
+				
+		}
+	}]
+
+    
+    
+    
+    
 });  
 
 

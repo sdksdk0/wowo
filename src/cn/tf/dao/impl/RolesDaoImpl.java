@@ -18,7 +18,7 @@ public class RolesDaoImpl implements IRolesDao {
 	public List<Roles> find(Integer pageNo, Integer pageSize) {
 		DBHelper db=new DBHelper();
 		List<Object>  params=new ArrayList<Object>();
-		String sql="select * from(select a.*,rownum as rn from (  select rid,rname,mark  from roles where status=1 order by rid asc ) a  where rownum<=? ) where rn> ?";
+		String sql="select * from(select a.*,rownum as rn from (  select rid,rname,mark,status  from roles where status=1 order by rid asc ) a  where rownum<=? ) where rn> ?";
 		params.add(pageNo*pageSize);
 		params.add((pageNo-1)*pageSize);
 		return db.find( sql, params,Roles.class);
