@@ -42,7 +42,7 @@ public class SendMailThread extends Thread{
 			message.saveChanges();
 			
 			Transport ts = session.getTransport();
-			ts.connect("邮箱账号", "密码");
+			ts.connect("xingtian@tianfang1314.cn", "87654320a.");
 			ts.sendMessage(message, message.getAllRecipients());
 			ts.close();
 		} catch (AddressException e) {
