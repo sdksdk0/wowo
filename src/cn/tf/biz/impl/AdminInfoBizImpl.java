@@ -136,6 +136,12 @@ public class AdminInfoBizImpl implements IAdminInfoBiz{
 		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
 		return adminInfoDao.update(aid);
 	}
+
+	@Override
+	public int getTotal(Integer rid) {
+		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
+		return adminInfoDao.getTotal(rid);
+	}
 	
 	
 

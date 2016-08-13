@@ -1,6 +1,7 @@
 package cn.tf.servlets;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.RandomStringUtils;
 
 import cn.tf.biz.IAdminInfoBiz;
 import cn.tf.biz.impl.AdminInfoBizImpl;
@@ -36,30 +39,69 @@ public class adminInfoServlet extends BasicServlet {
 		}else if("LoginOut".equals(op)){
 			LoginOut(request,response);
 		}else if("sendEmail".equals(op)){
-			//sendEmail(request,response);
+			sendEmail(request,response);
+		}else if("checkUsername".equals(op)){
+			checkUsername(request,response);
+		}else if("findAdminInfoByPage".equals(op)){
+			findAdminInfoByPage(request,response);
 		}
 		
 		
 
 	}
 
-	/*//注册发送邮件
-	private void sendEmail(HttpServletRequest request,
+	
+	//分页查询管理员信息
+	
+	private void findAdminInfoByPage(HttpServletRequest request,
+			HttpServletResponse response) {
+		String pageNo=request.getParameter("page");
+		String pageSize=request.getParameter("rows");
+		
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		List<AdminInfo>  list=adminInfoBiz.find(Integer.parseInt(pageNo),Integer.parseInt(pageSize));
+		
+		this.out(response, list,adminInfoBiz.getTotal(null));
+	}
+
+	//找回密码，通过用户编号查找
+	private void checkUsername(HttpServletRequest request,
 			HttpServletResponse response) {
 		
+		String rid=request.getParameter("username");
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		AdminInfo adminInfo=adminInfoBiz.find(Integer.parseInt(rid));
 		
+		System.out.println(rid);
+		System.out.println(adminInfo);
+		int result=0;
+		if(adminInfo==null){
+			result=0;   //该用户不存在
+		}else{
+			result=1; //验证成功
+		}
+		this.out(response, result);
+		
+		
+	}
+
+	//注册发送邮件
+	private void sendEmail(HttpServletRequest request,
+			HttpServletResponse response) {
 		AdminInfo adminInfo=WebUtil.fillBean(request,AdminInfo.class);
+
+		String code =RandomStringUtils.randomNumeric(5);
+	/*	System.out.println(email);
+		System.out.println(code);*/
 		
-		String code =Random.next(;
 		adminInfo.setCode(code);
-		
 		SendMailThread smt=new SendMailThread(adminInfo);
 		smt.start();
 		
 		this.out(response, code);
 		
 	}
-*/
+
 	//退出登录
 	private void LoginOut(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {

@@ -7,9 +7,7 @@
 .icon-edit{
 	background:url('../icons/pencil.png') no-repeat center center;
 }
-.icon-edit1{
-	background:url('../icons/pencil.png') no-repeat 4px center;
-}
+
 .icon-remove{
 	background:url('../icons/edit_remove.png') no-repeat center center;
 }
@@ -84,6 +82,27 @@
 	background:url('../icons/file.png') no-repeat left center;
 }
 
+.icon-search1{
+	background:url('../icons/search.png') no-repeat left center;
+}
+
+
+.icon-detail1{
+	background:url('../icons/file.png') no-repeat left center;
+}
+
+
+
+.icon-remove1{
+	background:url('../icons/edit_remove.png') no-repeat left center;
+}
+
+.icon-edit1{
+	background:url('../icons/pencil.png') no-repeat left center;
+}
+
 .icon-padding{
 	padding-left:18px;
 }
+
+

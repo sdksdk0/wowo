@@ -22,5 +22,7 @@ public interface  IRolesBiz {
 	
 	//修改角色
 	public Integer update(String rname,String mark,String rid);
+	
+	
 
 }

@@ -203,4 +203,19 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 		return db.doUpdate(sql,params);
 	}
 
+	//获取总记录数
+	@Override
+	public int getTotal(Integer rid) {
+		DBHelper db=new DBHelper();
+		String sql=null;
+		List<Object>  params=new ArrayList<Object>();
+		if(rid==null){
+			sql="select count(aid) from adminInfo ";
+		}else{
+			sql="select count(aid) from adminInfo  where rid=? ";
+			params.add(rid);
+		}
+		return db.findByOne(sql, params);
+	}
+
 }

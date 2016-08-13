@@ -59,6 +59,8 @@ public interface  IAdminInfoBiz {
 	//删除管理员信息
 	public Integer del(String aid);
 
+	//获取总记录数
+	public int getTotal(Integer rid);
 	
 
 }

@@ -30,7 +30,28 @@ public class RolesServlet extends BasicServlet {
 			findRolesByPage(request,response);
 		}else if("delteRoles".equals(op)){
 			delteRoles(request,response);
+		}else if("updateRoles".equals(op)){
+			updateRoles(request,response);
 		}
+	}
+
+
+	//修改
+	private void updateRoles(HttpServletRequest request,
+			HttpServletResponse response) {
+		String rname=request.getParameter("rname");
+		String mark=request.getParameter("mark");
+		String rid=request.getParameter("rid");
+
+		IRolesBiz roleBiz=new RolesBizImpl();
+		
+		int result=roleBiz.update(rname,mark,rid);
+		
+		if(result>0){
+			this.getServletContext().setAttribute(AttributeData.ALLROLES, roleBiz.find());
+		}
+		this.out(response, result);
+		
 	}
 
 
@@ -40,10 +61,13 @@ public class RolesServlet extends BasicServlet {
 		
 		String rid=request.getParameter("rid");
 		IRolesBiz roleBiz=new RolesBizImpl();
-		this.out(response, (int) roleBiz.del(rid));
 		
-		
-		
+		int result=roleBiz.del(rid);
+		if(result>0){
+			this.getServletContext().getAttribute(AttributeData.ALLROLES);
+		}
+
+		this.out(response,result);
 	}
 
 

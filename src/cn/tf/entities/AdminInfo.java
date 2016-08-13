@@ -19,9 +19,9 @@ public class AdminInfo  implements Serializable {
 	private Integer  status; //状态
 	private  String mark;  //状态说明
 	
-	private String code;
+	private String code;  //邮箱验证码
 	
-	
+	private String rname;  //角色名称
 	
 	
 	public String getCode() {
@@ -32,11 +32,15 @@ public class AdminInfo  implements Serializable {
 		this.code = code;
 	}
 
-	private String rname;  //角色名称
+
 
 	public Integer getAid() {
 		return aid;
 	}
+	public Integer getAids() {
+		return aid;
+	}
+	
 
 	public void setAid(Integer aid) {
 		this.aid = aid;
@@ -62,6 +66,7 @@ public class AdminInfo  implements Serializable {
 		return rid;
 	}
 
+	
 	public void setRid(Integer rid) {
 		this.rid = rid;
 	}
@@ -106,6 +111,24 @@ public class AdminInfo  implements Serializable {
 		return status;
 	}
 
+	public String getStatusStr() {
+		
+		if(status==1){
+			return "未审核";
+		}else if(status==1){
+			return "未通过审核";
+		}else if(status==2){
+			return "正常";
+		}else if(status==3){
+			return "冻结";
+		}
+		return "账号异常";
+		
+		
+	}
+
+	
+	
 	public void setStatus(Integer status) {
 		this.status = status;
 	}

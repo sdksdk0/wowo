@@ -27,17 +27,33 @@ $(function() {
 		$("#email").css("border-color","#eee");
 	});
     
+	$("#rcode").focus(function(){
+		$("#rcode").css("border-color","#eee");
+	});
+	
+	
+	$("#username").blur(function(){
+		$.post("../servlet/adminInfoServlet",{op:"checkUsername",username:username},function(data){
+			alert("aa");
+			data=$.trim(data);
+			if(data==1){
+				$("#username").css("border-color","green");
+			}else{
+				$("#username").css("border-color","red");
+			}
+				
+		});
+	});
+	
+	
     
 });
 
-/*输入验证码后的下一步，即新密码设置*/
-function nextstep(){
-	$("#navigation li").removeClass("selected");
-	$("#newpwdli").addClass("selected");
-	$("#newpwdli a").attr("href","#");
-	$("#newpwdli span").addClass("checked").removeClass("error");
-	$('#steps').stop().animate({marginLeft:'-1200px'},500);
-}
+
+	var code=null;
+
+
+
 
 /*获取验证码*/
 function getCodeInfo(){
@@ -45,9 +61,11 @@ function getCodeInfo(){
 	
 	var username=$.trim($("#username").val());
 	var email=$.trim($("#email").val());
-	var rcode=$.trim($("#rcode").val());
 	
-	if(username.length>0 ){
+
+	if(username.length<=0 ){
+		$("#username").css("border-color","red");
+	}
 		
 		var reg=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
 		if(reg.test(email)){
@@ -58,30 +76,28 @@ function getCodeInfo(){
 				$('#steps').stop().animate({marginLeft:'-600px'},500);
 				
 				$.post("../servlet/adminInfoServlet",{op:"sendEmail",email:email},function(data){
-						data=$.trim(data);
-						
-						if(data==rcode){
-							alert("验证成功");
-						}else{
-							alert("验证码错误");
-						}
-					
-					
-				});
-				
+						code=$.trim(data);
+				});	
 			}	
 		}else{
 			$("#email").css("border-color","red");
 		}
+}
+
+/*输入验证码后的下一步，即新密码设置*/
+function nextstep(){
+	var rcode=$.trim($("#rcode").val());
+
+	if(code==rcode){
+		$("#navigation li").removeClass("selected");
+		$("#newpwdli").addClass("selected");
+		$("#newpwdli a").attr("href","#");
+		$("#newpwdli span").addClass("checked").removeClass("error");
+		$('#steps').stop().animate({marginLeft:'-1200px'},500);
 		
 	}else{
-		$("#username").css("border-color","red");
+		$("#rcode").css("border-color","red");
+		
 	}
-	
-	
-	
-	
-	
-	
-	
 }
+

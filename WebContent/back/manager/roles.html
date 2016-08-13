@@ -5,7 +5,10 @@
 	var datagrid;
 	var editRow=undefined;  //当前编辑的行
 	var statusObj=[{sid:1,statusStr:'正常'},{sid:0,statusStr:'禁用'}];
-
+	var op;
+	var flag;
+	
+	
 	datagrid=$('#roles_dataInfo').datagrid({    
     url:'../../servlet/RolesServlet',   
     queryParams:{op:"findRolesByPage"},
@@ -41,6 +44,9 @@
 		iconCls: 'icon-add',
 		text:"添加",
 		handler: function(){
+			op="addRoles";
+			flag="添加";
+			
 			
 			//判断当前有没有行在被编辑
 			if(editRow!=undefined){
@@ -59,8 +65,27 @@
 		iconCls: 'icon-edit',
 		text:"修改",
 		handler: function(){
+			op="updateRoles";
+			flag="修改";
 			
-			
+			var row=datagrid.datagrid("getChecked")[0];
+			if(row==undefined){
+				//说明用户没有选中要修改的数据
+				$.messager.show({title:'温馨提示',msg:'请选择需要修改的数据',timeout:2000,showType:'slide'});
+			}else{
+				//判断是否有正在被编辑的行，若有，则先关闭
+				if(editRow!=undefined){
+					datagrid.datagrid('rejectChanges');
+					datagrid.datagrid('endEdit',editRow);  //结束正在被编辑的行
+					editRow=undefined;
+				}
+				//开启要修改的那一行的编辑
+				var index=datagrid.datagrid("getRowIndex",row);
+				//开启更新
+				datagrid.datagrid("updateRow",{index:index,row:row});
+				datagrid.datagrid("beginEdit",index);
+				editRow=index;  //记录当前正在被编辑的行	
+			}
 		}
 	},'-',{
 		iconCls: 'icon-remove',
@@ -121,7 +146,7 @@
 				}else{
 					
 					//添加op属性
-					rows["op"]="addRoles";
+					rows["op"]=op;
 					
 					$.post("../../servlet/RolesServlet",rows,function(data){
 						data=parseInt($.trim(data));
@@ -129,8 +154,8 @@
 							
 							$.messager.show({
 								title:'成功',
-								msg:'角色添加成功',
-								timeout:5000,
+								msg:'角色'+flag+'成功',
+								timeout:3000,
 								showType:'slide'
 							});
 							datagrid.datagrid('endEdit',editRow); 
@@ -139,7 +164,7 @@
 							datagrid.datagrid('rejectChanges');
 							datagrid.datagrid('unselectAll');
 						}else{
-							$.messager.alert('失败','添加失败','error');   
+							$.messager.alert('失败',flag+'失败','error');   
 						}
 					});
 				}	
@@ -150,6 +175,9 @@
 			text:"撤销",
 			handler: function(){
 				
+				datagrid.datagrid('rejectChanges');
+				datagrid.datagrid('endEdit',editRow);  //结束正在被编辑的行
+				editRow=undefined;
 				
 		}
 	}]

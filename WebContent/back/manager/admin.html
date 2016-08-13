@@ -1,10 +1,91 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>管理员信息</title>
-</head>
-<body>
-	管理员信息
-</body>
-</html>
+<table id="admin_dataInfo"></table>
+
+<!-- 工具栏 -->
+<div id="admin_search" >
+	<a href="javascript:addAdminInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"  style="float:left">添加</a> 
+	<div  class="datagrid-btn-separator" ></div> 
+	
+	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true"  style="float:left">删除</a> 
+	<div class="datagrid-btn-separator"></div>
+	<label>请选择角色:</label>
+		<select name="role">
+			<option value="-1">--请选择--</option>
+		</select>&nbsp;
+	<label> 请输入管理员姓名:</label><input type="text" name="aname"  />
+	<label>请选择状态:</label>
+		<select name="status">
+			<option value="-1">--请选择--</option>
+			<option value="0">未审核</option>
+			<option value="1">未通过审核</option>
+			<option value="2">已审核</option>
+			<option value="3">冻结</option>
+		</select>
+	&nbsp;&nbsp;<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查找</a> 
+</div>
+
+
+	<!-- 添加操作框 -->
+	<div id="admin_addAdminInfo"  class="easyui-dialog" title="添加管理员信息"
+		data-options="iconCls:'icon-add',resizable:true,modal:true,fit:true,closed:true ">
+		
+	</div>
+	
+	
+<style>
+
+	#admin_search label{
+		margin-left:10px;
+	}
+</style>
+
+
+<script>
+
+	$('#admin_dataInfo').datagrid({    
+    url:'../../servlet/adminInfoServlet',   
+    queryParams:{op:"findAdminInfoByPage"},
+    loadMsg:"数据加载中",
+    fitColumns:true,
+    striped:true,
+    nowrap:true,
+    pagination:true,
+    fit:true,
+    rownumbers:true,   
+    pageList:[2,5,10],
+    pageSize:5,
+    sortName:"aid",  
+    remoteSort:false,
+    columns:[[   
+		{field:'aids',title:'选择',width:80,align:'center',checkbox:true},  
+		{field:'photo',title:'图像',width:80,align:'center',formatter:function(value,row,index){
+			if(value==""){
+				return "<img src='../../images/zanwu.jpg'  width='100px'  height='100px'  />";
+			}else{
+				return "<img src='../../"+value+"'  width='100px'  height='100px'  />";
+			}	
+		}},  
+		{field:'aid',title:'管理员编号',width:80,align:'center',sortable:true},  
+        {field:'aname',title:'管理员姓名',width:80,align:'center'},    
+        {field:'email',title:'注册邮箱',width:100,align:'center'},  
+        {field:'tel',title:'联系方式',width:100,align:'center'},  
+        {field:'rname',title:'角色名称',width:100,align:'center'},  
+        {field:'statusStr',title:'账号状态',width:80,align:'center'},
+        {field:'mark',title:'状态说明',width:100,align:'center'},    
+        {field:'_operate',title:'操作',width:100,align:'center',formatter:function(val,row,index){
+        	return "<a href='' class='icon-detail1 icon-padding'>详细</a>"
+        	+"&nbsp;&nbsp;<a href='' class='icon-remove1  icon-padding' >删除</a>"
+        	+"<a href='' class='icon-edit1  icon-padding'>修改</a> ";
+        }}    
+        	
+    ]],
+    toolbar: "#admin_search"
+ 
+});  
+	
+
+	function addAdminInfo(){
+		$("#admin_addAdminInfo").dialog("open");
+	}
+	
+
+</script>
