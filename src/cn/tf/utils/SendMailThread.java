@@ -38,11 +38,11 @@ public class SendMailThread extends Thread{
 			message.setSubject("来自指令汇科技的注册邮件");
 			message.setContent("","text/html;charset=UTF-8");
 			
-			message.setContent("亲爱的"+adminInfo.getAname()+"您的验证码为:"+adminInfo.getCode(), "text/html;charset=UTF-8");
+			message.setContent("您的验证码为:"+adminInfo.getCode(), "text/html;charset=UTF-8");
 			message.saveChanges();
 			
 			Transport ts = session.getTransport();
-			ts.connect("xingtian@tianfang1314.cn", "13579012aA");
+			ts.connect("邮箱账号", "密码");
 			ts.sendMessage(message, message.getAllRecipients());
 			ts.close();
 		} catch (AddressException e) {

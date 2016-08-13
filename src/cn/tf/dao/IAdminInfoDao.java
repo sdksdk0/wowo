@@ -62,6 +62,8 @@ public interface IAdminInfoDao {
 	//获取总记录数
 	public int getTotal(Integer rid);
 
-	
+
+	Integer updatePwdByAid(Integer aid, String newPwd);
+
 
 }

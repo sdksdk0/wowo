@@ -115,6 +115,19 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 		
 		return db.doUpdate(sql,params);
 	}
+	
+	
+	@Override
+	public Integer updatePwdByAid(Integer aid, String newPwd) {
+		DBHelper db=new DBHelper();
+		String sql=" update adminInfo set pwd=? where aid=? ";
+		List<Object>  params=new ArrayList<Object>();
+		params.add(newPwd);
+		params.add(aid);
+
+		return db.doUpdate(sql,params);
+	}
+
 
 	@Override
 	public Integer update(String aid) {
@@ -217,5 +230,7 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 		}
 		return db.findByOne(sql, params);
 	}
+
+
 
 }

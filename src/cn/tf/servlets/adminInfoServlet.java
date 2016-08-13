@@ -42,6 +42,10 @@ public class adminInfoServlet extends BasicServlet {
 			sendEmail(request,response);
 		}else if("checkUsername".equals(op)){
 			checkUsername(request,response);
+		}else if("checkEmail".equals(op)){
+			checkEmail(request,response);
+		}else if("restPassword".equals(op)){
+			restPassword(request,response);
 		}else if("findAdminInfoByPage".equals(op)){
 			findAdminInfoByPage(request,response);
 		}
@@ -50,7 +54,56 @@ public class adminInfoServlet extends BasicServlet {
 
 	}
 
+	//修改密码
+	private void restPassword(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		String aid=request.getParameter("username");
+		String newpwd=request.getParameter("newpwd");
+		
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		int result=adminInfoBiz.updatePwdByAid(Integer.parseInt(aid),newpwd);
+		
+		this.out(response, result);	
+	}
+
+	//验证该邮箱在数据库中是否存在
+	private void checkEmail(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		String aid=request.getParameter("username");
+		String email=request.getParameter("email");
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		AdminInfo adminInfo=adminInfoBiz.find(Integer.parseInt(aid));
+		
+		String email2=adminInfo.getEmail();
+		int result=0;
+		if(email.equals(email2)){
+			result=1;
+		}
+		this.out(response, result);
+		
+	}
 	
+	//找回密码，通过用户编号查找
+	private void checkUsername(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		String aid=request.getParameter("username");
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		AdminInfo adminInfo=adminInfoBiz.find(Integer.parseInt(aid));
+		
+		int result=0;
+		if(adminInfo==null){
+			result=0;   //该用户不存在
+		}else{
+			result=1; //验证成功
+		}
+		this.out(response, result);
+	}
+	
+
+
 	//分页查询管理员信息
 	
 	private void findAdminInfoByPage(HttpServletRequest request,
@@ -64,26 +117,7 @@ public class adminInfoServlet extends BasicServlet {
 		this.out(response, list,adminInfoBiz.getTotal(null));
 	}
 
-	//找回密码，通过用户编号查找
-	private void checkUsername(HttpServletRequest request,
-			HttpServletResponse response) {
-		
-		String rid=request.getParameter("username");
-		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
-		AdminInfo adminInfo=adminInfoBiz.find(Integer.parseInt(rid));
-		
-		System.out.println(rid);
-		System.out.println(adminInfo);
-		int result=0;
-		if(adminInfo==null){
-			result=0;   //该用户不存在
-		}else{
-			result=1; //验证成功
-		}
-		this.out(response, result);
-		
-		
-	}
+
 
 	//注册发送邮件
 	private void sendEmail(HttpServletRequest request,

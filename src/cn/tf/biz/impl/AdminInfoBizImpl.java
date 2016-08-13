@@ -142,7 +142,13 @@ public class AdminInfoBizImpl implements IAdminInfoBiz{
 		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
 		return adminInfoDao.getTotal(rid);
 	}
-	
-	
+
+	@Override
+	public Integer updatePwdByAid(Integer aid, String newPwd) {
+		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
+		
+		return adminInfoDao.updatePwdByAid(aid, newPwd);
+	}
+
 
 }
