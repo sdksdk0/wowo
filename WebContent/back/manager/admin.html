@@ -200,15 +200,17 @@
 		var pwd=$("#admin_pwd").val();
 		var email=$("#admin_email").val();
 		var tel=$("#admin_tel").val();
-		var status=$("admin_status").val();
+		//var status=$("admin_status").val();
 		
 		var pic=$("#canvas")[0].toDataURL("image/png");
 		
 		
 		pic=pic.replace(/^data:image\/(png|jpg);base64,/,"");
 		
-			$.post("../../servlet/adminInfoServlet",{op:"addAdminInfo",rid:rid,aname:aname,pwd:pwd,email:email,tel:tel,status:status,photo:pic},function(data){
+			$.post("../../servlet/adminInfoServlet",{op:"addAdminInfo",rid:rid,aname:aname,pwd:pwd,email:email,tel:tel,photo:pic},function(data){
 				data=parseInt($.trim(data));
+				
+				alert(data);
 				if(data>0){
 					$.messager.show({title:'温馨提示',msg:'添加成功',timeout:2000,showType:'slide'});
 					
@@ -223,7 +225,7 @@
 					
 					
 				}else{
-					$.messager.alert({title:'温馨提示',msg:'添加失败',timeout:2000,showType:'slide'});
+					$.messager.alert('失败','添加失败','error');   
 				}
 				
 			});

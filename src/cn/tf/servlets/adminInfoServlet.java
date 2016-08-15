@@ -67,19 +67,19 @@ public class adminInfoServlet extends BasicServlet {
 		String pwd=request.getParameter("pwd");
 		String email=request.getParameter("email");
 		String tel=request.getParameter("tel");
-		String status=request.getParameter("status");
 		String photo=request.getParameter("photo");
 		
 		if(photo==null || "".equals(photo)){
 			photo="";
 		}else{
-			PageContext pagecontext=JspFactory.getDefaultFactory().getPageContext(this, request, response, null, true, 2048, true);
-			UploadUtil  upload=new UploadUtil();
-			photo=upload.upload(pagecontext,photo,null);
+			PageContext pagecontext=JspFactory.getDefaultFactory().getPageContext(this,request,response,null,true,2048,true);
+			UploadUtil upload=new UploadUtil();
+			photo=upload.upload(pagecontext, photo, null);
 		}
 		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
-		this.out(response, adminInfoBiz.add(aname, pwd, rid, email, tel, photo));
-
+		int result=adminInfoBiz.add(aname, pwd, rid, email, tel, photo);
+		System.out.println(result);
+		this.out(response, result);
 	}
 
 	//修改密码
