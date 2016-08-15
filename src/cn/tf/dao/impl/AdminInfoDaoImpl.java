@@ -190,7 +190,7 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 			String tel, String photo) {
 		DBHelper db=new DBHelper();
 		String sql=null;
-		sql="insert into adminInfo values(seq_adminInfo_aid.nextval,?,?,?,?,?,?,0,'')";
+		sql="insert into adminInfo values(seq_adminInfo_aid.nextval,?,?,?,?,?,?,2,'')";
 		List<Object>  params=new ArrayList<Object>();
 		params.add(aname);
 		params.add(pwd);

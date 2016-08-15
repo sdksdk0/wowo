@@ -53,10 +53,28 @@ public class adminInfoServlet extends BasicServlet {
 			findAdminInfoByPage(request,response);
 		}else if("addAdminInfo".equals(op)){
 			addAdminInfo(request,response);
+		}else if("registAdmin".equals(op)){
+			registAdmin(request,response);
 		}
 		
 		
 
+	}
+
+	//管理员注册
+	private void registAdmin(HttpServletRequest request,
+			HttpServletResponse response) {
+		String rid=request.getParameter("rid");
+		String aname=request.getParameter("uname");
+		String pwd=request.getParameter("rpwd");
+		String email=request.getParameter("email");
+		String tel=request.getParameter("tel");
+		
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		int result=adminInfoBiz.add(aname, pwd, rid, email, tel, null);
+		
+		this.out(response, result);
+		
 	}
 
 	//添加管理员信息
@@ -78,7 +96,7 @@ public class adminInfoServlet extends BasicServlet {
 		}
 		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
 		int result=adminInfoBiz.add(aname, pwd, rid, email, tel, photo);
-		System.out.println(result);
+		
 		this.out(response, result);
 	}
 

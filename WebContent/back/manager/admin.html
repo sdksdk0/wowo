@@ -210,7 +210,6 @@
 			$.post("../../servlet/adminInfoServlet",{op:"addAdminInfo",rid:rid,aname:aname,pwd:pwd,email:email,tel:tel,photo:pic},function(data){
 				data=parseInt($.trim(data));
 				
-				alert(data);
 				if(data>0){
 					$.messager.show({title:'温馨提示',msg:'添加成功',timeout:2000,showType:'slide'});
 					

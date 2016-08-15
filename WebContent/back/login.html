@@ -63,6 +63,16 @@
 		$("#pwd").focus(function(){
 			$("#pwd").css("border-color","#eee");
 		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 	});
 	
@@ -73,6 +83,7 @@
 		$("#" + role).val(flag);
 		
 		$("#roleId").val(id);  //将id存到一个隐藏域中
+		
 		
 	}
 
@@ -128,6 +139,144 @@
 	}
 	
 	
+	//用户注册
+	
+	$(function(){
+		
+		
+		//用户名
+		$("#rname").blur(function(){
+			var rname=$.trim($("#rname").val());
+			
+			var reg=/^[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]{2,16}$/;
+			
+			if(!reg.test(rname)){
+				$("#rname").css("border-color","red");
+				$("#unamespan").css("color","red");
+			}else{
+				$("#rname").css("border-color","#eee");
+				$("#unamespan").css("color","green");
+			}
+		});
+		
+		
+		//密码
+		$("#rpwd").blur(function(){
+			var rpwd=$.trim($("#rpwd").val());
+			
+			var reg=/^\w{6,16}$/;
+			
+			if(!reg.test(rpwd)){
+				$("#rpwd").css("border-color","red");
+				$("#rpwdspan").css("color","red");
+			}else{
+				$("#rpwd").css("border-color","#eee");
+				$("#rpwdspan").css("color","green");
+			}
+		});
+		
+		
+		//确认密码
+		$("#rpwds").blur(function(){
+			var rpwds=$.trim($("#rpwds").val());
+			var rpwd=$.trim($("#rpwd").val());
+			
+			if(rpwds.length<=0){
+				$("#rpwds").css("border-color","red");
+				$("#rpwdsspan").css("color","red");
+			}else 
+			
+			if(rpwd==rpwds){
+				$("#rpwds").css("border-color","#eee");
+				$("#rpwdsspan").css("color","green");
+				
+			}else{
+				$("#rpwds").css("border-color","red");
+				$("#rpwdsspan").css("color","red");
+			}
+		});
+		
+		
+		//邮箱
+		$("#email").blur(function(){
+			var email=$.trim($("#email").val());
+			
+			var reg=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
+			
+			if(!reg.test(email)){
+				$("#email").css("border-color","red");
+				$("#emailspan").css("color","red");
+			}else{
+				$("#email").css("border-color","#eee");
+				$("#emailspan").css("color","green");
+			}
+		});
+		
+		
+		//联系方式
+		$("#tel").blur(function(){
+			var email=$.trim($("#email").val());
+			
+			var reg=/((\d{3,4})  | (\d{3,4})-?)\d{7,8}/;
+			
+			if(!reg.test(tel)){
+				$("#tel").css("border-color","red");
+				$("#telspan").css("color","red");
+			}else{
+				$("#tel").css("border-color","#eee");
+				$("#telspan").css("color","green");
+			}
+		});
+		
+		$("#rname").focus(function(){
+			$("#rname").css("border-color","#eee");
+			$("#unamespan").css("color","green");
+		});
+		$("#tel").focus(function(){
+			$("#tel").css("border-color","#eee");
+			$("#telspan").css("color","green");
+		});
+		
+		$("#email").focus(function(){
+			$("#email").css("border-color","#eee");
+			$("#emailspan").css("color","green");
+		});
+		$("#rpwd").focus(function(){
+			$("#rpwd").css("border-color","#eee");
+			$("#rpwdspan").css("color","green");
+		});
+		$("#rpwds").focus(function(){
+			$("#rpwds").css("border-color","#eee");
+			$("#rpwdsspan").css("color","green");
+		});
+	});
+	
+	
+	
+	
+	
+	
+	function registAdmin(){
+		var rid=$.trim($("#roleId").val());
+		var uname=$.trim($("#rname").val());
+		var rpwd=$.trim($("#rpwd").val());
+		var email=$.trim($("#email").val());
+		var tel=$.trim($("#tel").val());
+	
+		$.post("../servlet/adminInfoServlet",{op:"registAdmin",rid:rid,uname:uname,rpwd:rpwd,email:email,tel:tel},function(data){
+			data=parseInt($.trim(data));
+			if(data>0){
+				location.href="login.html";
+			}else{
+				alert("注册失败");
+			}
+			
+		});
+		
+		
+	}
+	
+	
 </script>
 </head>
 
@@ -155,14 +304,6 @@
 										
 									</button>
 									<ul class="dropdown-menu"  id="loginRoles">
-										<!-- <li><a id="role1"
-											href="javascript:login('role1','loginrole')">董事</a></li>
-										<li><a id="role2"
-											href="javascript:login('role2','loginrole')">总经理</a></li>
-										<li><a id="role3"
-											href="javascript:login('role3','loginrole')">总监</a></li>
-										<li><a id="role4"
-											href="javascript:login('role4','loginrole')">部门经理</a></li> -->
 									</ul>
 								</div>
 								<input id="loginrole" type="text" class="form-control"
@@ -191,7 +332,7 @@
 							</div>
 							<br />
 							<div class="input-group">
-								<input type="button" value="登陆" class="btn btn-success mybtn"  onclick="adminLogin()"/>
+								<input type="button" value="登录" class="btn btn-success mybtn"  onclick="adminLogin()"/>
 								<input type="reset" value="重置" class="btn btn-warning mybtn" />
 							</div>
 							<br />
@@ -214,8 +355,7 @@
 			<div class="panel">
 				<div class="panel-heading login-top">用户注册</div>
 				<div class="panel-body">
-					<form class="form-group col-lg-12" action="" method="post"    
-						role="form">
+					<form class="form-group col-lg-12" action="" method="post"    	role="form">
 						<div class="input-group">
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-default dropdown-toggle"
@@ -223,11 +363,6 @@
 									角&nbsp;&nbsp;色<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu"  id="registerRoles">
-									<!-- <li><a id="role1" href="javascript:login('role1','role')">学工处</a></li>
-									<li><a id="role2" href="javascript:login('role2','role')">保卫处</a></li>
-									<li><a id="role3" href="javascript:login('role3','role')">书记</a></li>
-									<li><a id="role4" href="javascript:login('role4','role')">辅导员</a></li>
-									<li><a id="role5" href="javascript:login('role5','role')">超级管理员</a></li> -->
 								</ul>
 							</div>
 							<input id="role" type="text" class="form-control"
@@ -239,40 +374,40 @@
 						<div class="input-group">
 							<label for="rname" class="input-group-addon">用户名</label> <input
 								type="text" class="form-control" name="uname" id="rname"
-								required placeholder="请输入用户名" maxlength="12"/ > <label
-								class="input-group-addon promptinfo">由2-12位的中文、字母、数字和下划线组成</label>
+								required placeholder="请输入用户名" maxlength="12"/ > <label 
+								class="input-group-addon promptinfo"  id="unamespan">由2-12位的中文、字母、数字和下划线组成</label>
 						</div>
 						<br />
 						<div class="input-group">
 							<label for="rpwd" class="input-group-addon">密&nbsp;&nbsp;&nbsp;码</label>
 							<input type="password" class="form-control" name="rpwd" id="rpwd"
 								required placeholder="请输入密码" maxlength="16" /> <label
-								class="input-group-addon promptinfo">由6-16位的字母、数字和下划线组成</label>
+								class="input-group-addon promptinfo"   id="rpwdspan">由6-16位的字母、数字和下划线组成</label>
 						</div>
 						<br />
 						<div class="input-group">
 							<label for="rpwds" class="input-group-addon">确认密码</label> <input
 								type="password" class="form-control" name="rpwds" id="rpwds"
 								required placeholder="请再输入一次密码，以确认" maxlength="16" /> <label
-								class="input-group-addon promptinfo">请再输入一次密码，以确认</label>
+								class="input-group-addon promptinfo"   id="rpwdsspan">请再输入一次密码，以确认</label>
 						</div>
 						<br />
 						<div class="input-group">
 							<label for="email" class="input-group-addon">邮&nbsp;&nbsp;&nbsp;箱</label>
 							<input type="email" class="form-control" name="email" id="email"
 								required placeholder="请输入您的邮箱账号" /> <label
-								class="input-group-addon promptinfo">请输入邮箱账号，以便忘记密码时找回</label>
+								class="input-group-addon promptinfo"   id="emailspan">请输入邮箱账号，以便忘记密码时找回</label>
 						</div>
 						<br />
 						<div class="input-group">
 							<label for="tel" class="input-group-addon">联系方式</label> <input
 								type="number" class="form-control" name="tel" id="tel"
 								maxlength="12" required placeholder="请输入您联系方式" /> <label
-								class="input-group-addon promptinfo">请输您的联系方式</label>
+								class="input-group-addon promptinfo"  id="telspan">请输您的联系方式</label>
 						</div>
 						<br />
 						<div class="input-group">
-							<input type="submit" value="注册"
+							<input type="button" value="注册"  onclick="registAdmin()" 
 								class="btn btn-success user-register" /> <input type="reset"
 								value="重置" class="btn btn-danger mybtn" />
 						</div>
@@ -282,47 +417,5 @@
 			</div>
 		</div>
 	</div>
-
-	<script>
-	
-		
-	
-	
-		/* 	var dragObj = document.getElementById("div1");
-		    dragObj.style.left = "0px";
-		    dragObj.style.top = "0px";
-		
-		    var mouseX, mouseY, objX, objY;
-		    var dragging = false;
-		
-		    dragObj.onmousedown = function (event) {
-		        event = event || window.event;
-		
-		        dragging = true;
-		        dragObj.style.position = "relative";
-		
-		
-		        mouseX = event.clientX;
-		        mouseY = event.clientY;
-		        objX = parseInt(dragObj.style.left);
-		        objY = parseInt(dragObj.style.top);
-		    }
-		
-		    document.onmousemove = function (event) {
-		        event = event || window.event;
-		        if (dragging) {
-		
-		            dragObj.style.left = parseInt(event.clientX - mouseX + objX) + "px";
-		            dragObj.style.top = parseInt(event.clientY - mouseY + objY) + "px";
-		        }
-		
-		    }
-		
-		    document.onmouseup = function () {
-		        dragging = false;
-		    } */
-	</script>
-
-
 </body>
 </html>
