@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.JspFactory;
+import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -19,6 +21,7 @@ import cn.tf.biz.impl.AdminInfoBizImpl;
 import cn.tf.entities.AdminInfo;
 import cn.tf.utils.AttributeData;
 import cn.tf.utils.SendMailThread;
+import cn.tf.utils.UploadUtil;
 import cn.tf.utils.WebUtil;
 
 
@@ -48,9 +51,34 @@ public class adminInfoServlet extends BasicServlet {
 			restPassword(request,response);
 		}else if("findAdminInfoByPage".equals(op)){
 			findAdminInfoByPage(request,response);
+		}else if("addAdminInfo".equals(op)){
+			addAdminInfo(request,response);
 		}
 		
 		
+
+	}
+
+	//添加管理员信息
+	private void addAdminInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		String rid=request.getParameter("rid");
+		String aname=request.getParameter("aname");
+		String pwd=request.getParameter("pwd");
+		String email=request.getParameter("email");
+		String tel=request.getParameter("tel");
+		String status=request.getParameter("status");
+		String photo=request.getParameter("photo");
+		
+		if(photo==null || "".equals(photo)){
+			photo="";
+		}else{
+			PageContext pagecontext=JspFactory.getDefaultFactory().getPageContext(this, request, response, null, true, 2048, true);
+			UploadUtil  upload=new UploadUtil();
+			photo=upload.upload(pagecontext,photo,null);
+		}
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		this.out(response, adminInfoBiz.add(aname, pwd, rid, email, tel, photo));
 
 	}
 

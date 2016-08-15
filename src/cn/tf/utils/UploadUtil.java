@@ -2,6 +2,8 @@ package cn.tf.utils;
 
 
 import java.awt.Color;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
@@ -10,6 +12,10 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.jsp.PageContext;
+
+
+
+import sun.misc.BASE64Decoder;
 
 import com.jspsmart.upload.File;
 import com.jspsmart.upload.Files;
@@ -93,6 +99,52 @@ public class UploadUtil {
 		
 		return map;
 	}
+	
+	
+	//图片上传
+	public String upload(PageContext pagecontext,String picData,String path){
+		
+		String realpath=null;
+		
+		BASE64Decoder base64=new BASE64Decoder();  //解码
+		FileOutputStream fos=null;
+		try {
+			//将图片字符串变成字节数组
+			byte[] buffer=base64.decodeBuffer(picData);
+			
+			if(path==null){
+				
+				//将字节数组中图片的数据写入到一个图片文件中
+				String fname=new Date().getTime()+""+new Random().nextInt(1000)+".png";			
+				String filePath=pagecontext.getServletContext().getRealPath(PATH+"/"+fname);	
+				fos=new FileOutputStream(filePath);
+				realpath=PATH+"/"+fname;
+			}else{
+				fos=new FileOutputStream(path);
+				realpath=path;
+			}
+
+			fos.write(buffer);
+			fos.flush();
+	
+		} catch (IOException e) {
+			e.printStackTrace();
+			realpath=null;
+		}finally{
+			if(fos!=null){
+				try {
+					fos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return realpath;
+		
+	}
+	
+	
 	
 
 }
