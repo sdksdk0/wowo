@@ -70,8 +70,9 @@ public class adminInfoServlet extends BasicServlet {
 		String email=request.getParameter("email");
 		String tel=request.getParameter("tel");
 		
+	
 		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
-		int result=adminInfoBiz.add(aname, pwd, rid, email, tel, null);
+		int result=adminInfoBiz.add(aname, pwd, rid, email, tel,"images/zanwu.jpg");
 		
 		this.out(response, result);
 		
@@ -88,7 +89,7 @@ public class adminInfoServlet extends BasicServlet {
 		String photo=request.getParameter("photo");
 		
 		if(photo==null || "".equals(photo)){
-			photo="";
+			photo="images/zanwu.jpg";
 		}else{
 			PageContext pagecontext=JspFactory.getDefaultFactory().getPageContext(this,request,response,null,true,2048,true);
 			UploadUtil upload=new UploadUtil();
@@ -171,8 +172,6 @@ public class adminInfoServlet extends BasicServlet {
 		AdminInfo adminInfo=WebUtil.fillBean(request,AdminInfo.class);
 
 		String code =RandomStringUtils.randomNumeric(5);
-	/*	System.out.println(email);
-		System.out.println(code);*/
 		
 		adminInfo.setCode(code);
 		SendMailThread smt=new SendMailThread(adminInfo);

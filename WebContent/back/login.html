@@ -64,15 +64,6 @@
 			$("#pwd").css("border-color","#eee");
 		});
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
 	});
 	
@@ -148,7 +139,7 @@
 		$("#rname").blur(function(){
 			var rname=$.trim($("#rname").val());
 			
-			var reg=/^[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]{2,16}$/;
+			var reg=/^[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]{2,17}$/;
 			
 			if(!reg.test(rname)){
 				$("#rname").css("border-color","red");
@@ -215,27 +206,26 @@
 		
 		//联系方式
 		$("#tel").blur(function(){
-			var email=$.trim($("#email").val());
+			var tel=$.trim($("#tel").val());
 			
 			var reg=/((\d{3,4})  | (\d{3,4})-?)\d{7,8}/;
-			
+
 			if(!reg.test(tel)){
-				$("#tel").css("border-color","red");
-				$("#telspan").css("color","red");
-			}else{
 				$("#tel").css("border-color","#eee");
 				$("#telspan").css("color","green");
+				
+			}else{
+				$("#tel").css("border-color","red");
+				$("#telspan").css("color","red");
 			}
 		});
 		
+		//获取焦点的时候要把红色警告去掉
 		$("#rname").focus(function(){
 			$("#rname").css("border-color","#eee");
 			$("#unamespan").css("color","green");
 		});
-		$("#tel").focus(function(){
-			$("#tel").css("border-color","#eee");
-			$("#telspan").css("color","green");
-		});
+	
 		
 		$("#email").focus(function(){
 			$("#email").css("border-color","#eee");
@@ -249,13 +239,19 @@
 			$("#rpwds").css("border-color","#eee");
 			$("#rpwdsspan").css("color","green");
 		});
+		
+		$("#tel").focus(function(){
+			$("#tel").css("border-color","#eee");
+			$("#telspan").css("color","green");
+		});
+		
 	});
 	
 	
 	
 	
 	
-	
+	//点击注册
 	function registAdmin(){
 		var rid=$.trim($("#roleId").val());
 		var uname=$.trim($("#rname").val());
@@ -263,15 +259,17 @@
 		var email=$.trim($("#email").val());
 		var tel=$.trim($("#tel").val());
 	
-		$.post("../servlet/adminInfoServlet",{op:"registAdmin",rid:rid,uname:uname,rpwd:rpwd,email:email,tel:tel},function(data){
-			data=parseInt($.trim(data));
-			if(data>0){
-				location.href="login.html";
-			}else{
-				alert("注册失败");
-			}
-			
-		});
+		
+		if(rid.length>0 && uname.length>0  && rpwd.length>0 && email.length>0  && tel.length>0  ){
+			$.post("../servlet/adminInfoServlet",{op:"registAdmin",rid:rid,uname:uname,rpwd:rpwd,email:email,tel:tel},function(data){
+				data=parseInt($.trim(data));
+				if(data>0){
+					location.href="login.html";
+				}else{
+					alert("注册失败");
+				}
+			});
+		}
 		
 		
 	}
@@ -300,8 +298,6 @@
 									<button type="button" class="btn btn-default dropdown-toggle"
 										data-toggle="dropdown">
 										角&nbsp;&nbsp;色<span class="caret"></span>
-										
-										
 									</button>
 									<ul class="dropdown-menu"  id="loginRoles">
 									</ul>
