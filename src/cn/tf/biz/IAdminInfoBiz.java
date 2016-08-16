@@ -1,6 +1,7 @@
 package cn.tf.biz;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.tf.entities.AdminInfo;
 
@@ -45,7 +46,7 @@ public interface  IAdminInfoBiz {
 	
 	
 	//修改管理员信息
-	public Integer  update(String aname,String rid,String tel,String photo,String aid);
+	public Integer  update(String aname,String rid,String email,String tel,String photo,String aid);
 	
 	
 	//邮箱重新绑定
@@ -63,5 +64,10 @@ public interface  IAdminInfoBiz {
 	public int getTotal(Integer rid);
 
 	Integer updatePwdByAid(Integer aid, String newPwd);
+	
+	
+	//分页查询
+	public List<AdminInfo>  find(Map<String,String> params,Integer pageNo,Integer pageSize);
+	
 
 }

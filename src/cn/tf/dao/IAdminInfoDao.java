@@ -1,6 +1,7 @@
 package cn.tf.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.tf.entities.AdminInfo;
 
@@ -45,7 +46,7 @@ public interface IAdminInfoDao {
 	
 	
 	//修改管理员信息
-	public Integer  update(String aname,String rid,String tel,String photo,String aid);
+	public Integer  update(String aname,String rid,String email,String tel,String photo,String aid);
 	
 	
 	//邮箱重新绑定
@@ -66,4 +67,8 @@ public interface IAdminInfoDao {
 	Integer updatePwdByAid(Integer aid, String newPwd);
 
 
+	//分页查询
+	public List<AdminInfo>  find(Map<String,String> param,Integer pageNo,Integer pageSize);
+	
+	
 }

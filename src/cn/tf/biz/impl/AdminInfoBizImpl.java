@@ -1,6 +1,7 @@
 package cn.tf.biz.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.tf.biz.IAdminInfoBiz;
 import cn.tf.dao.IAdminInfoDao;
@@ -93,11 +94,11 @@ public class AdminInfoBizImpl implements IAdminInfoBiz{
 	}
 
 	@Override
-	public Integer update(String aname, String rid, String tel, String photo,
+	public Integer update(String aname, String rid, String email,String tel, String photo,
 			String aid) {
 		
 		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
-		return adminInfoDao.update(aname,rid,tel,photo,aid);
+		return adminInfoDao.update(aname,rid,email,tel,photo,aid);
 	}
 
 	@Override
@@ -148,6 +149,14 @@ public class AdminInfoBizImpl implements IAdminInfoBiz{
 		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
 		
 		return adminInfoDao.updatePwdByAid(aid, newPwd);
+	}
+
+	@Override
+	public List<AdminInfo> find(Map<String, String> params, Integer pageNo,
+			Integer pageSize) {
+		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
+		
+		return adminInfoDao.find(params,pageNo,pageSize);
 	}
 
 

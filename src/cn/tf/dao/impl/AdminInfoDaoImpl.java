@@ -2,6 +2,8 @@ package cn.tf.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import cn.tf.dao.IAdminInfoDao;
 import cn.tf.entities.AdminInfo;
@@ -146,7 +148,7 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 	}
 
 	@Override
-	public Integer update(String aname, String rid, String tel, String photo,String aid) {
+	public Integer update(String aname, String rid, String email,String tel, String photo,String aid) {
 		DBHelper db=new DBHelper();
 		List<Object>  params=new ArrayList<Object>();
 		String sql="update adminInfo set aid=aid ";
@@ -158,6 +160,11 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 			sql+=" ,rid=? ";
 			params.add(rid);
 		}
+		if(email!=null){
+			sql+=" ,email=? ";
+			params.add(email);
+		}
+		
 		
 		if(tel!=null){
 			sql+=" ,tel=? ";
@@ -207,12 +214,18 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 		DBHelper db=new DBHelper();
 		String sql=null;
 		List<Object>  params=new ArrayList<Object>();
-		if(aid.contains(",") && !aid.contains(" or ")){
+		
+		if(aid!=null){
+			sql=" delete from  adminInfo where  aid=? ";
+			params.add(aid);
+		}
+			
+		/*if(aid.contains(",") && !aid.contains(" or ")){
 			sql="update adminInfo set status=4 where aid in("+aid+")";
 		}else{
 			sql="update adminInfo set status=4 where aid=? ";
 			params.add(aid);
-		}
+		}*/
 		return db.doUpdate(sql,params);
 	}
 
@@ -229,6 +242,32 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 			params.add(rid);
 		}
 		return db.findByOne(sql, params);
+	}
+
+	
+	
+	@Override
+	public List<AdminInfo> find(Map<String, String> param,Integer pageNo,Integer pageSize) {
+		DBHelper db=new DBHelper();
+		List<Object>  params=new ArrayList<Object>();
+		String sql="select * from adminInfos  " ;
+		if(param!=null && param.size()>0){
+			sql+=" where 1=1  ";
+			Set<String> keys=param.keySet();
+			for (String key : keys) {
+				sql+=" and "+key+" ? " ;
+				params.add(param.get(key));
+			}
+		}
+		sql+=" order by aid desc ";
+		
+		if(pageNo!=null){
+		
+			sql="select * from(select a.*,rownum  rn from (  "+sql+" ) a  where rownum<=? ) where rn>?";
+			params.add(pageNo*pageSize);
+			params.add((pageNo-1)*pageSize);
+		}
+		return db.find(sql, params,AdminInfo.class);
 	}
 
 

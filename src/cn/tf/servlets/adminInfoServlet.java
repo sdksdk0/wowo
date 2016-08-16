@@ -1,7 +1,9 @@
 package cn.tf.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -55,10 +57,72 @@ public class adminInfoServlet extends BasicServlet {
 			addAdminInfo(request,response);
 		}else if("registAdmin".equals(op)){
 			registAdmin(request,response);
+		}else if("updateAdminInfo".equals(op)){
+			updateAdminInfo(request,response);
+		}else if("deleteAdminInfo".equals(op)){
+			deleteAdminInfo(request,response);
+		}else if("searchAdminInfoByPage".equals(op)){
+			searchAdminInfoByPage(request,response);
 		}
 		
 		
 
+	}
+
+	
+	//查询
+	private void searchAdminInfoByPage(HttpServletRequest request,
+			HttpServletResponse response) {
+		String rid=request.getParameter("rid");
+		String aname=request.getParameter("aname");
+		String status=request.getParameter("status");
+		String pageNo=request.getParameter("page");
+		String pageSize=request.getParameter("rows");
+		
+		Map<String,String>  params=new HashMap<String,String>();
+		
+		if(!"-1".equals(rid)){
+			params.put("rid=", rid);
+		}
+		if(!"-1".equals(status)){
+			params.put("status=", status);
+		}
+		
+		if(aname!=null && !"".equals(aname)){
+			params.put(" aname like ", "%"+aname+"%");
+		}
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		List<AdminInfo>  list=adminInfoBiz.find(params,Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+		List<AdminInfo>  list1=adminInfoBiz.find(params,null,null);
+		this.out(response, list,list1.size());
+	}
+
+	//删除
+	private void deleteAdminInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		String aid=request.getParameter("aid");
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		
+		int result=adminInfoBiz.del(aid);
+		if(result>0){
+			this.getServletContext().getAttribute(AttributeData.CURRENTADMINLOGIN);
+		}
+
+		this.out(response,result);
+		
+	}
+
+	//修改管理员信息
+	private void updateAdminInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		UploadUtil upload=new UploadUtil();
+		PageContext pagecontext=JspFactory.getDefaultFactory().getPageContext(this,request,response,null,true,2048,true);
+		Map<String,String> map=upload.upload(pagecontext);
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		this.out(response,(int) adminInfoBiz.update(map.get("aname"), map.get("rid"),map.get("email"), map.get("tel"),map.get("photo"), map.get("aid")));
+		
+		
 	}
 
 	//管理员注册

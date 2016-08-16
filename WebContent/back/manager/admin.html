@@ -1,5 +1,7 @@
 <link rel="stylesheet" type="text/css" href="../css/admin.css" />
 <script type="text/javascript" src="../../js/camera.js"></script>
+<script type="text/javascript" src="../../js/showPic.js"></script>
+<script type="text/javascript" src="../../js/ajaxfileupload.js" ></script>
 
 <table id="admin_dataInfo"></table>
 
@@ -12,16 +14,18 @@
 	<a href="#" class="easyui-linkbutton"
 		data-options="iconCls:'icon-remove',plain:true" style="float: left">删除</a>
 	<div class="datagrid-btn-separator"></div>
-	<label>请选择角色:</label> <select name="role">
+	<label>请选择角色:</label> <select name="role"  id="admin_select_rid" >  
 		<option value="-1">--请选择--</option>
-	</select>&nbsp; <label> 请输入管理员姓名:</label><input type="text" name="aname" /> <label>请选择状态:</label>
-	<select name="status">
+	</select>&nbsp; 
+	<label> 请输入管理员姓名:</label><input type="text" name="aname"  id="admin_select_aname" /> 
+	<label>请选择状态:</label>
+	<select name="status"   id="admin_select_status" >
 		<option value="-1">--请选择--</option>
 		<option value="0">未审核</option>
 		<option value="1">未通过审核</option>
 		<option value="2">已审核</option>
 		<option value="3">冻结</option>
-	</select> &nbsp;&nbsp;<a href="#" class="easyui-linkbutton"
+	</select> &nbsp;&nbsp;<a href="javascript:search_adminInfo()" class="easyui-linkbutton"
 		data-options="iconCls:'icon-search'">查找</a>
 </div>
 
@@ -61,17 +65,52 @@
 				data-options="iconCls:'icon-add'" >添加</a>
 		</center>
 	</div>
-
-
-
-	<div class="admin_right">
+<div class="admin_right">
 	
 	<center>
 		<video id="navy_video" width="320px" height="240px" autoplay class="borderstyle"></video>
 		<canvas id="canvas" width="160px" height="120px" class="borderstyle"></canvas>
 		<input id="snap" type="button" value="拍照"/>
 	</center>
-	
+
+<!-- 修改 -->
+<div id="admin_updateAdminInfo" class="easyui-dialog" title="修改管理员信息"
+	data-options="iconCls:'icon-add',resizable:true,modal:true,fit:true,closed:true ">
+
+
+	<div class="admin_left">
+	<center>
+		<form>
+			<ul>
+				<input  type="hidden"  id="update_admin_aid"  />
+				<li><span>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色 : </span> <select name="admin_role"
+					id="update_admin_role">
+
+				</select></li>
+				<li><span>管理员姓名:</span> <input type="text" name="admin_aname"
+					id="update_admin_aname" placeholder="请输入您的姓名" required="required" /></li>
+				<li><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码 : </span> <input type="password"
+					name="admin_pwd" id="update_admin_pwd" placeholder="请输入您的密码"
+					required="required" /></li>
+				<li><span>注册邮箱 : </span> <input type="email" name="admin_email"
+					id="update_admin_email" placeholder="请输入您的邮箱" required="required" /></li>
+				<li><span>联系方式:</span> <input type="text" name="admin_tel"
+					id="update_admin_tel" placeholder="请输入您的联系方式" required="required" /></li>
+				<li><span>图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片 : </span> <input type="file"
+					name="photo" id="update_admin_photo"  /></li>
+			</ul>
+		</form>
+
+		<br />
+		<br />
+		
+			<a href="javascript:update_adminInfo()" class="easyui-linkbutton"
+				data-options="iconCls:'icon-add'" >修改</a>
+		</center>
+	</div>
+
+	<div class="admin_right">
+		<img  id="update_adminInfo_photo"   src=""  width="200px"   height="200px" />
 	</div>
 </div>
 
@@ -80,8 +119,13 @@
 	$(function(){
 		$.post("../../servlet/RolesServlet",{op:"findAllRoles"},function(data){
 			var obj=$("#admin_role");
+			var obj1=$("#update_admin_role");
+			var obj2=$("#admin_select_rid");
+		
 			$.each(data,function(index,item){
 				obj.append($("<option value='"+item.rid+"'>"+item.rname+"</option>"));
+				obj1.append($("<option value='"+item.rid+"'>"+item.rname+"</option>"));
+				obj2.append($("<option value='"+item.rid+"'>"+item.rname+"</option>"));
 			});
 		},"json");
 		
@@ -177,8 +221,8 @@
 									align : 'center',
 									formatter : function(val, row, index) {
 										return "<a href='' class='icon-detail1 icon-padding'>详细</a>"
-												+ "&nbsp;&nbsp;<a href='' class='icon-remove1  icon-padding' >删除</a>"
-												+ "<a href='' class='icon-edit1  icon-padding'>修改</a> ";
+												+ "&nbsp;&nbsp;<a href='javascript:delteAdminInfo("+row.aid+")' class='icon-remove1  icon-padding' >删除</a>"
+												+ "<a href='javascript:updateAdminInfo("+JSON.stringify(row)+")' class='icon-edit1  icon-padding'>修改</a> ";
 									}
 								}
 
@@ -217,7 +261,7 @@
 					$("#admin_pwd").val("");
 					$("#admin_email").val("");
 					$("#admin_tel").val("");
-					$("admin_status").val("");
+					$("#admin_status").val("");
 					
 					$("#admin_addAdminInfo").dialog("close");
 					$('#admin_dataInfo').datagrid("reload");
@@ -228,17 +272,93 @@
 				}
 				
 			});
-			
+
+	}
+	
+	
+	//弹出更新操作框
+	function updateAdminInfo(row){
+		$("#admin_updateAdminInfo").dialog("open");
 		
+		$("#update_admin_aid").val(row.aid);
+		$("#update_admin_aname").val(row.aname);
+		$("#update_admin_role").val(row.rid);
+		$("#update_admin_pwd").val(row.pwd);
+		$("#update_admin_email").val(row.email);
+		$("#update_admin_tel").val(row.tel);
 		
+		if(row.photo!=""){
+			$("#update_adminInfo_photo").attr("src","../../"+row.photo);
+		}else{
+			$("#update_adminInfo_photo").attr("src","../../images/zanwu.jpg");
+		}
+
+	}
+	
+	
+	//更新数据
+	function  update_adminInfo(){
+		var aid=$("#update_admin_aid").val();
+		var rid=$("#update_admin_role").val();
+		var aname=$("#update_admin_aname").val();
+		var pwd=$("#update_admin_pwd").val();
+		var email=$("#update_admin_email").val();
+		var tel=$("#update_admin_tel").val();
+		
+		$.ajaxFileUpload({
+			url:"../../servlet/adminInfoServlet?op=updateAdminInfo",
+			secureuri:false,
+			fileElementId:"update_admin_photo",
+			dataType:"json",
+			data:{rid:rid,aname:aname,pwd:pwd,email:email,tel:tel,aid:aid},
+			success:function(data,status){
+				data=parseInt($.trim(data));
+				
+				if(data>0){
+					$.messager.show({title:'温馨提示',msg:'修改成功',timeout:2000,showType:'slide'});
+					
+					$("#admin_updateAdminInfo").dialog("close");
+					$('#admin_dataInfo').datagrid("reload");
+				}
+			},
+			error:function(data,status,e){
+				$.messager.alert('失败','修改失败','error');   
+			}
+		});
 		
 	}
 	
 	
+	function  delteAdminInfo(aid){
+
+		 $.post("../../servlet/adminInfoServlet",{op:"deleteAdminInfo",aid:aid},function(data){
+			data=parseInt($.trim(data));
+
+			if(data>0){
+				$.messager.show({title:'温馨提示',msg:'删除成功',timeout:2000,showType:'slide'});
+				$('#admin_dataInfo').datagrid("reload");
+			}else{
+				$.messager.alert('失败','删除失败','error');   
+			}
+		}); 
+		
+	}
 	
-	
-	
-	
+
+	//查询
+	function search_adminInfo(){
+		var rid=$("#admin_select_rid").val();
+		var aname=$("#admin_select_aname").val();
+		var status=$("#upadmin_select_status").val();
+		
+		$('#admin_dataInfo').datagrid({
+					url : '../../servlet/adminInfoServlet',
+					queryParams : {
+						op : "searchAdminInfoByPage",rid:rid,aname:aname,status:status
+					}
+		});
+
+	}
 	
 	
 	
