@@ -46,7 +46,7 @@ public interface IAdminInfoDao {
 	
 	
 	//修改管理员信息
-	public Integer  update(String aname,String rid,String email,String tel,String photo,String aid);
+	public Integer  update(String aname,String rid,String email,String pwd,String tel,String photo,String aid);
 	
 	
 	//邮箱重新绑定

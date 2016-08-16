@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="css/login.css">
 <script src="../js/jquery-1.12.4.js"></script>
 <script src="js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="../../js/md5.js" ></script>
 <script src="../js/basic_navy.js"  ></script>
 
 <script>
@@ -95,7 +95,7 @@
 	function adminLogin(){
 		var role=$.trim($("#roleId").val());
 		var name=$.trim($("#uname").val());
-		var pwd=$.trim($("#pwd").val());
+		var pwd=hex_md5($.trim($("#pwd").val()));
 		var code=$.trim($("#vcode").val());
 		
 		
@@ -175,9 +175,7 @@
 			if(rpwds.length<=0){
 				$("#rpwds").css("border-color","red");
 				$("#rpwdsspan").css("color","red");
-			}else 
-			
-			if(rpwd==rpwds){
+			}else  if(rpwd==rpwds){
 				$("#rpwds").css("border-color","#eee");
 				$("#rpwdsspan").css("color","green");
 				
@@ -255,7 +253,7 @@
 	function registAdmin(){
 		var rid=$.trim($("#roleId").val());
 		var uname=$.trim($("#rname").val());
-		var rpwd=$.trim($("#rpwd").val());
+		var rpwd=hex_md5($.trim($("#rpwd").val()));
 		var email=$.trim($("#email").val());
 		var tel=$.trim($("#tel").val());
 	

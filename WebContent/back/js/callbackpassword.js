@@ -225,7 +225,7 @@ function nextstep(){
 //修改密码
 function restPassword(){
 	var username=$.trim($("#username").val());
-	var newpwd=$.trim($("#newpwd").val());
+	var newpwd=hex_md5($.trim($("#newpwd").val()));
 	
 	
 	if(flag4==true && flag5==true){

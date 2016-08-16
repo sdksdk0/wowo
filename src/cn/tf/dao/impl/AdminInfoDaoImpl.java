@@ -148,7 +148,7 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 	}
 
 	@Override
-	public Integer update(String aname, String rid, String email,String tel, String photo,String aid) {
+	public Integer update(String aname, String rid, String email,String pwd,String tel, String photo,String aid) {
 		DBHelper db=new DBHelper();
 		List<Object>  params=new ArrayList<Object>();
 		String sql="update adminInfo set aid=aid ";
@@ -164,7 +164,10 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 			sql+=" ,email=? ";
 			params.add(email);
 		}
-		
+		if(pwd!=null){
+			sql+=" ,pwd=? ";
+			params.add(pwd);
+		}
 		
 		if(tel!=null){
 			sql+=" ,tel=? ";
@@ -214,18 +217,13 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 		DBHelper db=new DBHelper();
 		String sql=null;
 		List<Object>  params=new ArrayList<Object>();
-		
-		if(aid!=null){
-			sql=" delete from  adminInfo where  aid=? ";
+
+		if(aid.contains(",") && !aid.contains("or")){
+			sql="update adminInfo set status=3 where aid in("+aid+")";
+		}else{
+			sql="update adminInfo set status=3 where aid=? ";
 			params.add(aid);
 		}
-			
-		/*if(aid.contains(",") && !aid.contains(" or ")){
-			sql="update adminInfo set status=4 where aid in("+aid+")";
-		}else{
-			sql="update adminInfo set status=4 where aid=? ";
-			params.add(aid);
-		}*/
 		return db.doUpdate(sql,params);
 	}
 
@@ -267,6 +265,7 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 			params.add(pageNo*pageSize);
 			params.add((pageNo-1)*pageSize);
 		}
+	
 		return db.find(sql, params,AdminInfo.class);
 	}
 

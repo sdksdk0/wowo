@@ -94,11 +94,11 @@ public class AdminInfoBizImpl implements IAdminInfoBiz{
 	}
 
 	@Override
-	public Integer update(String aname, String rid, String email,String tel, String photo,
+	public Integer update(String aname, String rid, String email,String pwd,String tel, String photo,
 			String aid) {
 		
 		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
-		return adminInfoDao.update(aname,rid,email,tel,photo,aid);
+		return adminInfoDao.update(aname,rid,email,pwd,tel,photo,aid);
 	}
 
 	@Override
@@ -130,12 +130,9 @@ public class AdminInfoBizImpl implements IAdminInfoBiz{
 
 	@Override
 	public Integer del(String aid) {
-		if(aid==null || "".equals(aid)){
-			return null;
-		}
-		
+
 		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
-		return adminInfoDao.update(aid);
+		return adminInfoDao.del(aid);
 	}
 
 	@Override
@@ -152,11 +149,11 @@ public class AdminInfoBizImpl implements IAdminInfoBiz{
 	}
 
 	@Override
-	public List<AdminInfo> find(Map<String, String> params, Integer pageNo,
+	public List<AdminInfo> find(Map<String, String> param, Integer pageNo,
 			Integer pageSize) {
 		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
 		
-		return adminInfoDao.find(params,pageNo,pageSize);
+		return adminInfoDao.find(param,pageNo,pageSize);
 	}
 
 

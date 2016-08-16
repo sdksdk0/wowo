@@ -1,7 +1,8 @@
 <link rel="stylesheet" type="text/css" href="../css/admin.css" />
 <script type="text/javascript" src="../../js/camera.js"></script>
 <script type="text/javascript" src="../../js/showPic.js"></script>
-<script type="text/javascript" src="../../js/ajaxfileupload.js" ></script>
+<script type="text/javascript" src="../../js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="../../js/md5.js" ></script>
 
 <table id="admin_dataInfo"></table>
 
@@ -11,22 +12,21 @@
 		data-options="iconCls:'icon-add',plain:true" style="float: left">添加</a>
 	<div class="datagrid-btn-separator"></div>
 
-	<a href="#" class="easyui-linkbutton"
+	<a href="javascript:delteAllAdminInfo()" class="easyui-linkbutton"
 		data-options="iconCls:'icon-remove',plain:true" style="float: left">删除</a>
 	<div class="datagrid-btn-separator"></div>
-	<label>请选择角色:</label> <select name="role"  id="admin_select_rid" >  
+	<label>请选择角色：</label><select name="role" id="admin_select_rid">
 		<option value="-1">--请选择--</option>
-	</select>&nbsp; 
-	<label> 请输入管理员姓名:</label><input type="text" name="aname"  id="admin_select_aname" /> 
-	<label>请选择状态:</label>
-	<select name="status"   id="admin_select_status" >
-		<option value="-1">--请选择--</option>
-		<option value="0">未审核</option>
-		<option value="1">未通过审核</option>
-		<option value="2">已审核</option>
-		<option value="3">冻结</option>
-	</select> &nbsp;&nbsp;<a href="javascript:search_adminInfo()" class="easyui-linkbutton"
-		data-options="iconCls:'icon-search'">查找</a>
+	</select>&nbsp; <label>请输入管理员姓名：</label><input type="text" name="aname"
+		id="admin_select_aname" /> <label>请选择状态：</label><select name="status"
+		id="admin_select_status">
+		<option value='-1'>--请选择--</option>
+		<option value='0'>未审核</option>
+		<option value='1'>未通过审核</option>
+		<option value='2'>已审核</option>
+		<option value='3'>冻结</option>
+	</select> &nbsp;&nbsp;<a href="javascript:search_adminInfo()"
+		class="easyui-linkbutton" data-options="iconCls:'icon-search'">查找</a>
 </div>
 
 
@@ -36,85 +36,84 @@
 
 
 	<div class="admin_left">
-	<center>
-		<form>
-			<ul>
-				<li><span>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色 : </span> <select name="admin_role"
-					id="admin_role">
+		<center>
+			<form>
+				<ul>
+					<li><span>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色 : </span> <select
+						name="admin_role" id="admin_role">
 
-				</select></li>
-				<li><span>管理员姓名:</span> <input type="text" name="admin_aname"
-					id="admin_aname" placeholder="请输入您的姓名" required="required" /></li>
-				<li><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码 : </span> <input type="password"
-					name="admin_pwd" id="admin_pwd" placeholder="请输入您的密码"
-					required="required" /></li>
-				<li><span>注册邮箱 : </span> <input type="email" name="admin_email"
-					id="admin_email" placeholder="请输入您的邮箱" required="required" /></li>
-				<li><span>联系方式:</span> <input type="text" name="admin_tel"
-					id="admin_tel" placeholder="请输入您的联系方式" required="required" /></li>
-				<li><span>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态 : </span> <input type="text"
-					name="admin_status" id="admin_status" placeholder="请选择状态"
-					required="required" /></li>
-			</ul>
-		</form>
+					</select></li>
+					<li><span>管理员姓名:</span> <input type="text" name="admin_aname"
+						id="admin_aname" placeholder="请输入您的姓名" required="required" /></li>
+					<li><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码 : </span> <input
+						type="password" name="admin_pwd" id="admin_pwd"
+						placeholder="请输入您的密码" required="required" /></li>
+					<li><span>注册邮箱 : </span> <input type="email"
+						name="admin_email" id="admin_email" placeholder="请输入您的邮箱"
+						required="required" /></li>
+					<li><span>联系方式:</span> <input type="text" name="admin_tel"
+						id="admin_tel" placeholder="请输入您的联系方式" required="required" /></li>
+					<li><span>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态 : </span> <input
+						type="text" name="admin_status" id="admin_status"
+						placeholder="请选择状态" required="required" /></li>
+				</ul>
+			</form>
 
-		<br />
-		<br />
-		
-			<a href="javascript:add_adminInfo()" class="easyui-linkbutton"
-				data-options="iconCls:'icon-add'" >添加</a>
+			<br /> <br /> <a href="javascript:add_adminInfo()"
+				class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
 		</center>
 	</div>
-<div class="admin_right">
-	
-	<center>
-		<video id="navy_video" width="320px" height="240px" autoplay class="borderstyle"></video>
-		<canvas id="canvas" width="160px" height="120px" class="borderstyle"></canvas>
-		<input id="snap" type="button" value="拍照"/>
-	</center>
-
-<!-- 修改 -->
-<div id="admin_updateAdminInfo" class="easyui-dialog" title="修改管理员信息"
-	data-options="iconCls:'icon-add',resizable:true,modal:true,fit:true,closed:true ">
-
-
-	<div class="admin_left">
-	<center>
-		<form>
-			<ul>
-				<input  type="hidden"  id="update_admin_aid"  />
-				<li><span>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色 : </span> <select name="admin_role"
-					id="update_admin_role">
-
-				</select></li>
-				<li><span>管理员姓名:</span> <input type="text" name="admin_aname"
-					id="update_admin_aname" placeholder="请输入您的姓名" required="required" /></li>
-				<li><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码 : </span> <input type="password"
-					name="admin_pwd" id="update_admin_pwd" placeholder="请输入您的密码"
-					required="required" /></li>
-				<li><span>注册邮箱 : </span> <input type="email" name="admin_email"
-					id="update_admin_email" placeholder="请输入您的邮箱" required="required" /></li>
-				<li><span>联系方式:</span> <input type="text" name="admin_tel"
-					id="update_admin_tel" placeholder="请输入您的联系方式" required="required" /></li>
-				<li><span>图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片 : </span> <input type="file"
-					name="photo" id="update_admin_photo"  /></li>
-			</ul>
-		</form>
-
-		<br />
-		<br />
-		
-			<a href="javascript:update_adminInfo()" class="easyui-linkbutton"
-				data-options="iconCls:'icon-add'" >修改</a>
-		</center>
-	</div>
-
 	<div class="admin_right">
-		<img  id="update_adminInfo_photo"   src=""  width="200px"   height="200px" />
-	</div>
-</div>
 
-<script>
+		<center>
+			<video id="navy_video" width="320px" height="240px" autoplay
+				class="borderstyle"></video>
+			<canvas id="canvas" width="160px" height="120px" class="borderstyle"></canvas>
+			<input id="snap" type="button" value="拍照" />
+		</center>
+
+		<!-- 修改 -->
+		<div id="admin_updateAdminInfo" class="easyui-dialog" title="修改管理员信息"
+			data-options="iconCls:'icon-add',resizable:true,modal:true,fit:true,closed:true ">
+
+
+			<div class="admin_left">
+				<center>
+					<form>
+						<ul>
+							<input type="hidden" id="update_admin_aid" />
+							<li><span>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色 : </span> <select
+								name="admin_role" id="update_admin_role">
+
+							</select></li>
+							<li><span>管理员姓名:</span> <input type="text"
+								name="admin_aname" id="update_admin_aname" placeholder="请输入您的姓名"
+								required="required" /></li>
+							<li><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码 : </span> <input
+								type="password" name="admin_pwd" id="update_admin_pwd"
+								placeholder="请输入您的密码" required="required" /></li>
+							<li><span>注册邮箱 : </span> <input type="email"
+								name="admin_email" id="update_admin_email" placeholder="请输入您的邮箱"
+								required="required" /></li>
+							<li><span>联系方式:</span> <input type="text" name="admin_tel"
+								id="update_admin_tel" placeholder="请输入您的联系方式"
+								required="required" /></li>
+							<li><span>图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片 : </span> <input
+								type="file" name="photo" id="update_admin_photo" /></li>
+						</ul>
+					</form>
+
+					<br /> <br /> <a href="javascript:update_adminInfo()"
+						class="easyui-linkbutton" data-options="iconCls:'icon-add'">修改</a>
+				</center>
+			</div>
+
+			<div class="admin_right">
+				<img id="update_adminInfo_photo" src="" width="200px" height="200px" />
+			</div>
+		</div>
+
+		<script>
 
 	$(function(){
 		$.post("../../servlet/RolesServlet",{op:"findAllRoles"},function(data){
@@ -237,11 +236,12 @@
 	}
 	
 	
+	//添加管理员信息
 	function add_adminInfo(){
 		
 		var rid=$("#admin_role").val();
 		var aname=$("#admin_aname").val();
-		var pwd=$("#admin_pwd").val();
+		var pwd=hex_md5($("#admin_pwd").val());
 		var email=$("#admin_email").val();
 		var tel=$("#admin_tel").val();
 		//var status=$("admin_status").val();
@@ -301,9 +301,11 @@
 		var aid=$("#update_admin_aid").val();
 		var rid=$("#update_admin_role").val();
 		var aname=$("#update_admin_aname").val();
-		var pwd=$("#update_admin_pwd").val();
+		var pwd=hex_md5($("#update_admin_pwd").val());
 		var email=$("#update_admin_email").val();
 		var tel=$("#update_admin_tel").val();
+		
+		alert(pwd);
 		
 		$.ajaxFileUpload({
 			url:"../../servlet/adminInfoServlet?op=updateAdminInfo",
@@ -328,38 +330,73 @@
 		
 	}
 	
-	
-	function  delteAdminInfo(aid){
 
-		 $.post("../../servlet/adminInfoServlet",{op:"deleteAdminInfo",aid:aid},function(data){
-			data=parseInt($.trim(data));
-
-			if(data>0){
-				$.messager.show({title:'温馨提示',msg:'删除成功',timeout:2000,showType:'slide'});
-				$('#admin_dataInfo').datagrid("reload");
-			}else{
-				$.messager.alert('失败','删除失败','error');   
-			}
-		}); 
+	//删除多行
+	function delteAllAdminInfo(){
 		
+		var rows=$('#admin_dataInfo').datagrid("getChecked");
+		if(rows.length<=0){
+			$.messager.show({title:'温馨提示',msg:'请选择需要删除的数据',timeout:2000,showType:'slide'});
+		}else{
+			$.messager.confirm('确认删除么','确认删除么',function(rt){
+				 if(rt){
+					var aids="";
+					for(var i=0;i<rows.length-1;i++){
+						aids+=rows[i].aid+",";
+					}
+					aids+=rows[i].aid;
+					//发送到后台，从数据库中删除
+					$.post("../../servlet/adminInfoServlet",{op:"deleteAdminInfo",aid:aids},function(data){
+						data=parseInt($.trim(data));
+					if(data>0){
+						
+						$.messager.show({title:'温馨提示',msg:'删除成功',timeout:2000,showType:'slide'});
+						$('#admin_dataInfo').datagrid("reload");
+					}else{
+						$.messager.alert('失败','删除失败','error');   
+					}
+					
+					});
+				} 
+			});
+			
+		}
 	}
+	
+	
+	
+	//删除一行
+	function  delteAdminInfo(aid){
+		
+		
+		if(aid!=null){
+			 $.post("../../servlet/adminInfoServlet",{op:"deleteAdminInfo",aid:aid},function(data){
+					data=parseInt($.trim(data));
+
+					if(data>0){
+						$.messager.show({title:'温馨提示',msg:'删除成功',timeout:2000,showType:'slide'});
+						$('#admin_dataInfo').datagrid("reload");
+					}else{
+						$.messager.alert('失败','删除失败','error');   
+					}
+				}); 
+		}
+	}
+
+	
 	
 
 	//查询
 	function search_adminInfo(){
 		var rid=$("#admin_select_rid").val();
 		var aname=$("#admin_select_aname").val();
-		var status=$("#upadmin_select_status").val();
+		var status=$("#admin_select_status").val();
 		
 		$('#admin_dataInfo').datagrid({
-					url : '../../servlet/adminInfoServlet',
-					queryParams : {
-						op : "searchAdminInfoByPage",rid:rid,aname:aname,status:status
-					}
+			url:'../../servlet/adminInfoServlet',
+			queryParams:{op:"searchAdminInfoByPage",rid:rid,aname:aname,status:status}
 		});
-
 	}
-	
 	
 	
 	
