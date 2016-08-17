@@ -68,6 +68,9 @@ public interface  IAdminInfoBiz {
 	
 	//分页查询
 	public List<AdminInfo>  find(Map<String,String> params,Integer pageNo,Integer pageSize);
+
+
+	public Integer find(String email);
 	
 
 }

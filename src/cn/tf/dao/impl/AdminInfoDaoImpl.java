@@ -136,9 +136,10 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 		DBHelper db=new DBHelper();
 		String sql=null;
 		if(aid.contains(",") && !aid.contains(" or ")){
-			sql="update adminInfo set pwd='aaaaaa' where aid in("+aid+")";
+			//设置默认密码123456
+			sql="update adminInfo set pwd='e10adc3949ba59abbe56e057f20f883e' where aid in("+aid+")";
 		}else{
-			sql="update adminInfo set pwd='aaaaaa' where aid=? ";
+			sql="update adminInfo set pwd='e10adc3949ba59abbe56e057f20f883e' where aid=? ";
 		}
 		
 		List<Object>  params=new ArrayList<Object>();
@@ -267,6 +268,16 @@ public class AdminInfoDaoImpl implements IAdminInfoDao{
 		}
 	
 		return db.find(sql, params,AdminInfo.class);
+	}
+
+	@Override
+	public Integer  find(String email) {
+		DBHelper db=new DBHelper();
+		List<Object>  params=new ArrayList<Object>();
+		String sql="select count(email) from adminInfo where email=?  " ;
+		
+		params.add(email);
+		return db.findByOne(sql, params);
 	}
 
 

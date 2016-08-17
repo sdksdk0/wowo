@@ -1,4 +1,13 @@
-	$(function() {
+	
+var flag1=false;
+var flag2=false;
+var flag3=false;
+var flag4=false;
+var flag5=false;
+
+
+
+$(function() {
 		$(".container").css("position", "fixed").css("top",
 				($(window).height() - $(".container").height()) / 2).css(
 				"left", ($(window).width() - $(".container").width()) / 2);
@@ -60,7 +69,7 @@
 		
 		$("#roleId").val(id);  //将id存到一个隐藏域中
 		
-		
+		flag1=true;
 	}
 
 	function showRegisterPage() {
@@ -127,10 +136,11 @@
 			
 			if(!reg.test(rname)){
 				$("#rname").css("border-color","red");
-				$("#unamespan").css("color","red");
+				$("#unamespan").text("由2-12位的中文、字母、数字和下划线组成").css("color","red");
 			}else{
 				$("#rname").css("border-color","#eee");
-				$("#unamespan").css("color","green");
+				$("#unamespan").text("输入正确").css("color","green");
+				flag2=true;
 			}
 		});
 		
@@ -143,10 +153,11 @@
 			
 			if(!reg.test(rpwd)){
 				$("#rpwd").css("border-color","red");
-				$("#rpwdspan").css("color","red");
+				$("#rpwdspan").text("由6-16位的字母、数字和下划线组成").css("color","red");
 			}else{
 				$("#rpwd").css("border-color","#eee");
-				$("#rpwdspan").css("color","green");
+				$("#rpwdspan").text("输入正确").css("color","green");
+				flag3=true;
 			}
 		});
 		
@@ -158,14 +169,14 @@
 			
 			if(rpwds.length<=0){
 				$("#rpwds").css("border-color","red");
-				$("#rpwdsspan").css("color","red");
+				$("#rpwdsspan").text("请再输入一次密码，以确认").css("color","red");
 			}else  if(rpwd==rpwds){
 				$("#rpwds").css("border-color","#eee");
-				$("#rpwdsspan").css("color","green");
+				$("#rpwdsspan").text("输入正确").css("color","green");
 				
 			}else{
 				$("#rpwds").css("border-color","red");
-				$("#rpwdsspan").css("color","red");
+				$("#rpwdsspan").text("请再输入一次密码，以确认").css("color","red");
 			}
 		});
 		
@@ -178,10 +189,28 @@
 			
 			if(!reg.test(email)){
 				$("#email").css("border-color","red");
-				$("#emailspan").css("color","red");
+				$("#emailspan").text("请输入邮箱账号，以便忘记密码时找回").css("color","red");
+				
 			}else{
-				$("#email").css("border-color","#eee");
-				$("#emailspan").css("color","green");
+				
+			
+				$.post("../servlet/adminInfoServlet",{op:"checkAllEmail",email:email},function(data){
+			
+					data=$.trim(data);
+					if(data>0){
+						$("#email").css("border-color","red");
+						$("#emailspan").text("该邮箱已存在");
+						$("#emailspan").css("color","red");
+					}else{
+						$("#email").css("border-color","#eee");
+						$("#emailspan").text("该邮箱可以注册").css("color","green");
+						flag4=true;
+					}	
+				});
+				
+				
+				
+				
 			}
 		});
 		
@@ -190,15 +219,18 @@
 		$("#tel").blur(function(){
 			var tel=$.trim($("#tel").val());
 			
-			var reg=/((\d{3,4})  | (\d{3,4})-?)\d{7,8}/;
+			var reg=/^[0-9]{4}[\-]{0,1}[0-9]{7}$/;; 
+
 
 			if(!reg.test(tel)){
-				$("#tel").css("border-color","#eee");
-				$("#telspan").css("color","green");
-				
-			}else{
 				$("#tel").css("border-color","red");
-				$("#telspan").css("color","red");
+				$("#telspan").text("请输入你的电话").css("color","red");
+
+			}else{
+				$("#tel").css("border-color","#eee");
+				$("#telspan").text("输入正确").css("color","green");
+				flag5=true;
+				
 			}
 		});
 		
@@ -242,10 +274,11 @@
 		var tel=$.trim($("#tel").val());
 	
 		
-		if(rid.length>0 && uname.length>0  && rpwd.length>0 && email.length>0  && tel.length>0  ){
+		if(flag1==true && flag2==true  && flag3==true &&flag4==true  && flag5==true ){
 			$.post("../servlet/adminInfoServlet",{op:"registAdmin",rid:rid,uname:uname,rpwd:rpwd,email:email,tel:tel},function(data){
 				data=parseInt($.trim(data));
 				if(data>0){
+					alert("注册成功");
 					location.href="login.html";
 				}else{
 					alert("注册失败");

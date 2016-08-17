@@ -244,7 +244,6 @@
 		var pwd=hex_md5($("#admin_pwd").val());
 		var email=$("#admin_email").val();
 		var tel=$("#admin_tel").val();
-		//var status=$("admin_status").val();
 		
 		var pic=$("#canvas")[0].toDataURL("image/png");
 		
@@ -305,7 +304,6 @@
 		var email=$("#update_admin_email").val();
 		var tel=$("#update_admin_tel").val();
 		
-		alert(pwd);
 		
 		$.ajaxFileUpload({
 			url:"../../servlet/adminInfoServlet?op=updateAdminInfo",

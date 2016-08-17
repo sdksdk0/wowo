@@ -49,6 +49,8 @@ public class adminInfoServlet extends BasicServlet {
 			checkUsername(request,response);
 		}else if("checkEmail".equals(op)){
 			checkEmail(request,response);
+		}else if("checkAllEmail".equals(op)){
+			checkAllEmail(request,response);
 		}else if("restPassword".equals(op)){
 			restPassword(request,response);
 		}else if("findAdminInfoByPage".equals(op)){
@@ -70,6 +72,7 @@ public class adminInfoServlet extends BasicServlet {
 	}
 
 	
+
 	//查询
 	private void searchAdminInfoByPage(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -180,7 +183,21 @@ public class adminInfoServlet extends BasicServlet {
 		this.out(response, result);	
 	}
 
-	//验证该邮箱在数据库中是否存在
+	//注册时 ，验证该邮箱是否存在
+		private void checkAllEmail(HttpServletRequest request,
+				HttpServletResponse response) {
+			
+			String email=request.getParameter("email");
+			IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+			int result=adminInfoBiz.find(email);
+
+			this.out(response, result);
+			
+		}
+
+	
+	
+	//找回密码，验证该邮箱在数据库中是否存在
 	private void checkEmail(HttpServletRequest request,
 			HttpServletResponse response) {
 		

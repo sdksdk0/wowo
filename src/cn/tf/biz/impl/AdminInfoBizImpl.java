@@ -156,5 +156,11 @@ public class AdminInfoBizImpl implements IAdminInfoBiz{
 		return adminInfoDao.find(param,pageNo,pageSize);
 	}
 
+	@Override
+	public Integer find(String email) {
+		IAdminInfoDao adminInfoDao=new AdminInfoDaoImpl();
+		return adminInfoDao.find(email);
+	}
+
 
 }

@@ -69,6 +69,9 @@ public interface IAdminInfoDao {
 
 	//分页查询
 	public List<AdminInfo>  find(Map<String,String> param,Integer pageNo,Integer pageSize);
+
+
+	public Integer find(String email);
 	
 	
 }

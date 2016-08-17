@@ -230,39 +230,7 @@
                         <input type="hidden" value="" name="referer">
             			<table class="log-reg-table" width="620" cellspacing="0" cellpadding="0" border="0">
             				<tbody>
-            					<tr>
-            						<td width="130" align="right">E-mail：</td>
-                                    <td width="490">
-                                        <div class="toemail">
-                                            <div class="intbox" style="position: relative;">
-                                                <iframe frameborder="0" style="display: none; height: 250px;">
-                                                    <html>
-                                                        <head></head>
-                                                        <body></body>
-                                                    </html>
-                                                </iframe>
-                                                <input id="regemail" class="int-type w-thir" type="text" autocomplete="off" tips="邮箱地址" name="email" rule="" style="ime-mode: disabled;">
-                                                <div id="maillist" style="display: none;">
-                                                    <h3>请选择邮箱类型</h3>
-                                                    <ul>
-                                                        <li class="on"></li>
-                                                        <li>@qq.com</li>
-                                                        <li>@163.com</li>
-                                                        <li>@126.com</li>
-                                                        <li>@sina.com</li>
-                                                        <li>@hotmail.com</li>
-                                                        <li>@yahoo.com.cn</li>
-                                                        <li>@sohu.com</li>
-                                                        <li>@yahoo.cn</li>
-                                                        <li>@gmail.com</li>
-                                                        <li>@tom.com</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <label id="regemail_msg" class="labelbox"></label>
-                                        </div>
-                                    </td>
-                                </tr>
+            					
                                 <tr>
                                     <td align="right">用户名：</td>
                                     <td>
@@ -327,12 +295,46 @@
                                     </td>
                                 </tr>
                                 <tr>
+            						<td width="130" align="right">E-mail：</td>
+                                    <td width="490">
+                                        <div class="toemail">
+                                            <div class="intbox" style="position: relative;">
+                                                <iframe frameborder="0" style="display: none; height: 250px;">
+                                                    <html>
+                                                        <head></head>
+                                                        <body></body>
+                                                    </html>
+                                                </iframe>
+                                                <input id="regemail" class="int-type w-thir" type="text" autocomplete="off" tips="邮箱地址" name="email" rule="" style="ime-mode: disabled;">
+                                                <div id="maillist" style="display: none;">
+                                                    <h3>请选择邮箱类型</h3>
+                                                    <ul>
+                                                        <li class="on"></li>
+                                                        <li>@qq.com</li>
+                                                        <li>@163.com</li>
+                                                        <li>@126.com</li>
+                                                        <li>@sina.com</li>
+                                                        <li>@hotmail.com</li>
+                                                        <li>@yahoo.com.cn</li>
+                                                        <li>@sohu.com</li>
+                                                        <li>@yahoo.cn</li>
+                                                        <li>@gmail.com</li>
+                                                        <li>@tom.com</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <label id="regemail_msg" class="labelbox"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
                                     <td align="right">验证码：</td>
                                     <td>
                                         <div class="intbox">
                                             <input id="regsafecode" class="int-type w-sec" type="text" name="regsafecode" tips="验证码" rule="required" codedata="" maxlength="4">
-                                            <img id="safecoderegimg" class="pic" width="100" height="30" src="images/safecode.jpg">
-                                            <a id="safecodereglink" class="tips" href="javascript:">看不清？换一张</a>
+                                           <!--  <img id="safecoderegimg" class="pic" width="100" height="30" src="images/safecode.jpg"> -->
+                                            <a id="safecodereglink" class="tips" href="javascript:">向邮箱发送验证码</a>
                                         </div>
                                         <label id="regsafecode_msg" class="labelbox"></label>
                                     </td>
@@ -597,7 +599,7 @@
 						if(val==""){
 							tdInfo="*请输入用户名";
 						}else if(!reg.test(val)){
-							tdInfo="*请输入正确的用户名";	
+							tdInfo="*由2-17位的中文、字母、数字和下划线组成";	
 						}else{
 							tdInfo="";	
 						}
@@ -620,7 +622,7 @@
 						if(val==""){
 							tdInfo="*请输入密码";
 						}else if(!reg.test(val)){
-							tdInfo="*请输入正确的密码";	
+							tdInfo="*由6到16位的字母数字或下划线组成";	
 						}else{
 							tdInfo="";	
 						}
@@ -643,9 +645,9 @@
 						var reval=$("#reppassword").val();
 				
 						if(reval==""){
-							tdInfo="*请输入密码";
+							tdInfo="*密码不能为空";
 						}else if(val!=reval){
-							tdInfo="*请确认密码";	
+							tdInfo="*两次密码不一致";	
 						}else{
 							tdInfo="";	
 						}
