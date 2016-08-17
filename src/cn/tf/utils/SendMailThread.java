@@ -35,10 +35,10 @@ public class SendMailThread extends Thread{
 			message.setFrom(new InternetAddress("xingtian@tianfang1314.cn"));
 			message.setRecipients(Message.RecipientType.TO, adminInfo.getEmail());
 			
-			message.setSubject("来自指令汇科技的注册邮件");
+			message.setSubject("来自指令汇科技的邮件");
 			message.setContent("","text/html;charset=UTF-8");
 			
-			message.setContent("您的验证码为:"+adminInfo.getCode(), "text/html;charset=UTF-8");
+			message.setContent("找回密码,您的验证码为:"+adminInfo.getCode(), "text/html;charset=UTF-8");
 			message.saveChanges();
 			
 			Transport ts = session.getTransport();

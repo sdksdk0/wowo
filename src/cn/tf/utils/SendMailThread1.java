@@ -39,7 +39,7 @@ public class SendMailThread1 extends Thread{
 			message.setSubject("来自指令汇科技的注册邮件");
 			message.setContent("","text/html;charset=UTF-8");
 			
-			message.setContent("您的验证码为:"+userInfo.getCode(), "text/html;charset=UTF-8");
+			message.setContent("新用户注册,您的验证码为:"+userInfo.getCode(), "text/html;charset=UTF-8");
 			message.saveChanges();
 			
 			Transport ts = session.getTransport();

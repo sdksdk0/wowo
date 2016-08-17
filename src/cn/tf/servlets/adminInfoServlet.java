@@ -215,16 +215,21 @@ public class adminInfoServlet extends BasicServlet {
 	private void checkEmail(HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		String aid=request.getParameter("username");
+		//String aid=request.getParameter("username");
 		String email=request.getParameter("email");
-		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
-		AdminInfo adminInfo=adminInfoBiz.find(Integer.parseInt(aid));
 		
-		String email2=adminInfo.getEmail();
-		int result=0;
+		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		//AdminInfo adminInfo=adminInfoBiz.find(Integer.parseInt(aid));
+		
+		//String email2=adminInfo.getEmail();
+		
+		int  result=adminInfoBiz.find(email);
+		/*int result=0;
 		if(email.equals(email2)){
 			result=1;
 		}
+		this.out(response, result);
+		*/
 		this.out(response, result);
 		
 	}

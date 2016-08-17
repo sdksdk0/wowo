@@ -46,7 +46,7 @@ $(function() {
 	$("#email").blur(function(){
 		$(".rcodeInfo strong").text($(this).val());
 		
-		var username=$.trim($("#username").val());
+		//var username=$.trim($("#username").val());
 		var email=$.trim($("#email").val());
 		
 		if(email.length<=0 ){
@@ -58,7 +58,7 @@ $(function() {
 		var reg=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
 		if(reg.test(email)){
 			
-			$.post("../servlet/adminInfoServlet",{op:"checkEmail",username:username,email:email},function(data){
+			$.post("../servlet/adminInfoServlet",{op:"checkEmail",/*username:username,*/email:email},function(data){
 				
 				data=$.trim(data);
 				if(data==1){
