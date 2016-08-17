@@ -48,6 +48,17 @@ $(function() {
 					href="admin.html";
 				}
 
+			}else if(node.id=="index_shopping3"){
+				if (tabs.tabs("exists", "店铺信息管理")) {
+					// 如果存在则选中
+					tabs.tabs("select", "店铺信息管理");
+					return;
+				} else {
+					title="店铺信息管理";
+					href="manaagershopping.html";
+				}
+
+				
 			}
 			
 			tabs.tabs("add", {

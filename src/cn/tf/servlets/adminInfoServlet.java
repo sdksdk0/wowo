@@ -134,6 +134,8 @@ public class adminInfoServlet extends BasicServlet {
 		PageContext pagecontext=JspFactory.getDefaultFactory().getPageContext(this,request,response,null,true,2048,true);
 		Map<String,String> map=upload.upload(pagecontext);
 		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		
+	
 		this.out(response,(int) adminInfoBiz.update(map.get("aname"), map.get("rid"),map.get("email"),map.get("pwd"), map.get("tel"),map.get("photo"), map.get("aid")));
 		
 		
@@ -264,23 +266,14 @@ public class adminInfoServlet extends BasicServlet {
 			HttpServletResponse response)  {
 		
 		String rcode=request.getParameter("rcode");
-		String code=(String) request.getSession().getAttribute("code");
-		
-		 Lock lock =(Lock) request.getSession().getAttribute("code");
-		
-		
+		String code=(String) request.getSession().getAttribute("code");	
 
-		if(rcode.equals(code))	{
-			
-			try {
-				if ( lock.tryLock(120L, TimeUnit.SECONDS) ){   //两分钟后过期
-					 this.out(response, 2);
-				}else{
-					this.out(response, 1);
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+/*		System.out.println("rcode="+rcode);
+		System.out.println("code="+code);*/
+		if(code==null){
+			this.out(response, 2);
+		}else  if(rcode.equals(code))	{
+			this.out(response, 1);
 		}else{
 			this.out(response, 0);
 		}
@@ -293,18 +286,16 @@ public class adminInfoServlet extends BasicServlet {
 		AdminInfo adminInfo=WebUtil.fillBean(request,AdminInfo.class);
 
 		String code =RandomStringUtils.randomNumeric(5);
-		
 
 		adminInfo.setCode(code);
-		//adminInfo.setDate(outDate);
 		
 		HttpSession session=request.getSession();
 		session.setAttribute("code", code);
-		//session.setMaxInactiveInterval(1*60);
+		session.setMaxInactiveInterval(5*60);
 
 		SendMailThread smt=new SendMailThread(adminInfo);
 		smt.start();
-		this.out(response, code);
+		this.out(response, 1);
 		
 	}
 	

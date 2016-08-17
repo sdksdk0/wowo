@@ -1,0 +1,58 @@
+
+
+		<div class="add_shopping_info" >
+				<ul>
+					<li>
+						<span>商家编号: </span> 
+						<select  name="manager_shopping_aid" id="manager_shopping_aid" >
+
+						</select>
+						<span>店铺名称:</span> 
+						<input type="text" name="manager_shopping_sname"	id="manager_shopping_sname" placeholder="请输入店铺名称" required="required" />
+						<span>店铺类型 : </span> 
+						<select  name="manager_shopping_tid" id="manager_shopping_tid" >
+
+						</select>
+					</li>
+					<li>
+						<span>省份 : </span> 
+						<select  name="manager_shopping_prov" id="manager_shopping_prov" >
+								<option value="-1" >--请选择省份--</option>
+						</select>
+						<span>城市: </span> 
+						<select  name="manager_shopping_city" id="manager_shopping_city" >
+								<option value="-1" >--请选择城市--</option>
+						</select>
+						<span>地区: </span> 
+						<select  name="manager_shopping_area" id="manager_shopping_area" >
+								<option value="-1" >--请选择地区--</option>
+						</select>
+					</li>
+					<li>
+						<span>详细地址:</span> 
+						<input type="text" name="manager_shopping_addr"	id="manager_shopping_addr" placeholder="请输入您的详细地址"  required="required" />
+						
+						<span>联系方式:</span> 
+						<input type="text" name="manager_shopping_tel"	id="manager_shopping_tel" placeholder="请输入您的联系方式"  required="required" />
+						
+						<span>日期:</span> 
+						<input type="text" name="manager_shopping_date"	id="manager_shopping_date" class="easyui-datebox"  required="required" />
+					
+					</li>
+					<li>
+						<span>店铺信息</span>&nbsp;
+						<a href="javascript:add_ShoppingInfo()" class="easyui-linkbutton"   data-options="iconCls:'icon-add'" >添加</a>
+						<div  id="manager_shopping_editor_info"> 
+							
+							 <script id="editor" type="text/plain" style="width:940px;height:300px;margin-top:30px;margin-left:70px;"></script>
+						</div>
+					</li>
+						
+				</ul>
+			</div>
+		
+	<link rel="stylesheet" type="text/css" href="../css/manager.css" />	
+	<script  type="text/javascript"  src="../js/manager.js"  ></script>	
+	
+	
+	

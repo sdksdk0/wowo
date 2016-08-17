@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+.add_shopping_info >ul>li{
+	list-style-type:none;
+	margin-top:20px;
+}
+
+.add_shopping_info >ul>li >span{
+	display:inline-block;
+	width:120px;
+	text-align:right;
+	margin-right:10px;
+}
+.add_shopping_info> ul>li >input,.add_shopping_info >ul> li> select{
+	width:200px;
+	border:1px solid #6198CD;
+}
+
+
+

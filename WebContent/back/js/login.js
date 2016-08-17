@@ -274,7 +274,7 @@ $(function() {
 		var tel=$.trim($("#tel").val());
 	
 		
-		if(flag1==true && flag2==true  && flag3==true &&flag4==true  && flag5==true ){
+		if(flag1==true && flag2==true  && flag3==true && flag4==true  && flag5==true ){
 			$.post("../servlet/adminInfoServlet",{op:"registAdmin",rid:rid,uname:uname,rpwd:rpwd,email:email,tel:tel},function(data){
 				data=parseInt($.trim(data));
 				if(data>0){

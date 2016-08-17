@@ -81,8 +81,7 @@ $(function() {
 	//邮箱验证码
 	
 	$("#rcode").blur(function(){
-		var rcode=$.trim($("#rcode").val());
-		
+		var rcode=$.trim($("#rcode").val());	
 		
 		if(rcode.length<=0){
 			$("#rcode").css("border-color","red");
@@ -90,14 +89,13 @@ $(function() {
 			$("#rcodespan").css("color","red");
 			
 		}else {
-			$.post("../servlet/adminInfoServlet",{op:"chenkoutDate",rcode:rcode,time:time},function(){
+			$.post("../servlet/adminInfoServlet",{op:"chenkoutDate",rcode:rcode},function(data){
 				
-				alert(data);
 				data=$.trim(data);
 				if(data==1){
 					$("#rcode").css("border-color","green");
 					flag3=true;	
-				}else  if(data=2){
+				}else  if(data==2){
 					$("#rcode").css("border-color","red");
 					$("#rcodespan").text("验证码超时，请重新发送");
 					$("#rcodespan").css("color","red");
@@ -211,10 +209,13 @@ function getCodeInfo(){
 				$('#steps').stop().animate({marginLeft:'-600px'},500);
 				
 				$.post("../servlet/adminInfoServlet",{op:"sendEmail",rid:username,email:email},function(data){
-						//code=$.trim(data);
+						if(data==1){
+							$("#username").val();
+							$("#email").val();
+							
+						}
 						
-						$("#username").val();
-						$("#email").val();
+						
 				});	
 			}	
 		}

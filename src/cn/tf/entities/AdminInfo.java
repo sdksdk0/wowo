@@ -21,23 +21,9 @@ public class AdminInfo  implements Serializable {
 	private  String mark;  //状态说明
 	
 	private String code;  //邮箱验证码
-	private Timestamp date;   //超时时间
-	
-	
-	
+
 	private String rname;  //角色名称
 	
-	
-	
-	
-	
-	public Timestamp getDate() {
-		return date;
-	}
-
-	public void setDate(Timestamp outDate) {
-		this.date = outDate;
-	}
 
 	public String getCode() {
 		return code;

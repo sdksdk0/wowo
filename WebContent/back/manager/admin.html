@@ -300,10 +300,17 @@
 		var aid=$("#update_admin_aid").val();
 		var rid=$("#update_admin_role").val();
 		var aname=$("#update_admin_aname").val();
-		var pwd=hex_md5($("#update_admin_pwd").val());
+		var pwd=$("#update_admin_pwd").val();
 		var email=$("#update_admin_email").val();
 		var tel=$("#update_admin_tel").val();
 		
+		
+		if(pwd.length>16){
+			pwd=pwd;
+		}else{
+			pwd=hex_md5(pwd);
+		}
+			
 		
 		$.ajaxFileUpload({
 			url:"../../servlet/adminInfoServlet?op=updateAdminInfo",
