@@ -1,0 +1,9 @@
+@charset "utf-8";
+ul, li { list-style:none; }
+.inputElem { width:198px; height:22px; line-height:22px; border:1px solid #ccc;float:left; }
+.parentCls { width:200px; height:auto; margin:0 auto; }
+.auto-tip li { width:100%; text-align:left; height:22px; line-height:22px; font-size:14px; }
+.auto-tip li.hoverBg { background:#ddd; cursor:pointer; }
+.auto-tip li em { font-style:normal; }
+.red { color:#333; }
+.hidden { display:none; }

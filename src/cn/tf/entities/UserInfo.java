@@ -22,7 +22,23 @@ public class UserInfo implements Serializable{
 	private Integer grade;  //积分
 	private Integer status;  //状态
 	
+	private String email;  //邮箱
+	private String code;  //验证码
 	
+	
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public Integer getUsid() {
 		return usid;
 	}

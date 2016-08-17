@@ -43,7 +43,8 @@ create table userInfo (
        city varchar2(100),  --城市
        area  varchar2(100),  --地区
        grade number(10,2),  --积分
-       status number(2)-- 状态
+       status number(2),-- 状态
+        email varchar2(100)
 );
 
 --前台管理员信息表的序列
