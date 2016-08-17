@@ -82,20 +82,32 @@ $(function() {
 	
 	$("#rcode").blur(function(){
 		var rcode=$.trim($("#rcode").val());
-
+		
+		
 		if(rcode.length<=0){
 			$("#rcode").css("border-color","red");
 			$("#rcodespan").text("验证码不能为空");
 			$("#rcodespan").css("color","red");
 			
-		}else  if(rcode==code){
-			$("#rcode").css("border-color","green");
-				flag3=true;	
-		}else{
-			$("#rcode").css("border-color","red");
-			$("#rcodespan").text("验证码错误");
-			$("#rcodespan").css("color","red");
-			
+		}else {
+			$.post("../servlet/adminInfoServlet",{op:"chenkoutDate",rcode:rcode,time:time},function(){
+				
+				alert(data);
+				data=$.trim(data);
+				if(data==1){
+					$("#rcode").css("border-color","green");
+					flag3=true;	
+				}else  if(data=2){
+					$("#rcode").css("border-color","red");
+					$("#rcodespan").text("验证码超时，请重新发送");
+					$("#rcodespan").css("color","red");
+				}else{
+					$("#rcode").css("border-color","red");
+					$("#rcodespan").text("验证码错误");
+					$("#rcodespan").css("color","red");
+				}
+				
+			});				
 		}
 		
 	});
@@ -199,7 +211,7 @@ function getCodeInfo(){
 				$('#steps').stop().animate({marginLeft:'-600px'},500);
 				
 				$.post("../servlet/adminInfoServlet",{op:"sendEmail",rid:username,email:email},function(data){
-						code=$.trim(data);
+						//code=$.trim(data);
 						
 						$("#username").val();
 						$("#email").val();

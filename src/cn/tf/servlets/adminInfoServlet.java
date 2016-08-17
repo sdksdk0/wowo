@@ -1,11 +1,14 @@
 package cn.tf.servlets;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,6 +54,8 @@ public class adminInfoServlet extends BasicServlet {
 			checkEmail(request,response);
 		}else if("checkAllEmail".equals(op)){
 			checkAllEmail(request,response);
+		}else if("chenkoutDate".equals(op)){
+			chenkoutDate(request,response);
 		}else if("restPassword".equals(op)){
 			restPassword(request,response);
 		}else if("findAdminInfoByPage".equals(op)){
@@ -72,6 +77,10 @@ public class adminInfoServlet extends BasicServlet {
 	}
 
 	
+
+
+
+
 
 	//查询
 	private void searchAdminInfoByPage(HttpServletRequest request,
@@ -182,6 +191,9 @@ public class adminInfoServlet extends BasicServlet {
 		
 		this.out(response, result);	
 	}
+	
+
+	
 
 	//注册时 ，验证该邮箱是否存在
 		private void checkAllEmail(HttpServletRequest request,
@@ -247,7 +259,33 @@ public class adminInfoServlet extends BasicServlet {
 		this.out(response, list,adminInfoBiz.getTotal(null));
 	}
 
+	//验证验证码是否正确
+	private void chenkoutDate(HttpServletRequest request,
+			HttpServletResponse response)  {
+		
+		String rcode=request.getParameter("rcode");
+		String code=(String) request.getSession().getAttribute("code");
+		
+		 Lock lock =(Lock) request.getSession().getAttribute("code");
+		
+		
 
+		if(rcode.equals(code))	{
+			
+			try {
+				if ( lock.tryLock(120L, TimeUnit.SECONDS) ){   //两分钟后过期
+					 this.out(response, 2);
+				}else{
+					this.out(response, 1);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}else{
+			this.out(response, 0);
+		}
+		
+	}
 
 	//注册发送邮件
 	private void sendEmail(HttpServletRequest request,
@@ -256,13 +294,22 @@ public class adminInfoServlet extends BasicServlet {
 
 		String code =RandomStringUtils.randomNumeric(5);
 		
+
 		adminInfo.setCode(code);
+		//adminInfo.setDate(outDate);
+		
+		HttpSession session=request.getSession();
+		session.setAttribute("code", code);
+		//session.setMaxInactiveInterval(1*60);
+
 		SendMailThread smt=new SendMailThread(adminInfo);
 		smt.start();
-		
 		this.out(response, code);
 		
 	}
+	
+	
+	
 
 	//退出登录
 	private void LoginOut(HttpServletRequest request,
