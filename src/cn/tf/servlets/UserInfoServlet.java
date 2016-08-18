@@ -22,7 +22,7 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.lang.RandomStringUtils;
 
 import cn.tf.biz.IAdminInfoBiz;
-import cn.tf.biz.UserInfBiz;
+import cn.tf.biz.UserInfoBiz;
 import cn.tf.biz.impl.AdminInfoBizImpl;
 import cn.tf.biz.impl.UserInfoBizImpl;
 import cn.tf.dao.UserInfoDao;
@@ -52,9 +52,61 @@ public class UserInfoServlet extends BasicServlet {
 			chenkoutDate(request,response);
 		}else if("registUser".equals(op)){
 			registUser(request,response);
+		}else if("userLogin".equals(op)){
+			userLogin(request,response);
+		}else if("getLoginInfo".equals(op)){
+			getLoginInfo(request,response);
 		}
 		
 
+	}
+
+
+	//获取用户信息
+	private void getLoginInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		Object obj=session.getAttribute(AttributeData.CURRENTUSERLOGIN);
+		if(obj==null){
+			this.out(response,obj);
+		}else{
+			this.out(response, (UserInfo)obj );
+		}
+		
+	}
+
+
+	//用户登录
+	private void userLogin(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		String name=request.getParameter("name");
+		String pwd=request.getParameter("pwd");
+		String code=request.getParameter("code");
+		
+		HttpSession session=request.getSession();
+		String codes=(String) session.getAttribute("rand");
+		int result=0;
+		
+		if(codes.equals(code)){
+			//验证码输入正确，则调用业务层
+			UserInfoBiz userInfoBiz=new UserInfoBizImpl();
+			UserInfo userInfo=userInfoBiz.login(name, pwd);
+			if(userInfo==null){
+				result=2;   //用户名或密码错误
+			}else{
+				result=3; //登录成功
+				
+				//将当前登录用户存起来，以便后面的页面使用当前用户信息
+				session.setAttribute(AttributeData.CURRENTUSERLOGIN, userInfo);
+			}	
+			
+		}else{
+			result=1;  //验证码错误
+		}
+		this.out(response, result);
+		
+		
 	}
 
 
@@ -70,7 +122,7 @@ public class UserInfoServlet extends BasicServlet {
 		String city=request.getParameter("city");
 		String area=request.getParameter("area");
 		
-		UserInfBiz userInfoBiz=new UserInfoBizImpl();
+		UserInfoBiz userInfoBiz=new UserInfoBizImpl();
 		int result=userInfoBiz.add(username,pwd,tel,email,prov,city,area);
 		
 		this.out(response, result);

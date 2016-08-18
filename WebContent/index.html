@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 	<head>
@@ -83,11 +84,8 @@
                     </ul>
                 </li>
                 <li class="headTopLogin">
-                	<span class="Gray7">
-                        您好！请 [<a class="yellowd1" rel="nofollow" href="login.html" target="_blank">登录</a>]
-                        <b class="borderdc">|</b>
-                        [<a class="yellowd1" rel="nofollow" href="reg.html" target="_blank">注册</a>]
-                        <b class="borderdc p_0_10">|</b>
+                	<span class="Gray7"  id="index_loginuser">
+                      
                 	</span>
                     <ul class="clearfix">
                     	<li id="msgCount" class="headTopUlist no">
@@ -100,6 +98,8 @@
                 		<em></em>
                 		领积分抵钱
                 	</a>
+                	&nbsp;&nbsp;&nbsp;
+                	<a href="back/login.html"  target="_blank" >卖家入口</a>
                 </li>
             </ul>
         </div>
@@ -556,6 +556,30 @@
 				}
 				
 			  });
+			  
+			  
+			  
+			  
+			  $(function() {
+					$.post("servlet/UserInfoServlet", {
+						op : "getLoginInfo"
+					}, function(data) {
+						if (data == "" || data == null) {
+							$("#index_loginuser").html("您好！请 [<a class=\"yellowd1\" rel=\"nofollow\" href=\"login.html\" target=\"_blank\">登录</a>]  <b class=\"borderdc\">|</b>   [<a class=\"yellowd1\" rel=\"nofollow\" href=\"reg.html\" target=\"_blank\">注册</a>]   <b class=\"borderdc p_0_10\">|</b>");
+						} else {
+							$("#index_loginuser").text("欢迎您"+data.uname);
+						}
+
+					}, "json");
+					
+					
+			  });
+			  
+			  
+			  
+			  
+			  
+			  
 			  
 	 </script>
 	</body>

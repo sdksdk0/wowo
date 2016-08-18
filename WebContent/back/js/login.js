@@ -116,7 +116,6 @@ $(function() {
 				alert("用户名或密码错误");
 			}else if(data==3){
 				location.href="manager/index.html";
-				alert("用户名或密码错误");
 			}
 		});
 		return false;
@@ -179,6 +178,14 @@ $(function() {
 				$("#rpwdsspan").text("请再输入一次密码，以确认").css("color","red");
 			}
 		});
+		
+		
+		//邮箱后缀自动补齐
+	    $('#email').emailComplete({
+	        opacity: 1,
+		     radius: 4
+	    });
+	
 		
 		
 		//邮箱

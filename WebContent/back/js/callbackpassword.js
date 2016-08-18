@@ -45,6 +45,18 @@ $(function() {
 	});
 	
 	
+
+	
+	//邮箱后缀自动补齐
+	    $('#email').emailComplete({
+	        opacity: 1,
+		     radius: 4
+	    });
+	
+
+	
+	
+	
 	/*邮箱*/
 	$("#email").blur(function(){
 		$(".rcodeInfo strong").text($(this).val());

@@ -4,7 +4,24 @@
 		<meta charset="utf-8">
 		<title>用户登录|窝窝团</title>
         <link rel="stylesheet" href="css/basic.css" />
+        <script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
+        <script src="js/jquery-1.12.4.js"></script>
+        <script type="text/javascript"  src="js/md5.js" ></script>
+   		<script src="js/login.js"></script>
+
 	</head>
+	<style>
+		
+		#codeimage{
+			float:left;
+		}
+		
+		#safecodeloginlink{
+			float:left;
+		}
+	
+	</style>
+
 
 	<body>
     	<div id="headTop">
@@ -231,28 +248,28 @@
                                 <tr>
                                     <td width="160" align="right">登录名：</td>
                                     <td>
-                                        <input id="uname" class="int-type w-fir grey" type="text" name="email" value="手机号/邮箱/用户名" tips="手机号/邮箱/用户名" rule="">
+                                        <input id="uname" class="int-type w-fir grey" type="text" name="email" placeholder="手机号/邮箱/用户编号" tips="手机号/邮箱/用户名" >
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="160" align="right">密  码：</td>
                                     <td>
-                                        <input id="pwd" class="int-type w-fir" type="password" name="password" tips="密码" value="" status="error">
+                                        <input id="pwd" class="int-type w-fir" type="password" name="pwd"  >
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="160" align="right">验证码：</td>
                                     <td>
                                         <input id="logsafecode" class="int-type w-sec" type="text" name="safecode_id" tips="验证码" maxlength="4">
-                                        <img id="safecodeloginimg" class="pic" width="100" height="30" src="images/safecodelogin.jpg">
-                                        <a id="safecodeloginlink" class="tips" href="#">看不清？换一张</a>
+                                       	<img  id="codeimage"  src="back/valiCodeImg.jsp"  onclick="changeCode(this)"/>
+                                        <a id="safecodeloginlink" class="tips"   onclick="changeCode(codeimage)"" >看不清？换一张</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td> </td>
                                     <td>
-                                        <a id="userLogin" class="ubg bigtn redbig" gae="click_login_normal_login" href="#">登录</a>
-                                        <a class="tips" href="#" gae="click_user-login/password">忘记密码？</a>
+                                        <a id="userLogin" class="ubg bigtn redbig" gae="click_login_normal_login" onclick="javascript:userLogin()" >登录</a>
+                                        <a class="tips" href="#" gae="click_user-login/password" >忘记密码？</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -417,81 +434,6 @@
 		</div>
         
         
-        <script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
-        <script>
-		
-			
-			  $(window).scroll(function () {
-				 var t=$(this).scrollTop();
-
-				if(t>100){
-					$(".gotopBtn").css("visibility","visible");
-				}else{
-					$(".gotopBtn").css("visibility","none");
-				}
-				
-			  });
-			  
-	 </script>
-        <script src="js/jquery-1.12.4.js"></script>
-        <script type="text/javascript">
-			$(function(){
-				checkInfo();
-			})
-			
-			function checkInfo(){	
-				$("<label></label>").appendTo($("#uname").parent());
-				$("#uname").next().css("color","red");
-				$("#uname").next().css("font-size","12px");
-				
-				$("<label></label>").appendTo($("#pwd").parent());
-				$("#pwd").next().css("color","red");
-				$("#pwd").next().css("font-size","12px");
-				
-				$("#uname").bind({
-					blur:function(){
-						var val=$("#uname").val();
-						var reg=/^[a-zA-Z\u4e00\u9fa5][a-zA-Z0-9_\u4e00\u9fa5]{2,17}$/;
-						
-						var tdInfo="";
-				
-						if(val==""){
-							tdInfo="*请输入用户名";
-						}else if(!reg.test(val)){
-							tdInfo="*请输入正确的用户名";	
-						}else{
-							tdInfo="";	
-						}
-						
-						$("#uname").next().text(tdInfo);
-					},
-					focus:function(){
-						$("#uname").next().text("");
-					}
-				})	
-				
-				$("#pwd").bind({
-					blur:function(){
-						var val=$("#pwd").val();
-						var reg=/^\w{6,16}$/;
-						
-						var tdInfo="";
-				
-						if(val==""){
-							tdInfo="*请输入密码";
-						}else if(!reg.test(val)){
-							tdInfo="*请输入正确的密码";	
-						}else{
-							tdInfo="";	
-						}
-						
-						$("#pwd").next().text(tdInfo);
-					},
-					focus:function(){
-						$("#pwd").next().text("");
-					}
-				})
-			}
-		</script>
+      
 	</body>
 </html>
