@@ -6,11 +6,17 @@
  
  function add_ShoppingInfo() {
 	 
-	 UE.getEditor('editor').execCommand('insertHtml','<p>指令汇科技欢迎您的使用!</p>');
+	// UE.getEditor('editor').execCommand('insertHtml','<p>指令汇科技欢迎您的使用!</p>');
+	//$("#manager_shopping_date").datebox("setValue","17/08/2016"); 
+	 
+	 var sname=$.trim($("#manager_shopping_sname").val());
+	 var tid=$
+	 
 	 
      ue.getContent();
      
-     $("#manager_shopping_date").datebox("setValue","17/08/2016");
+     
+     
  }
  
  $(function(){

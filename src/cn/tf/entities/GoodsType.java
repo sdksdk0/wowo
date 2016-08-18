@@ -18,6 +18,12 @@ public class GoodsType implements Serializable{
 	public Integer getTid() {
 		return tid;
 	}
+	
+	public Integer getTids() {
+		return tid;
+	}
+	
+	
 	public void setTid(Integer tid) {
 		this.tid = tid;
 	}
@@ -36,6 +42,22 @@ public class GoodsType implements Serializable{
 	public Integer getStatus() {
 		return status;
 	}
+	
+
+	public String getStatusStr() {
+		
+		if(status==0){
+			return "已下架";
+		}else if(status==1){
+			return "正常";
+		}
+		return "类型异常";
+		
+		
+	}
+	
+	
+	
 	public void setStatus(Integer status) {
 		this.status = status;
 	}

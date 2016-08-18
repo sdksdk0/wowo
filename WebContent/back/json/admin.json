@@ -51,6 +51,10 @@
 						{
 					 		"id":"index_goods3",    
 							"text":"修改商品信息"
+					  }	,
+						{
+					 		"id":"index_goodstype",    
+							"text":"商品类型管理"
 					  }	
 				   ]
 				

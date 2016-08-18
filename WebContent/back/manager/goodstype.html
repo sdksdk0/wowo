@@ -1,0 +1,321 @@
+<link rel="stylesheet" type="text/css" href="../css/admin.css" />
+
+<table id="goodstype_dataInfo"></table>
+
+<!-- 工具栏 -->
+<div id="admin_search">
+	<a href="javascript:addgoodsInfo()" class="easyui-linkbutton"
+		data-options="iconCls:'icon-add',plain:true" style="float: left">添加</a>
+	<div class="datagrid-btn-separator"></div>
+
+	<a href="javascript:delteAllAdminInfo()" class="easyui-linkbutton"
+		data-options="iconCls:'icon-remove',plain:true" style="float: left">删除</a>
+	<div class="datagrid-btn-separator"></div>
+	<label>请选择类型：</label><select name="tid" id="goodstype_select_tid">
+		<option value="-1">--请选择--</option>
+	</select>&nbsp; <label>请输入类型名：</label><input type="text" name="tname"
+		id="goodstype_select_tname" /> 
+		<label>请选择状态：</label><select name="status"
+		id="goodstype_select_status">
+		<option value='-1'>--请选择--</option>
+		<option value='0'>已下架</option>
+		<option value='1'>正常</option>
+	</select> &nbsp;&nbsp;<a href="javascript:search_adminInfo()"
+		class="easyui-linkbutton" data-options="iconCls:'icon-search'">查找</a>
+</div>
+
+
+<!-- 添加操作框 -->
+<div id="admin_addgoodstype" class="easyui-dialog" title="添加商品类型信息"
+	data-options="iconCls:'icon-add',resizable:true,modal:true,fit:true,closed:true ">
+
+
+	<div class="admin_left">
+		<center>
+			<form>
+				<ul>
+					
+					<li><span>类型名称:</span> <input type="text" name="goodstype_aname"
+						id="goodstype_aname" placeholder="请输入类型名称" required="required" /></li>
+					
+					<li><span>类型描述 : </span> 
+						<textarea rows="5" cols="30"   id="goodstype_des"></textarea>
+					</li>
+					<li><span>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态 : </span> <select
+								name="goodstype_status" id="goodstype_status">
+								<option value='-1'>--请选择--</option>
+								<option value='0'>已下架</option>
+								<option value='1'>正常</option>
+					</select></li>
+				</ul>
+			</form>
+
+			<br /> <br /> <a href="javascript:add_goodstypeInfo()"
+				class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
+		</center>
+	</div>
+	
+	
+		<!-- 修改 -->
+		<div id="admin_updategoodstype" class="easyui-dialog" title="修改管理员信息"
+			data-options="iconCls:'icon-add',resizable:true,modal:true,fit:true,closed:true ">
+
+
+			<div class="admin_left">
+				<center>
+					<form>
+						<ul>
+						<li><span>类型编号:</span> <input type="text" name="update_goodstype_tid"
+						id="update_goodstype_tid"  required="required"  readonly="readonly" /></li>
+						<li><span>类型名称:</span> <input type="text" name="update_goodstype_tname"
+						id="update_goodstype_tname" placeholder="请输入类型名称" required="required" /></li>
+					
+					<li><span>类型描述 : </span> 
+						<textarea rows="5" cols="30"   id="update_goodstype_des"></textarea>
+					</li>
+					<li><span>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态 : </span> <select
+								name="goodstype_status" id="update_goodstype_status">
+								<option value='0'>已下架</option>
+								<option value='1'>正常</option>
+					</select></li>
+						</ul>
+					</form>
+
+					<br /> <br /> <a href="javascript:update_admingoodstype()"
+						class="easyui-linkbutton" data-options="iconCls:'icon-add'">修改</a>
+				</center>
+			</div>
+		<script>
+
+	$(function(){
+		$.post("../../servlet/shoppingInfoServlet",{op:"findAlltypes"},function(data){
+			var obj=$("#goodstype_select_tid");
+		
+			$.each(data,function(index,item){
+				obj.append($("<option value='"+item.tid+"'>"+item.tname+"</option>"));
+			});
+		},"json");
+		
+	});
+
+
+	$('#goodstype_dataInfo')
+			.datagrid(
+					{
+						url : '../../servlet/shoppingInfoServlet',
+						queryParams : {
+							op : "findshoppingInfoByPage"
+						},
+						loadMsg : "数据加载中",
+						fitColumns : true,
+						striped : true,
+						nowrap : true,
+						pagination : true,
+						fit : true,
+						rownumbers : true,
+						pageList : [ 2, 5, 10 ],
+						pageSize : 5,
+						sortName : "tid",
+						remoteSort : false,
+						columns : [ [
+								{
+									field : 'tids',
+									title : '选择',
+									width : 80,
+									align : 'center',
+									checkbox : true
+								},
+								{
+									field : 'tid',
+									title : '类型编号',
+									width : 80,
+									align : 'center',
+									sortable : true
+								},
+								{
+									field : 'tname',
+									title : '类型名',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : 'des',
+									title : '类型说明',
+									width : 100,
+									align : 'center'
+								},
+								{
+									field : 'statusStr',
+									title : '类型状态',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : '_operate',
+									title : '操作',
+									width : 100,
+									align : 'center',
+									formatter : function(val, row, index) {
+										return "&nbsp;&nbsp;<a href='javascript:deltegoodstype("+row.tid+")' class='icon-remove1  icon-padding' >删除</a>"
+												+ "<a href='javascript:updategoodstype("+JSON.stringify(row)+")' class='icon-edit1  icon-padding'>修改</a> ";
+									}
+								}
+
+						] ],
+						toolbar : "#admin_search"
+
+					});
+
+	function addgoodsInfo() {
+		$("#admin_addgoodstype").dialog("open");
+	}
+	
+	
+	//添加商品类型信息
+	function add_goodstypeInfo(){
+		
+		var aname=$("#goodstype_aname").val();
+		var des=$("#goodstype_des").val();
+		var status=$("#goodstype_status").val();
+
+		
+		
+			$.post("../../servlet/shoppingInfoServlet",{op:"addgoodsType",aname:aname,des:des,status:status},function(data){
+				data=parseInt($.trim(data));
+				
+				if(data>0){
+					$.messager.show({title:'温馨提示',msg:'添加成功',timeout:2000,showType:'slide'});
+
+					
+					$("#goodstype_aname").val("");
+					$("#goodstype_des").val("");
+					$("#goodstype_status").val("");
+					
+					$("#admin_addgoodstype").dialog("close");
+					$('#goodstype_dataInfo').datagrid("reload");
+					
+					
+				}else{
+					$.messager.alert('失败','添加失败','error');   
+				}
+				
+			});
+
+	}
+	
+	
+	//弹出更新操作框
+	function updategoodstype(row){
+		$("#admin_updategoodstype").dialog("open");
+		
+		$("#update_goodstype_tid").val(row.tid);
+		$("#update_goodstype_tname").val(row.tname);
+		$("#update_goodstype_des").val(row.des);
+		$("#update_goodstype_status").val(row.status);
+	}
+	
+	
+	//更新数据
+	function  update_admingoodstype(){
+		var tid=$("#update_goodstype_tid").val();
+		var tname=$("#update_goodstype_tname").val();
+		var des=$("#update_goodstype_des").val();
+		var status=$("#update_goodstype_status").val();
+		
+		
+		$.post("../../servlet/shoppingInfoServlet",{op:"updategoodsType",tid:tid,tname:tname,des:des,status:status},function(data){
+			data=parseInt($.trim(data));
+			
+			if(data>0){
+				$.messager.show({title:'温馨提示',msg:'修改成功',timeout:2000,showType:'slide'});
+
+				
+				$("#update_goodstype_tid").val("");
+				$("#update_goodstype_aname").val("");
+				$("#update_goodstype_des").val("");
+				$("#update_goodstype_status").val("");
+				
+				$("#admin_updategoodstype").dialog("close");
+				$('#goodstype_dataInfo').datagrid("reload");
+				
+				
+			}else{
+				$.messager.alert('失败','修改失败','error');   
+			}
+			
+		});
+
+		
+	}
+	
+
+	//删除多行
+	function delteAllAdminInfo(){
+		
+		var rows=$('#goodstype_dataInfo').datagrid("getChecked");
+		if(rows.length<=0){
+			$.messager.show({title:'温馨提示',msg:'请选择需要删除的数据',timeout:2000,showType:'slide'});
+		}else{
+			$.messager.confirm('确认删除么','确认删除么',function(rt){
+				 if(rt){
+					var tids="";
+					for(var i=0;i<rows.length-1;i++){
+						tids+=rows[i].tid+",";
+					}
+					tids+=rows[i].tid;
+					//发送到后台，从数据库中删除
+					$.post("../../servlet/shoppingInfoServlet",{op:"deletegoodstype",tid:tids},function(data){
+						data=parseInt($.trim(data));
+					if(data>0){
+						
+						$.messager.show({title:'温馨提示',msg:'删除成功',timeout:2000,showType:'slide'});
+						$('#goodstype_dataInfo').datagrid("reload");
+					}else{
+						$.messager.alert('失败','删除失败','error');   
+					}
+					
+					});
+				} 
+			});
+			
+		}
+	}
+	
+	
+	
+	//删除一行
+	function  deltegoodstype(tid){
+		
+		
+		if(tid!=null){
+			 $.post("../../servlet/shoppingInfoServlet",{op:"deletegoodstype",tid:tid},function(data){
+					data=parseInt($.trim(data));
+
+					if(data>0){
+						$.messager.show({title:'温馨提示',msg:'删除成功',timeout:2000,showType:'slide'});
+						$('#goodstype_dataInfo').datagrid("reload");
+					}else{
+						$.messager.alert('失败','删除失败','error');   
+					}
+				}); 
+		}
+	}
+
+	
+	
+
+	//查询
+	function search_adminInfo(){
+		var tid=$("#goodstype_select_tid").val();
+		var tname=$("#goodstype_select_tname").val();
+		var status=$("#goodstype_select_status").val();
+		
+		$('#goodstype_dataInfo').datagrid({
+			url:'../../servlet/shoppingInfoServlet',
+			queryParams:{op:"searchGoodsTypeByPage",tid:tid,tname:tname,status:status}
+		});
+	}
+	
+	
+	
+</script>

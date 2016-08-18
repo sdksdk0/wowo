@@ -79,6 +79,42 @@ $(function() {
 				}
 
 				
+			}else if(node.id=="index_goods1"){
+				if (tabs.tabs("exists", "添加商品信息")) {
+					// 如果存在则选中
+					tabs.tabs("select", "添加商品信息");
+					return;
+				} else {
+					title="添加商品信息";
+					href="addshopping.html";
+				}
+			}else if(node.id=="index_goods2"){
+				if (tabs.tabs("exists", "查看商品信息")) {
+					// 如果存在则选中
+					tabs.tabs("select", "查看商品信息");
+					return;
+				} else {
+					title="查看商品信息";
+					href="showshopping.html";
+				}
+			}else if(node.id=="index_goods3"){
+				if (tabs.tabs("exists", "修改商品信息")) {
+					// 如果存在则选中
+					tabs.tabs("select", "修改商品信息");
+					return;
+				} else {
+					title="修改商品信息";
+					href="updateshopping.html";
+				}
+			}else if(node.id=="index_goodstype"){
+				if (tabs.tabs("exists", "商品类型管理")) {
+					// 如果存在则选中
+					tabs.tabs("select", "商品类型管理");
+					return;
+				} else {
+					title="商品类型管理";
+					href="goodstype.html";
+				}
 			}
 			
 			tabs.tabs("add", {
