@@ -8,7 +8,7 @@ var flag5=false;
 $(function() {
 	
 	//移动
-	$("#wrapper").moveDiv();
+	//$("#wrapper").moveDiv();
 	
 	//用户编号
 	$("#username").blur(function(){

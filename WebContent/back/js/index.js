@@ -1,3 +1,5 @@
+var rname=null;
+
 $(function() {
 	$.post("../../servlet/adminInfoServlet", {
 		op : "getLoginInfo"
@@ -7,6 +9,22 @@ $(function() {
 		} else {
 			$("#index_loginuser").text(data.aname);
 			$("#photopic").attr("src", "../../" + data.photos);
+			rname=data.rname;
+			
+			
+			if(rname=="admin"){
+				$('#index_menu_tree').tree({
+					url : "/wowo/back/json/admin.json"
+				});
+			}else if(rname=="管理员"){
+				$('#index_menu_tree').tree({
+					url : "/wowo/back/json/generalAdmin.json"
+				});
+			}else if(rname=="卖家"){
+				$('#index_menu_tree').tree({
+					url : "/wowo/back/json/seller.json"
+				});
+			}
 		}
 
 	}, "json");
@@ -18,6 +36,8 @@ $(function() {
 		href : "welcome.html"
 
 	});
+	
+
 
 	$('#index_menu_tree').tree({
 		onClick : function(node) {

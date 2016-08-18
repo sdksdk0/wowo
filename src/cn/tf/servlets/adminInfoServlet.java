@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -273,8 +275,8 @@ public class adminInfoServlet extends BasicServlet {
 		String rcode=request.getParameter("rcode");
 		String code=(String) request.getSession().getAttribute("code");	
 
-		System.out.println("rcode="+rcode);
-		System.out.println("code="+code);
+	/*	System.out.println("rcode="+rcode);
+		System.out.println("code="+code);*/
 		if(code==null){
 			this.out(response, 2);
 		}else  if(rcode.equals(code))	{
@@ -296,8 +298,17 @@ public class adminInfoServlet extends BasicServlet {
 		
 		HttpSession session=request.getSession();
 		session.setAttribute("code", code);
-		session.setMaxInactiveInterval(1*60);
 
+		
+		//300秒后超时
+		Timer timer=new Timer();
+		timer.schedule(new TimerTask(){
+			public void run(){
+				session.removeAttribute("code");
+			}
+		}, 300000);
+		
+		
 		SendMailThread smt=new SendMailThread(adminInfo);
 		smt.start();
 		this.out(response, 1);

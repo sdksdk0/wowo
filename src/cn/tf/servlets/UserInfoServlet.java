@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -160,7 +162,13 @@ public class UserInfoServlet extends BasicServlet {
 		
 		HttpSession session=request.getSession();
 		session.setAttribute("code", code);
-		session.setMaxInactiveInterval(1*60);
+		//300秒后超时
+		Timer timer=new Timer();
+		timer.schedule(new TimerTask(){
+			public void run(){
+				session.removeAttribute("code");
+			}
+		}, 6000);
 
 		SendMailThread1 smt=new SendMailThread1(userInfo);
 		smt.start();

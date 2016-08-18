@@ -1,0 +1,51 @@
+[
+  {    
+    "id":1,    
+    "text":"主菜单",
+    "state":"open",
+    "children":[
+			{
+			   "id":11,
+			   "text":"店铺信息",
+				   "state":"open",
+					   "children":[	
+					  {
+							 "id":"index_shopping2",    
+							 "text":"查看店铺信息"
+					  }	,
+					  {
+					 		"id":"index_shopping3",    
+							 "text":"管理店铺信息"
+					  }	
+				   ]	
+			},
+			{
+			   "id":12,
+			   "text":"商品信息",
+					 "state":"open",
+					   "children":[
+					  {
+					 		"id":"index_goods1",    
+							"text":"添加商品信息"
+					  },	
+					  {
+					 		"id":"index_goods2",    
+							"text":"查看商品信息"
+					  }	,
+						{
+					 		"id":"index_goods3",    
+							"text":"修改商品信息"
+					  }	
+				   ]
+			},
+			{
+			   "id":"index_message",
+			   "text":"消息管理"		
+			},
+			{
+			   "id":"index_order",
+			   "text":"订单管理"		
+			}
+	]
+  }
+]
