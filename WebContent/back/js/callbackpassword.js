@@ -19,10 +19,12 @@ $(function() {
 			$("#username").css("border-color","red");
 			$("#userspan").text("用户编号不能为空");
 			$("#userspan").css("color","red");
+			flag1=false;
 		}else  if(!reg1.test(username)){
 			$("#username").css("border-color","red");
 			$("#userspan").text("请输入数字");
 			$("#userspan").css("color","red");
+			flag1=false;
 		}else {
 			$.post("../servlet/adminInfoServlet",{op:"checkUsername",username:username},function(data){
 				
@@ -35,6 +37,7 @@ $(function() {
 					$("#username").css("border-color","red");
 					$("#userspan").text("该用户编号不存在");
 					$("#userspan").css("color","red");
+					flag1=false;
 				}	
 			});
 		}
@@ -53,6 +56,7 @@ $(function() {
 			$("#email").css("border-color","red");
 			$("#emailspan").text("邮箱不能为空");
 			$("#emailspan").css("color","red");
+			flag2=false;
 		}
 		
 		var reg=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
@@ -69,12 +73,14 @@ $(function() {
 					$("#email").css("border-color","red");
 					$("#emailspan").text("该邮箱不存在");
 					$("#emailspan").css("color","red");
+					flag2=false;
 				}	
 			});
 		}else{
 			$("#email").css("border-color","red");
 			$("#emailspan").text("邮箱格式不正确");
 			$("#emailspan").css("color","red");
+			flag2=false;
 		}	
 	});
 	
@@ -87,22 +93,25 @@ $(function() {
 			$("#rcode").css("border-color","red");
 			$("#rcodespan").text("验证码不能为空");
 			$("#rcodespan").css("color","red");
-			
+			flag3=false;
 		}else {
 			$.post("../servlet/adminInfoServlet",{op:"chenkoutDate",rcode:rcode},function(data){
 				
 				data=$.trim(data);
 				if(data==1){
 					$("#rcode").css("border-color","green");
+					$("#rcodespan").text("");
 					flag3=true;	
 				}else  if(data==2){
 					$("#rcode").css("border-color","red");
 					$("#rcodespan").text("验证码超时，请重新发送");
 					$("#rcodespan").css("color","red");
+					flag3=false;
 				}else{
 					$("#rcode").css("border-color","red");
 					$("#rcodespan").text("验证码错误");
 					$("#rcodespan").css("color","red");
+					flag3=false;
 				}
 				
 			});				
@@ -123,6 +132,7 @@ $(function() {
 			$("#newpwd").css("border-color","red");
 			$("#newpwdspan").text("密码必须由6-16位的字母、数字和下划线组成");
 			$("#newpwdspan").css("color","red");
+			flag4=false;
 		}
 		
 	});
@@ -144,6 +154,7 @@ $(function() {
 			$("#rpwds").css("border-color","red");
 			$("#rpwdsspan").text("两次密码不一致");
 			$("#rpwdsspan").css("color","red");	
+			flag5=false;
 		}
 		
 	});

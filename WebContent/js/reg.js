@@ -9,18 +9,15 @@ var flag5=false;
 
 
 
+$(function () {
+
+    $('#regemail').emailComplete({
+        opacity: 1,
+	     radius: 4
+    });
+})
 
 
-
-
-// 初始化
-$(function() {
-	new EmailAutoComplete({});
-
-});
-
-
-		
 			  $(window).scroll(function () {
 				 var t=$(this).scrollTop();
 
@@ -32,10 +29,6 @@ $(function() {
 				
 			  });
 			  
-
-			
-		
-			
 			function checkInfo(){
 			
 				
@@ -57,7 +50,7 @@ $(function() {
 				$("#regemail").bind({
 					blur:function(){
 						var val=$("#regemail").val();
-						var reg=/^\w+$/;
+						var reg=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
 						
 						var tdInfo="";
 				
@@ -86,8 +79,10 @@ $(function() {
 				
 						if(val==""){
 							tdInfo="*请输入用户名";
+							flag1=false;
 						}else if(!reg.test(val)){
 							tdInfo="*由2-17位的中文、字母、数字和下划线组成";	
+							flag1=false;
 						}else{
 							tdInfo="";	
 							flag1=true;
@@ -110,8 +105,10 @@ $(function() {
 				
 						if(val==""){
 							tdInfo="*请输入密码";
+							flag2=false;
 						}else if(!reg.test(val)){
 							tdInfo="*由6到16位的字母数字或下划线组成";	
+							flag2=false;
 						}else{
 							tdInfo="";	
 							flag2=true;
@@ -159,7 +156,8 @@ $(function() {
 						if(val==""){
 							tdInfo="*请输入联系电话";
 						}else if(!reg.test(val)){
-							tdInfo="*请输入正确的联系电话";	
+							tdInfo="*请输入正确的联系电话";
+							flag3=false;
 						}else{
 							tdInfo="";	
 							flag3=true;
@@ -394,15 +392,18 @@ $(function() {
 				data=$.trim(data);
 				if(data==1){
 					$("#regsafecode").css("border-color","green");
+					$("#regsafecode_msg").text("");
 					flag5=true;	
 				}else  if(data==2){
 					$("#regsafecode").css("border-color","red");
 					$("#regsafecode_msg").text("验证码超时，请重新发送");
 					$("#regsafecode_msg").css("color","red");
+					flag5=false;
 				}else{
 					$("#regsafecode").css("border-color","red");
 					$("#regsafecode_msg").text("验证码错误");
 					$("#regsafecode_msg").css("color","red");
+					flag5=false;
 				}
 				
 			});				
@@ -461,10 +462,7 @@ $(function() {
 				}
 			}
 		}
-		
-	
-		
-		
+
 	}
 
 

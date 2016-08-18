@@ -273,8 +273,8 @@ public class adminInfoServlet extends BasicServlet {
 		String rcode=request.getParameter("rcode");
 		String code=(String) request.getSession().getAttribute("code");	
 
-/*		System.out.println("rcode="+rcode);
-		System.out.println("code="+code);*/
+		System.out.println("rcode="+rcode);
+		System.out.println("code="+code);
 		if(code==null){
 			this.out(response, 2);
 		}else  if(rcode.equals(code))	{
@@ -296,7 +296,7 @@ public class adminInfoServlet extends BasicServlet {
 		
 		HttpSession session=request.getSession();
 		session.setAttribute("code", code);
-		session.setMaxInactiveInterval(5*60);
+		session.setMaxInactiveInterval(1*60);
 
 		SendMailThread smt=new SendMailThread(adminInfo);
 		smt.start();
