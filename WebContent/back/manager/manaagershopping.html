@@ -5,15 +5,11 @@
 					<li>
 						<span>店铺名称:</span> 
 						<input type="text" name="manager_shopping_sname"	id="manager_shopping_sname" placeholder="请输入店铺名称" required="required" />
-						<span>店铺类型 : </span> 
+						<span>商品类型 : </span> 
 						<select  name="manager_shopping_tid" id="manager_shopping_tid" >
 
 						</select>
-						
-						<span>店铺状态 : </span> 
-						<input type="text" name="manager_shopping_status"	id="manager_shopping_status"  value="未审核"  readonly="readonly"/>
-						
-						
+									
 					</li>
 					<li>
 						<span>省份 : </span> 
@@ -41,8 +37,10 @@
 					
 					</li>
 					<li>
+						
+						<input   type="button"  onclick="add_ShoppingInfo()"    id="add_shoppingInfo"  value="添加"  >
+						<input   type="button"  onclick="update_ShoppingInfo()"    id="update_shoppingInfo"  value="修改"  >
 						<span>店铺信息</span>&nbsp;
-						<a href="javascript:add_ShoppingInfo()" class="easyui-linkbutton"   data-options="iconCls:'icon-add'" >添加</a>
 						<div  id="manager_shopping_editor_info"> 
 							
 							 <script id="editor" type="text/plain" style="width:940px;height:300px;margin-top:30px;margin-left:70px;"></script>

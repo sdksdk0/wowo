@@ -10,7 +10,7 @@ $(function() {
 			$("#index_loginuser").text(data.aname);
 			$("#photopic").attr("src", "../../" + data.photos);
 			rname=data.rname;
-			
+		
 			
 			if(rname=="admin"){
 				$('#index_menu_tree').tree({
@@ -115,7 +115,19 @@ $(function() {
 					title="商品类型管理";
 					href="goodstype.html";
 				}
+			}else if(node.id=="index_shopping2"){
+				if (tabs.tabs("exists", "查看店铺信息")) {
+					// 如果存在则选中
+					tabs.tabs("select", "查看店铺信息");
+					return;
+				} else {
+					title="查看店铺信息";
+					href="showShopping.html";
+				}
 			}
+			
+			
+			
 			
 			tabs.tabs("add", {
 				title : title,

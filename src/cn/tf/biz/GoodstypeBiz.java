@@ -24,4 +24,5 @@ public interface GoodstypeBiz {
 	List<GoodsType> find(Map<String, String> param, Integer parseInt, Integer parseInt2);
 
 
+
 }

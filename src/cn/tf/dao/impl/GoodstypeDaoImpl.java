@@ -127,4 +127,6 @@ public class GoodstypeDaoImpl implements GoodstypeDao {
 		return db.find(sql, params,GoodsType.class);
 	}
 
+
+
 }

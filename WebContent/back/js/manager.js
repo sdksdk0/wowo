@@ -4,28 +4,124 @@
  
  
  
- function add_ShoppingInfo() {
-	 
-	// UE.getEditor('editor').execCommand('insertHtml','<p>指令汇科技欢迎您的使用!</p>');
-	//$("#manager_shopping_date").datebox("setValue","17/08/2016"); 
-	 
-	 var sname=$.trim($("#manager_shopping_sname").val());
-	 var tid=$
-	 
-	 
-     ue.getContent();
-     
-     
-     
- }
+
  
  $(function(){
-	
+	 $.post("../../servlet/shoppingInfoServlet",{op:"findAlltypes"},function(data){
+			var obj=$("#manager_shopping_tid");
+		
+			$.each(data,function(index,item){
+				obj.append($("<option value='"+item.tid+"'>"+item.tname+"</option>"));
+			});
+		},"json");
+	 
+	 //查询是否已经开了店铺了，每个用户只能开一个店铺
+	 $.post("../../servlet/shoppingInfoServlet",{op:"findshoppingByAid"},function(data){
+		 data=parseInt(data);
+
+		 if(data>0){
+			 $.messager.show({title:'温馨提示',msg:'每个用户只能开一个店铺，如果需要开连锁店请联系管理员哦！',timeout:5000,showType:'slide'}); 
+			 $("#add_shoppingInfo").css("background-color","gray");
+			 $("#add_shoppingInfo").disabled(disabled); 
+			
+		 }
+		 
+	 });
 	 
 	 
+		 
  });
  
+ //添加店铺信息
+ function add_ShoppingInfo() {
+	 
+		 
+		 var sname=$.trim($("#manager_shopping_sname").val());
+		 var tid=$.trim($("#manager_shopping_tid").val());
+		 var prov=$.trim($("#manager_shopping_prov  option:selected").text());
+		 var city=$.trim($("#manager_shopping_city  option:selected").text());
+		 var area=$.trim($("#manager_shopping_area  option:selected").text());
+		 var points=$.trim($("#manager_shopping_addr").val());
+		 var tel=$.trim($("#manager_shopping_tel").val());
+		 var date=$.trim($("#manager_shopping_date").datebox("getValue"));
+		 var info=ue.getContent();
+		 
+		
+		 if(prov!="--请选择省份--"){
+				if(city!="--请选择城市--"){
+					
+					if(area!="--请选择地区--"){
+						
+					
+							 $.post("../../servlet/shoppingInfoServlet",{op:"addshopping",sname:sname,tid:tid,prov:prov,city:city,
+								 area:area,points:points,tel:tel,date:date,info:info},function(data){
+								 data=parseInt(data);
+								 if(data>0){
+									 $.messager.show({title:'温馨提示',msg:'添加成功',timeout:2000,showType:'slide'});
+										
+									 $("#manager_shopping_sname").val("");
+									 $("#manager_shopping_prov").val("--请选择省份--");
+									 $("#manager_shopping_city").val("--请选择城市--");
+									 $("#manager_shopping_area").val("--请选择地区--");
+									 $("#manager_shopping_addr").val("");
+									 $("#manager_shopping_tel").val("");
+									 ue.setContent("");
+									 
+								 }else{
+									 $.messager.alert('失败','添加失败','error');   
+								 }			 
+								 
+							 });
+					}
+				}
+		 }
+	 }
  
+ 
+ 	//修改店铺信息
+ function update_shoppingInfo() {
+	 
+	 
+	 var sname=$.trim($("#manager_shopping_sname").val());
+	 var tid=$.trim($("#manager_shopping_tid").val());
+	 var prov=$.trim($("#manager_shopping_prov  option:selected").text());
+	 var city=$.trim($("#manager_shopping_city  option:selected").text());
+	 var area=$.trim($("#manager_shopping_area  option:selected").text());
+	 var points=$.trim($("#manager_shopping_addr").val());
+	 var tel=$.trim($("#manager_shopping_tel").val());
+	 var date=$.trim($("#manager_shopping_date").datebox("getValue"));
+	 var info=ue.getContent();
+	 
+	
+	 if(prov!="--请选择省份--"){
+			if(city!="--请选择城市--"){
+				
+				if(area!="--请选择地区--"){
+					
+				
+						 $.post("../../servlet/shoppingInfoServlet",{op:"updateshopping",sname:sname,tid:tid,prov:prov,city:city,
+							 area:area,points:points,tel:tel,date:date,info:info},function(data){
+							 data=parseInt(data);
+							 if(data>0){
+								 $.messager.show({title:'温馨提示',msg:'修改成功',timeout:2000,showType:'slide'});
+									
+								 $("#manager_shopping_sname").val("");
+								 $("#manager_shopping_prov").val("--请选择省份--");
+								 $("#manager_shopping_city").val("--请选择城市--");
+								 $("#manager_shopping_area").val("--请选择地区--");
+								 $("#manager_shopping_addr").val("");
+								 $("#manager_shopping_tel").val("");
+								 ue.setContent("");
+								 
+							 }else{
+								 $.messager.alert('失败','修改失败','error');   
+							 }			 
+							 
+						 });
+				}
+			}
+	 }
+ }
  
  
  

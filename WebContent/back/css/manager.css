@@ -16,5 +16,20 @@
 	border:1px solid #6198CD;
 }
 
+#add_shoppingInfo{
+	display: block;
+	width:60px;
+	height:25px;
+	background-color:lime;
+	margin-left:100px;
+	float:left;
+}
 
-
+#update_shoppingInfo{
+	display: block;
+	width:60px;
+	height:25px;
+	background-color:lime;
+	margin-left:100px;
+	float:left;
+}

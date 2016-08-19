@@ -1,0 +1,161 @@
+
+<table id="showshopping_dataInfo"></table>
+
+<!-- 工具栏 -->
+<div id="admin_search">
+	
+	<div class="datagrid-btn-separator"></div>
+
+	<a href="javascript:delteAllAdminInfo()" class="easyui-linkbutton"
+		data-options="iconCls:'icon-remove',plain:true" style="float: left">删除</a>
+	<div class="datagrid-btn-separator"></div>
+	<label>店铺类型：</label><select name="role" id="shopping_select_tid">
+		<option value="-1">--请选择--</option>
+	</select>&nbsp; <label>请输入店铺名称：</label><input type="text" name="aname"
+		id="shopping_select_sname" /> <label>请选择状态：</label><select name="status"
+		id="shopping_select_status">
+		<option value='-1'>--请选择--</option>
+		<option value='0'>未审核</option>
+		<option value='1'>未通过审核</option>
+		<option value='2'>已审核</option>
+		<option value='3'>冻结</option>
+	</select> &nbsp;&nbsp;<a href="javascript:search_adminInfo()"
+		class="easyui-linkbutton" data-options="iconCls:'icon-search'">查找</a>
+</div>
+
+<script>
+$(function(){
+	 $.post("../../servlet/shoppingInfoServlet",{op:"findAlltypes"},function(data){
+			var obj=$("#shopping_select_tid");
+		
+			$.each(data,function(index,item){
+				obj.append($("<option value='"+item.tid+"'>"+item.tname+"</option>"));
+			});
+		},"json");
+		
+	});
+
+
+	$('#showshopping_dataInfo')
+			.datagrid(
+					{
+						url : '../../servlet/shoppingInfoServlet',
+						queryParams : {
+							op : "findShoppingInfoByPage"
+						},
+						loadMsg : "数据加载中",
+						fitColumns : true,
+						striped : true,
+						nowrap : true,
+						pagination : true,
+						fit : true,
+						rownumbers : true,
+						pageList : [ 2, 5, 10 ],
+						pageSize : 5,
+						sortName : "spid",
+						remoteSort : false,
+						columns : [ [
+								{
+									field : 'spids',
+									title : '选择',
+									width : 80,
+									align : 'center',
+									checkbox : true
+								},
+								{
+									field : 'spid',
+									title : '店铺编号',
+									width : 80,
+									align : 'center',
+									sortable : true
+								},
+								{
+									field : 'sname',
+									title : '店铺名称',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : 'aid',
+									title : '卖家编号',
+									width : 100,
+									align : 'center'
+								},
+								{
+									field : 'aname',
+									title : '卖家昵称',
+									width : 100,
+									align : 'center'
+								},
+								{
+									field : 'tname',
+									title : '店铺类型',
+									width : 100,
+									align : 'center'
+								},
+								{
+									field : 'addr',
+									title : '地址',
+									width : 100,
+									align : 'center'
+								},							
+								{
+									field : 'tel',
+									title : '联系方式',
+									width : 100,
+									align : 'center'
+								},
+								{
+									field : 'statusStr',
+									title : '店铺状态',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : '_operate',
+									title : '操作',
+									width : 100,
+									align : 'center',
+									formatter : function(val, row, index) {
+										return  "&nbsp;&nbsp;<a href='javascript:delteAdminInfo("+row.aid+")' class='icon-remove1  icon-padding' >删除</a>"
+												+ "<a href='javascript:updateAdminInfo("+JSON.stringify(row)+")' class='icon-edit1  icon-padding'>提交审核</a> ";
+									}
+								}
+
+						] ],
+						toolbar : "#admin_search"
+
+					});
+	
+	
+	
+	
+	//查询
+	function search_adminInfo(){
+		var tid=$("#shopping_select_tid").val();
+		var tname=$("#shopping_select_tname").val();
+		var status=$("#shopping_select_status").val();
+		
+		
+		$('#showshopping_dataInfo').datagrid({
+			url:'../../servlet/shoppingInfoServlet',
+			queryParams:{op:"searchShoppingInfoByPage",tid:tid,tname:tname,status:status}
+		});
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	</script>			
+	
+	
+			
+					
+					

@@ -56,4 +56,5 @@ public class GoodstypeBizImpl implements GoodstypeBiz {
 
 
 
+
 }

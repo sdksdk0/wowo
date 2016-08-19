@@ -22,4 +22,5 @@ public interface  GoodstypeDao {
 	List<GoodsType> find(Map<String, String> param, Integer pageNo,
 			Integer pageSize);
 
+
 }
