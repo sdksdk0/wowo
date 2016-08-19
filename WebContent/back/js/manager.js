@@ -26,10 +26,19 @@
 			 
 			 
 			 $.post("../../servlet/shoppingInfoServlet",{op:"findShopping"},function(data){
-				alert(data.sname);
-				 
-				 
-				 
+				 if(data!=null){
+					 $("#manager_shopping_sname").val(data.sname);
+					 $("#manager_shopping_tid  option:selected").text(data.tname);
+					 $("#manager_shopping_prov  option:selected").text(data.prov);
+					 $("#manager_shopping_city  option:selected").text(data.city);
+					 $("#manager_shopping_area  option:selected").text(data.area);
+					 $("#manager_shopping_addr").val(data.points);
+					 $("#manager_shopping_tel").val(data.tel);
+					 $("#manager_shopping_date").datebox("setValue",data.stime);
+					 ue.setContent(data.info);
+				 }else{
+					 $.messager.alert('未知异常','初始化错误','error');   
+				 }
 			 },"json");
 			 
 			
@@ -61,26 +70,20 @@
 					
 					if(area!="--请选择地区--"){
 						
-					
-							 $.post("../../servlet/shoppingInfoServlet",{op:"addshopping",sname:sname,tid:tid,prov:prov,city:city,
+						if(sname!="" && tid!="" &&  points!="" &&  tel!="" && info!="" ){
+							$.post("../../servlet/shoppingInfoServlet",{op:"addshopping",sname:sname,tid:tid,prov:prov,city:city,
 								 area:area,points:points,tel:tel,date:date,info:info},function(data){
 								 data=parseInt(data);
 								 if(data>0){
 									 $.messager.show({title:'温馨提示',msg:'添加成功',timeout:2000,showType:'slide'});
-										
-									 $("#manager_shopping_sname").val("");
-									 $("#manager_shopping_prov").val("--请选择省份--");
-									 $("#manager_shopping_city").val("--请选择城市--");
-									 $("#manager_shopping_area").val("--请选择地区--");
-									 $("#manager_shopping_addr").val("");
-									 $("#manager_shopping_tel").val("");
-									 ue.setContent("");
 									 
 								 }else{
 									 $.messager.alert('失败','添加失败','error');   
 								 }			 
 								 
 							 });
+							
+						}	 
 					}
 				}
 		 }
@@ -107,26 +110,19 @@
 				
 				if(area!="--请选择地区--"){
 					
-				
+					if(sname!="" && tid!="" &&  points!="" &&  tel!="" && info!="" ){
 						 $.post("../../servlet/shoppingInfoServlet",{op:"updateshopping",sname:sname,tid:tid,prov:prov,city:city,
 							 area:area,points:points,tel:tel,date:date,info:info},function(data){
 							 data=parseInt(data);
 							 if(data>0){
 								 $.messager.show({title:'温馨提示',msg:'修改成功',timeout:2000,showType:'slide'});
-									
-								 $("#manager_shopping_sname").val("");
-								 $("#manager_shopping_prov").val("--请选择省份--");
-								 $("#manager_shopping_city").val("--请选择城市--");
-								 $("#manager_shopping_area").val("--请选择地区--");
-								 $("#manager_shopping_addr").val("");
-								 $("#manager_shopping_tel").val("");
-								 ue.setContent("");
-								 
 							 }else{
 								 $.messager.alert('失败','修改失败','error');   
 							 }			 
 							 
 						 });
+						 
+					}
 				}
 			}
 	 }

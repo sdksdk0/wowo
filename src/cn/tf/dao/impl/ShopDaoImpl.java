@@ -19,7 +19,7 @@ public class ShopDaoImpl implements ShopDao {
 			String aid) {
 		DBHelper db=new DBHelper();
 		String sql=null;
-		sql="insert into shopping values(seq_shopping_spid.nextval,?,?,?,?,?,?,?,?,?,0,to_date(?,'yyyy-mm-dd'))";
+		sql="insert into shopping values(seq_shopping_spid.nextval,?,?,?,?,?,?,?,?,?,0,to_date(?,'yyyy-MM-dd'))";
 		List<Object>  params=new ArrayList<Object>();
 		params.add(sname);
 		params.add(aid);
@@ -52,7 +52,9 @@ public class ShopDaoImpl implements ShopDao {
 			String aid) {
 		DBHelper db=new DBHelper();
 		String sql=null;
-		sql="update  from  shopping  set  sname=?,tid=?,prov=?,city=?,area=?,points=?,tel=?,info=?,date=to_date(?,'yyyy-mm-dd'))   where aid=?";
+		
+		
+		sql="update  shopping  set  sname=?,tid=?,prov=?,city=?,area=?,points=?,tel=?,info=?,stime=to_date(?,'yyyy-MM-dd')   where aid=?";
 		List<Object>  params=new ArrayList<Object>();
 		params.add(sname);
 		params.add(tid);
@@ -176,16 +178,14 @@ public class ShopDaoImpl implements ShopDao {
 	}
 
 	@Override
-	public List<Shopping> findAll(Integer aid) {
-		
+	public  Shopping findAll(String aid) {
 		DBHelper db=new DBHelper();
 		List<Object>  params=new ArrayList<Object>();
-
-		String sql="select s.sname,g.tname,s.prov,s.city,s.area,s.points,s.tel,s.stime,s.info    from   shopping s,adminInfo a ,goodstype g   where  s.aid=a.aid  and s.tid=g.tid    and s.aid=? ";
-		params.add(aid);
-	
-		return db.find(sql, params,Shopping.class);
 		
+		String sql="select spid,a.aid,g.tid,s.status,s.stime,s.sname,g.tname,s.prov,s.city,s.area,s.points,s.tel,s.stime,s.info     from   shopping s,adminInfo a ,goodstype g   where  s.aid=a.aid  and s.tid=g.tid    and s.aid=? ";
+		params.add(aid);
+		
+		return db.findByOne(sql, params,Shopping.class);
 		
 	}
 

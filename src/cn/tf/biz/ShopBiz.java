@@ -26,6 +26,6 @@ public interface  ShopBiz {
 	//用户发起审核
 	int updateByShopping(String spid, String value);
 
-	List<Shopping> findAll(Integer aid);
+	Shopping findAll(String aid);
 
 }

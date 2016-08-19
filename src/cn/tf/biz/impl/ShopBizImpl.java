@@ -62,7 +62,7 @@ public class ShopBizImpl implements ShopBiz {
 	}
 
 	@Override
-	public List<Shopping> findAll(Integer aid) {
+	public  Shopping findAll(String aid) {
 		ShopDao shopDao=new ShopDaoImpl();
 		return shopDao.findAll(aid);
 	}

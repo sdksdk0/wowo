@@ -92,13 +92,8 @@ public class shoppingInfoServlet extends BasicServlet {
 		String  aid=adminInfo.getAid().toString().trim();
 		
 		ShopBiz shopBiz=new ShopBizImpl();	
-		//List<Shopping>  list=shopBiz.findAll(Integer.parseInt(aid));
-		Map<String,String>  param=new HashMap<String,String>();
-		
-		param.put("  a.aid=  " ,aid );
-		List<Shopping>  list1=shopBiz.find(param,null,null);
-		
-		this.out(response, list1);
+		Shopping list=shopBiz.findAll(aid);
+		this.out(response, list);
 		
 		
 	}

@@ -25,6 +25,6 @@ public interface ShopDao {
 
 	int updateByshopping(String spid, String value);
 
-	List<Shopping> findAll(Integer aid);
+	Shopping findAll(String aid);
 
 }
