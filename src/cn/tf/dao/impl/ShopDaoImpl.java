@@ -86,15 +86,14 @@ public class ShopDaoImpl implements ShopDao {
 				sql="select * from(select A.*,rownum  rn from (  select s.spid,s.sname,a.aid,a.aname,g.tname,prov,city,area,points,s.tel,s.status  from shopping s ,adminInfo a ,goodstype  g  where s.aid=a.aid  and s.tid=g.tid  order by spid desc ) A  where rownum<=? ) where rn>? ";
 				params.add(pageNo*pageSize);
 				params.add((pageNo-1)*pageSize);
-				
-				
 			}
 		}else  if(rid==1024){
 			if(pageNo==null){
-				sql=" select select s.spid,s.sname,a.aid,a.aname,g.tname,prov,city,area,points,s.tel,s.status from shopping  where  aid=?  order by spid desc ";
+				sql="  select s.spid,s.sname,a.aid,a.aname,g.tname,prov,city,area,points,s.tel,s.status  from shopping s ,adminInfo a ,goodstype  g  where s.aid=a.aid  and s.tid=g.tid  and  s.aid=?  order by spid desc  ";
 				params.add(aid);
 			}else{
-				sql="select * from(select a.*,rownum  rn from (  select select s.spid,s.sname,a.aid,a.aname,g.tname,prov,city,area,points,s.tel,s.status from shopping  where aid=? order by spid asc ) a  where rownum<=? ) where rn>?";
+				sql="select * from(select A.*,rownum  rn from (   select s.spid,s.sname,a.aid,a.aname,g.tname,prov,city,area,points,s.tel,s.status  from shopping s ,adminInfo a ,goodstype  g  where s.aid=a.aid  and s.tid=g.tid  and  s.aid=?  order by spid desc  ) A  where rownum<=? ) where rn>? ";
+
 				params.add(aid);
 				params.add(pageNo*pageSize);
 				params.add((pageNo-1)*pageSize);

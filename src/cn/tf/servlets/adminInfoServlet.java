@@ -81,9 +81,6 @@ public class adminInfoServlet extends BasicServlet {
 	
 
 
-
-
-
 	//查询
 	private void searchAdminInfoByPage(HttpServletRequest request,
 			HttpServletResponse response) {

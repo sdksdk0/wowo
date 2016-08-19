@@ -1,30 +1,92 @@
-
+<link rel="stylesheet" type="text/css" href="../css/admin.css" />
+<script type="text/javascript" src="../../js/showPic.js"></script>
+<script type="text/javascript" src="../../js/ajaxfileupload.js"></script>
 
 <div class="admin_left">
 		<center>
 			<form>
 				<ul>
-					<li><span>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色 : </span> <select
-						name="admin_role" id="admin_role">
-
-					</select></li>
-					<li><span>管理员姓名:</span> <input type="text" name="admin_aname"
-						id="admin_aname" placeholder="请输入您的姓名" required="required" /></li>
-					<li><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码 : </span> <input
-						type="password" name="admin_pwd" id="admin_pwd"
-						placeholder="请输入您的密码" required="required" /></li>
-					<li><span>注册邮箱 : </span> <input type="email"
-						name="admin_email" id="admin_email" placeholder="请输入您的邮箱"
+					<li><span>商品名称:</span> <input type="text" name="goods_gname"
+						id="goods_gname" placeholder="请输入商品名称" required="required" /></li>
+					<li><span>商品描述 : </span> 
+						<textarea rows="5" cols="30"  name="des" id="goods_des"></textarea>
+					</li>
+					<li><span>价格 : </span> <input type="text"
+						name="goods_price" id="goods_price" placeholder="请输入商品价格"
 						required="required" /></li>
-					<li><span>联系方式:</span> <input type="text" name="admin_tel"
-						id="admin_tel" placeholder="请输入您的联系方式" required="required" /></li>
-					<li><span>图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片 : </span> <input
-								type="file" name="photo" id="update_admin_photo" /></li>
+					<li><span>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态 : </span> <select
+								name="goods_status" id="goods_status">
+								<option value='0'>已下架</option>
+								<option value='1'>缺货</option>
+								<option value='2'>正常</option>
+								<option value='3'>预定</option>
+					</select></li>
+					<span>图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片 : </span> 
+					<input  type="file" name="photo" id="goods_pic"     onchange="setImagePreviews(this,'showPicDiv')"/></li>
 						
 				</ul>
 			</form>
 
-			<br /> <br /> <a href="javascript:add_adminInfo()"
+			<br /> <br /> <a href="javascript:add_goodsInfo()"
 				class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
-		</center>
+		
 	</div>
+	
+	<div   id="showPicDiv"  style="float:left;width:210px;height:210px;border-color:red;"></div>
+	</center>
+	
+	
+	<script>
+	
+	
+	
+	
+	
+	
+	//添加商品
+function add_goodsInfo(){
+		
+		var gname=$.trim($("#goods_gname").val());
+		var des=$.trim($("#goods_des").val());
+		var gstatus=$.trim($("#goods_status").val());
+		var price=$.trim($("#goods_price").val());
+
+		
+		if(gname!="" && des!="" && status!="" && price!=""){
+			$.ajaxFileUpload({
+				url:"../../servlet/goodsInfoServlet?op=addgoodsInfo",
+				secureuri:false,
+				fileElementId:"goods_pic",
+				dataType:"json",
+				data:{gname:gname,des:des,status:gstatus,price:price},
+				success:function(data,status){
+					data=parseInt($.trim(data));
+					
+					if(data>0){
+						$.messager.show({title:'温馨提示',msg:'添加成功',timeout:2000,showType:'slide'});
+						$("#goods_gname").val("");
+						$("#goods_des").val("");
+						$("#goods_status").val("");
+						$("#goods_price").val("");
+					}
+				},
+				error:function(data,status,e){
+					$.messager.alert('失败','添加失败','error');   
+				}
+			});
+			
+		}
+	}
+	
+	
+	</script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

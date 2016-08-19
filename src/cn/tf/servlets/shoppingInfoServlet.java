@@ -93,6 +93,8 @@ public class shoppingInfoServlet extends BasicServlet {
 		
 		ShopBiz shopBiz=new ShopBizImpl();	
 		Shopping list=shopBiz.findAll(aid);
+		
+		request.getSession().setAttribute(AttributeData.SHOPPINGINFO, list);
 		this.out(response, list);
 		
 		
@@ -227,9 +229,8 @@ public class shoppingInfoServlet extends BasicServlet {
 		String aid=adminInfo.getAid().toString().trim();
 	
 
-		ShopBiz roleBiz=new ShopBizImpl();
-		int result=roleBiz.find(Integer.parseInt(aid));
-		
+		ShopBiz shopBiz=new ShopBizImpl();
+		int result=shopBiz.find(Integer.parseInt(aid));
 		
 		//将所有角色信息返回给用户
 		this.out(response, result);
@@ -263,6 +264,7 @@ public class shoppingInfoServlet extends BasicServlet {
 		/*System.out.println(sname+" "+tid+" "+prov+" "+city+" "+area+" "+ points+" "+tel+" "+date+" "+ info+" "+aid );	*/
 		ShopBiz shopBiz=new ShopBizImpl();
 		int result=shopBiz.add(sname,tid,prov,city,area,points,tel,date,info,aid);
+		
 		this.out(response, result);
 
 	}
