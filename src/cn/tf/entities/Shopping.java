@@ -202,6 +202,7 @@ public class Shopping implements Serializable{
 				+ ", info=" + info + ", status=" + status + ", stime=" + stime
 				+ "]";
 	}
+	
 
 
 	public Shopping(Integer spid, String sname, Integer aid, Integer tid,

@@ -123,10 +123,7 @@ public class ShopDaoImpl implements ShopDao {
 			Integer pageSize) {
 		DBHelper db=new DBHelper();
 		List<Object>  params=new ArrayList<Object>();
-		
 
-		
-		
 		String sql="select s.spid,s.sname,a.aname,g.tname,prov,city,area,points,s.tel,s.status,a.aid  from shopping s ,adminInfo a ,goodstype  g  where s.aid=a.aid  and s.tid=g.tid    " ;
 		if(param!=null && param.size()>0){
 			Set<String> keys=param.keySet();
@@ -176,6 +173,20 @@ public class ShopDaoImpl implements ShopDao {
 		}
 
 		return db.doUpdate(sql,params);
+	}
+
+	@Override
+	public List<Shopping> findAll(Integer aid) {
+		
+		DBHelper db=new DBHelper();
+		List<Object>  params=new ArrayList<Object>();
+
+		String sql="select s.sname,g.tname,s.prov,s.city,s.area,s.points,s.tel,s.stime,s.info    from   shopping s,adminInfo a ,goodstype g   where  s.aid=a.aid  and s.tid=g.tid    and s.aid=? ";
+		params.add(aid);
+	
+		return db.find(sql, params,Shopping.class);
+		
+		
 	}
 
 }

@@ -75,8 +75,32 @@ public class shoppingInfoServlet extends BasicServlet {
 			searchShoppingInfoByPage(request,response);
 		}else if("updateStatus".equals(op)){
 			updateStatus(request,response);
+		}else if("findShopping".equals(op)){
+			findShopping(request,response);
 		}
 
+	}
+
+
+
+
+	//自动找到要修改的东西
+	private void findShopping(HttpServletRequest request,
+			HttpServletResponse response) {
+		Object obj=request.getSession().getAttribute(AttributeData.CURRENTADMINLOGIN);
+		AdminInfo  adminInfo=(AdminInfo) obj;
+		String  aid=adminInfo.getAid().toString().trim();
+		
+		ShopBiz shopBiz=new ShopBizImpl();	
+		//List<Shopping>  list=shopBiz.findAll(Integer.parseInt(aid));
+		Map<String,String>  param=new HashMap<String,String>();
+		
+		param.put("  a.aid=  " ,aid );
+		List<Shopping>  list1=shopBiz.find(param,null,null);
+		
+		this.out(response, list1);
+		
+		
 	}
 
 
@@ -94,7 +118,7 @@ public class shoppingInfoServlet extends BasicServlet {
 		if(result>0){
 			this.getServletContext().getAttribute(AttributeData.SHOPPINGINFO);
 		}
-
+		
 		this.out(response,result);
 		
 	}
@@ -129,7 +153,7 @@ public class shoppingInfoServlet extends BasicServlet {
 			}
 			
 			if(tname!=null && !"".equals(tname)){
-				param.put(" g.tname like ", "%"+tname+"%");
+				param.put(" s.sname like ", "%"+tname+"%");
 			}
 			
 			ShopBiz shopBiz=new ShopBizImpl();	
@@ -163,9 +187,7 @@ public class shoppingInfoServlet extends BasicServlet {
 		List<Shopping>  list=shopBiz.find(Integer.parseInt(aid),Integer.parseInt(rid),Integer.parseInt(pageNo),Integer.parseInt(pageSize));
 		
 		this.out(response, list,shopBiz.getTotal(null));
-		
-		
-		
+
 	}
 
 

@@ -22,7 +22,16 @@
 		 if(data>0){
 			 $.messager.show({title:'温馨提示',msg:'每个用户只能开一个店铺，如果需要开连锁店请联系管理员哦！',timeout:5000,showType:'slide'}); 
 			 $("#add_shoppingInfo").css("background-color","gray");
-			 $("#add_shoppingInfo").disabled(disabled); 
+			 $("#add_shoppingInfo").attr("disabled","disabled"); 
+			 
+			 
+			 $.post("../../servlet/shoppingInfoServlet",{op:"findShopping"},function(data){
+				alert(data.sname);
+				 
+				 
+				 
+			 },"json");
+			 
 			
 		 }
 		 
@@ -35,7 +44,7 @@
  //添加店铺信息
  function add_ShoppingInfo() {
 	 
-		 
+	 
 		 var sname=$.trim($("#manager_shopping_sname").val());
 		 var tid=$.trim($("#manager_shopping_tid").val());
 		 var prov=$.trim($("#manager_shopping_prov  option:selected").text());
@@ -79,7 +88,7 @@
  
  
  	//修改店铺信息
- function update_shoppingInfo() {
+ function update_ShoppingInfo() {
 	 
 	 
 	 var sname=$.trim($("#manager_shopping_sname").val());

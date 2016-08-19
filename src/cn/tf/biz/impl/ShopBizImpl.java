@@ -20,7 +20,7 @@ public class ShopBizImpl implements ShopBiz {
 	}
 
 	@Override
-	public Integer find(Integer aid) {
+	public Integer  find(Integer aid) {
 		ShopDao shopDao=new ShopDaoImpl();
 		return shopDao.find(aid);
 		
@@ -59,6 +59,12 @@ public class ShopBizImpl implements ShopBiz {
 	public int updateByShopping(String spid,String value) {
 		ShopDao shopDao=new ShopDaoImpl();
 		return shopDao.updateByshopping(spid,value);
+	}
+
+	@Override
+	public List<Shopping> findAll(Integer aid) {
+		ShopDao shopDao=new ShopDaoImpl();
+		return shopDao.findAll(aid);
 	}
 
 }
