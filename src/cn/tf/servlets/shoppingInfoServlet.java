@@ -73,12 +73,36 @@ public class shoppingInfoServlet extends BasicServlet {
 			findShoppingInfoByPage(request,response);
 		}else if("searchShoppingInfoByPage".equals(op)){
 			searchShoppingInfoByPage(request,response);
+		}else if("updateStatus".equals(op)){
+			updateStatus(request,response);
 		}
 
 	}
 
 
-	
+
+
+	// 0: 提交审核     ,1:审核不通过   2:审核通过
+	private void updateStatus(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		String value=request.getParameter("value");
+		String spid=request.getParameter("spid");
+		ShopBiz shopBiz=new ShopBizImpl();
+		
+		int result=shopBiz.updateByShopping(spid,value);
+		if(result>0){
+			this.getServletContext().getAttribute(AttributeData.SHOPPINGINFO);
+		}
+
+		this.out(response,result);
+		
+	}
+
+
+
+
+
 	//条件查询
 	private void searchShoppingInfoByPage(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -87,13 +111,13 @@ public class shoppingInfoServlet extends BasicServlet {
 		AdminInfo  adminInfo=(AdminInfo) obj;
 		String  rid=adminInfo.getRid().toString().trim();
 		
-		System.out.println(rid);
 		if(rid.equals("1002") || rid.equals("1003")){
 			String tid=request.getParameter("tid");
 			String tname=request.getParameter("tname");
 			String status=request.getParameter("status");
 			String pageNo=request.getParameter("page");
 			String pageSize=request.getParameter("rows");
+			
 			
 			Map<String,String>  param=new HashMap<String,String>();
 			

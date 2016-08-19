@@ -23,4 +23,7 @@ public interface  ShopBiz {
 	//条件查询
 	List<Shopping> find(Map<String, String> param, Integer parseInt, Integer parseInt2);
 
+	//用户发起审核
+	int updateByShopping(String spid, String value);
+
 }

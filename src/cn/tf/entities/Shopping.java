@@ -50,11 +50,13 @@ public class Shopping implements Serializable{
 		if(status==0){
 			return "未审核";
 		}else if(status==1){
-			return "审核未通过";
+			return "已提交";
 		}else if(status==2){
 			return "审核通过";
 		}else if(status==3){
 			return "冻结";
+		}else if(status==4){
+			return "审核未通过";
 		}
 		return "店铺异常";
 		

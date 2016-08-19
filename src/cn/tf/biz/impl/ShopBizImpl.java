@@ -54,4 +54,11 @@ public class ShopBizImpl implements ShopBiz {
 		return shopDao.find(param,pageNo,pageSize);
 	}
 
+
+	@Override
+	public int updateByShopping(String spid,String value) {
+		ShopDao shopDao=new ShopDaoImpl();
+		return shopDao.updateByshopping(spid,value);
+	}
+
 }

@@ -2,7 +2,7 @@
 <table id="goodstype_dataInfo"></table>
 
 <!-- 工具栏 -->
-<div id="admin_search">
+<div id="goodstype_search">
 	<a href="javascript:addgoodsInfo()" class="easyui-linkbutton"
 		data-options="iconCls:'icon-add',plain:true" style="float: left">添加</a>
 	<div class="datagrid-btn-separator"></div>
@@ -19,7 +19,7 @@
 		<option value='-1'>--请选择--</option>
 		<option value='0'>已下架</option>
 		<option value='1'>正常</option>
-	</select> &nbsp;&nbsp;<a href="javascript:search_adminInfo()"
+	</select> &nbsp;&nbsp;<a href="javascript:search_goodstype()"
 		class="easyui-linkbutton" data-options="iconCls:'icon-search'">查找</a>
 </div>
 
@@ -161,7 +161,7 @@
 								}
 
 						] ],
-						toolbar : "#admin_search"
+						toolbar : "#goodstype_search"
 
 					});
 
@@ -304,7 +304,7 @@
 	
 
 	//查询
-	function search_adminInfo(){
+	function search_goodstype(){
 		var tid=$("#goodstype_select_tid").val();
 		var tname=$("#goodstype_select_tname").val();
 		var status=$("#goodstype_select_status").val();

@@ -124,6 +124,15 @@ $(function() {
 					title="查看店铺信息";
 					href="showShopping.html";
 				}
+			}else if(node.id=="index_shopping1"){
+				if (tabs.tabs("exists", "审核店铺信息")) {
+					// 如果存在则选中
+					tabs.tabs("select", "审核店铺信息");
+					return;
+				} else {
+					title="审核店铺信息";
+					href="checkStatus.html";
+				}
 			}
 			
 			

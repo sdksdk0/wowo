@@ -22,4 +22,7 @@ public interface ShopDao {
 	//条件查询
 	List<Shopping> find(Map<String, String> param, Integer pageNo, Integer pageSize);
 
+
+	int updateByshopping(String spid, String value);
+
 }

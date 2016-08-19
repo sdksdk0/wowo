@@ -1,20 +1,17 @@
 
-<table id="showshopping_dataInfo"></table>
+<table id="checkStatus_dataInfo"></table>
 
 <!-- 工具栏 -->
-<div id="showshopping_search">
+<div id="checkStatus_search">
 	
-	<div class="datagrid-btn-separator"></div>
 
-	<a href="javascript:delteAllAdminInfo()" class="easyui-linkbutton"
-		data-options="iconCls:'icon-remove',plain:true" style="float: left">下线</a>
 	<div class="datagrid-btn-separator"></div>
-	<label>店铺类型：</label><select name="role" id="shopping_select_tid">
+	<label>店铺类型：</label><select name="role" id="checkStatus_select_tid">
 		<option value="-1">--请选择--</option>
-	</select>&nbsp; <label>请输入店铺名称：
-	</label><input type="text" name="tname"
-		id="shopping_select_sname" /> <label>请选择状态：</label><select name="status"
-		id="shopping_select_status">
+	</select>&nbsp; <label>请输入店铺名称：</label><input type="text" name="aname"
+		id="checkStatus_select_tname" />
+		 <label>请选择状态：</label><select name="status"
+		id="checkStatus_select_status">
 		<option value='-1'>--请选择--</option>
 		<option value='0'>未审核</option>
 		<option value='1'>已提交</option>
@@ -28,7 +25,7 @@
 <script>
 $(function(){
 	 $.post("../../servlet/shoppingInfoServlet",{op:"findAlltypes"},function(data){
-			var obj=$("#shopping_select_tid");
+			var obj=$("#checkStatus_select_tid");
 		
 			$.each(data,function(index,item){
 				obj.append($("<option value='"+item.tid+"'>"+item.tname+"</option>"));
@@ -38,7 +35,7 @@ $(function(){
 	});
 
 
-	$('#showshopping_dataInfo')
+	$('#checkStatus_dataInfo')
 			.datagrid(
 					{
 						url : '../../servlet/shoppingInfoServlet',
@@ -119,32 +116,30 @@ $(function(){
 									width : 100,
 									align : 'center',
 									formatter : function(val, row, index) {
-										return  "&nbsp;&nbsp;<a href='javascript:delteShoppingInfo("+row.spid+")' class='icon-remove1  icon-padding' >下线</a>"
-												+ "<a href='javascript:updateStatus("+JSON.stringify(row)+")' class='icon-edit1  icon-padding'>提交审核</a> ";
+										return  "&nbsp;&nbsp;<a href='javascript:updateStatusNo("+row.spid+")' class='icon-remove1  icon-padding' >不通过</a>"
+												+ "<a href='javascript:updateStatusOK("+row.spid+")' class='icon-edit1  icon-padding'>通过</a> ";
 									}
 								}
 
 						] ],
-						toolbar : "#showshopping_search"
+						toolbar : "#checkStatus_search"
 
 					});
-	
-	//提交审核
-	function updateStatus(row){
-		
-		var spid=row.spid;
-		var value=1;
+	// 0: 提交审核     ,1:审核不通过   2:审核通过
+	//审核通过
+	function updateStatusOK(spid){
 			
+		var value=2;
 		$.post("../../servlet/shoppingInfoServlet",{op:"updateStatus",spid:spid,value:value},function(data){
 			data=parseInt($.trim(data));
 
 			if(data>0){
-				$.messager.show({title:'温馨提示',msg:'提交审核成功，请耐心等待',timeout:2000,showType:'slide'});
-				$('#showshopping_dataInfo').datagrid("reload");
+				$.messager.show({title:'温馨提示',msg:'通过成功',timeout:2000,showType:'slide'});
+				$('#checkStatus_dataInfo').datagrid("reload");
 			}else{
-				$.messager.alert('失败','提交审核失败','error');   
+				$.messager.alert('失败','通过失败','error');   
 			}
-		});	
+		})	
 		
 	}
 	
@@ -154,11 +149,12 @@ $(function(){
 	
 	//查询
 	function search_shoppingInfo(){
-		var tid=$("#shopping_select_tid").val();
-		var tname=$.trim($("#shopping_select_sname").val());
-		var status=$("#shopping_select_status").val();
+		var tid=$("#checkStatus_select_tid").val();
+		var tname=$("#checkStatus_select_tname").val();
+		var status=$("#checkStatus_select_status").val();
 		
-		$('#showshopping_dataInfo').datagrid({
+		
+		$('#checkStatus_dataInfo').datagrid({
 			url:'../../servlet/shoppingInfoServlet',
 			queryParams:{op:"searchShoppingInfoByPage",tid:tid,tname:tname,status:status}
 		});
@@ -166,61 +162,29 @@ $(function(){
 	
 	
 	
-	
 
-	//删除多行
-	function delteAllAdminInfo(){
-		
-		var value=3;
-		
-		var rows=$('#showshopping_dataInfo').datagrid("getChecked");
-		if(rows.length<=0){
-			$.messager.show({title:'温馨提示',msg:'请选择需要下线的数据',timeout:2000,showType:'slide'});
-		}else{
-			$.messager.confirm('确认下线么','确认下线么，下线后若再次上线需要提交审核',function(rt){
-				 if(rt){
-					var spids="";
-					for(var i=0;i<rows.length-1;i++){
-						spids+=rows[i].spid+",";
-					}
-					spids+=rows[i].spid;
-					//发送到后台，从数据库中删除
-					$.post("../../servlet/shoppingInfoServlet",{op:"updateStatus",spid:spids,value:value},function(data){
-						data=parseInt($.trim(data));
-					if(data>0){
-						
-						$.messager.show({title:'温馨提示',msg:'下线成功,如需重新上线请提交审核',timeout:2000,showType:'slide'});
-						$('#showshopping_dataInfo').datagrid("reload");
-					}else{
-						$.messager.alert('失败','下线失败','error');   
-					}
-					
-					});
-				} 
-			});
+	
+	
+	
+	//审核不通过
+function updateStatusNo(spid){
 			
-		}
-	}
-	
-	
-	
-	//删除一行
-	function  delteShoppingInfo(spid){
-		var value=3;
-		
-		if(spid!=null){
-			 $.post("../../servlet/shoppingInfoServlet",{op:"updateStatus",spid:spid,value:value},function(data){
-					data=parseInt($.trim(data));
+		var value=4;
+		$.post("../../servlet/shoppingInfoServlet",{op:"updateStatus",spid:spid,value:value},function(data){
+			data=parseInt($.trim(data));
 
-					if(data>0){
-						$.messager.show({title:'温馨提示',msg:'下线成功',timeout:2000,showType:'slide'});
-						$('#showshopping_dataInfo').datagrid("reload");
-					}else{
-						$.messager.alert('失败','下线失败','error');   
-					}
-				}); 
-		}
+			if(data>0){
+				$.messager.show({title:'温馨提示',msg:'不通过成功',timeout:2000,showType:'slide'});
+				$('#checkStatus_dataInfo').datagrid("reload");
+			}else{
+				$.messager.alert('失败','不通过失败','error');   
+			}
+		})	
+		
 	}
+	
+	
+	
 	
 	
 

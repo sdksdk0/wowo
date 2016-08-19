@@ -147,4 +147,35 @@ public class ShopDaoImpl implements ShopDao {
 		return db.find(sql, params,Shopping.class);
 	}
 
+	@Override
+	public int updateByshopping(String spid,String value) {
+		DBHelper db=new DBHelper();
+		String sql=null;
+		List<Object>  params=new ArrayList<Object>();
+		
+		if(value.equals("1")){  //已提交
+			sql="update shopping set status=1 where spid=? ";
+			params.add(spid);
+			
+		}else if(value.equals("2")){  //审核通过
+			sql="update shopping set status=2 where spid=? ";
+			params.add(spid);
+		}else if(value.equals("3")){   //冻结
+				if(spid.contains(",") && !spid.contains("or")){
+					sql="update shopping set status=3 where spid in("+spid+")";
+				}else{
+					sql="update shopping set status=3 where spid=? ";
+					params.add(spid);
+				}
+		}else if(value.equals("4")){  //不通过
+			sql="update shopping set status=4 where spid=? ";
+			params.add(spid);
+		}else {    //账号异常
+			sql="update shopping set status=5 where spid=? ";
+			params.add(spid);
+		}
+
+		return db.doUpdate(sql,params);
+	}
+
 }
