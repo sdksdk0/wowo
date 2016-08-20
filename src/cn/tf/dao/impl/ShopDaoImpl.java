@@ -80,7 +80,7 @@ public class ShopDaoImpl implements ShopDao {
 		String sql=null;
 		if(rid==1002 || rid==1003){
 			if(pageNo==null){
-				sql=" select select s.spid,s.sname,a.aid,a.aname,g.tname,prov,city,area,points,s.tel,s.status  from shopping s ,adminInfo a ,goodstype  g  where s.aid=a.aid  and s.tid=g.tid  order by spid desc ";
+				sql="  select s.spid,s.sname,a.aid,a.aname,g.tname,prov,city,area,points,s.tel,s.status  from shopping s ,adminInfo a ,goodstype  g  where s.aid=a.aid  and s.tid=g.tid  order by spid desc ";
 			}else{
 				
 				sql="select * from(select A.*,rownum  rn from (  select s.spid,s.sname,a.aid,a.aname,g.tname,prov,city,area,points,s.tel,s.status  from shopping s ,adminInfo a ,goodstype  g  where s.aid=a.aid  and s.tid=g.tid  order by spid desc ) A  where rownum<=? ) where rn>? ";

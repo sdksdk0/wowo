@@ -1,0 +1,306 @@
+<link rel="stylesheet" type="text/css" href="../css/admin.css" />
+<script type="text/javascript" src="../../js/showPic.js"></script>
+<script type="text/javascript" src="../../js/ajaxfileupload.js"></script>
+
+<table id="showgoods_dataInfo"></table>
+
+<!-- 工具栏 -->
+<div id="goods_search">
+
+	<a href="javascript:delteAllGoodsInfo()" class="easyui-linkbutton"
+		data-options="iconCls:'icon-remove',plain:true" style="float: left">删除</a>
+	<div class="datagrid-btn-separator"></div>
+	<label>请选择价格：</label><select name="tid" id="goods_select_price">
+		<option value="-1">--请选择--</option>
+		<option value='0'>50以下</option>
+		<option value='1'>50-100</option>
+		<option value='2'>100-200</option>
+		<option value='3'>200以上</option>		
+		
+	</select>&nbsp; <label>请输入商品名：</label><input type="text" name="gname"
+		id="goods_select_gname" /> 
+		<label>请选择状态：</label><select name="status"
+		id="goods_select_status">
+			<option value='-1'>--请选择--</option>
+			<option value='2'>正常</option>
+			<option value='0'>已下架</option>
+			<option value='1'>缺货</option>
+			<option value='3'>预定</option>
+	</select> &nbsp;&nbsp;<a href="javascript:search_goods()"
+		class="easyui-linkbutton" data-options="iconCls:'icon-search'">查找</a>
+</div>
+
+
+	
+		<!-- 修改 -->
+		<div id="admin_updategoods" class="easyui-dialog" title="修改管理员信息"
+			data-options="iconCls:'icon-add',resizable:true,modal:true,fit:true,closed:true ">
+
+
+			<div class="admin_left">
+				<center>
+					<form>
+						<ul>
+						<li><span>商品编号:</span> <input type="text" name="update_goods_gid"
+						id="update_goods_gid"  required="required"  readonly="readonly" /></li>
+						<li><span>商品名称:</span> <input type="text" name="goods_gname"
+						id="update_goods_gname" placeholder="请输入商品名称" required="required" /></li>
+					<li><span>商品描述 : </span> 
+						<textarea rows="5" cols="30"  name="des" id="update_goods_des"></textarea>
+					</li>
+					<li><span>价格 : </span> <input type="text"
+						name="goods_price" id="update_goods_price" placeholder="请输入商品价格"
+						required="required" /></li>
+					<li><span>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态 : </span> 
+					<select
+								name="goods_status" id="update_goods_status">
+								<option value='2'>正常</option>
+								<option value='0'>已下架</option>
+								<option value='1'>缺货</option>
+								<option value='3'>预定</option>
+					</select></li>
+					<span>图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片 : </span> 
+					<input  type="file" name="pic" id="update_goods_pic"     onchange="setImagePreviews(this,'update_showPicDiv')"/></li>
+						
+						</ul>
+					</form>
+
+					<br /> <br /> 
+					<div  id="updateByRid"></div>
+					<a href="javascript:update_admingood()"
+						class="easyui-linkbutton" data-options="iconCls:'icon-add'">修改</a>
+				
+			</div>
+			<div   id="update_showPicDiv"  style="width:210px;height:210px;border-color:red;"></div>
+			</center>
+			
+		<script>
+
+$(function(){
+	
+	
+	$('#showgoods_dataInfo')
+			.datagrid(
+					{
+						url : '../../servlet/goodsInfoServlet',
+						queryParams : {
+							op : "findgoodsInfoByPage"
+						},
+						loadMsg : "数据加载中",
+						fitColumns : true,
+						striped : true,
+						nowrap : true,
+						pagination : true,
+						fit : true,
+						rownumbers : true,
+						pageList : [ 2, 5, 10 ],
+						pageSize : 5,
+						sortName : "gids",
+						remoteSort : false,
+						columns : [ [
+								{
+									field : 'gids',
+									title : '选择',
+									width : 80,
+									align : 'center',
+									checkbox : true
+								},
+								{
+									field : 'pic',
+									title : '图像',
+									width : 80,
+									align : 'center',
+									formatter : function(value, row, index) {
+										if (value == "") {
+											return "<img src='../../images/zanwu.jpg'  width='100px'  height='100px'  />";
+										} else {
+											return "<img src='../../"+value+"'  width='100px'  height='100px'  />";
+										}
+									}
+								},
+								{
+									field : 'gid',
+									title : '商品编号',
+									width : 80,
+									align : 'center',
+								},
+								
+								{
+									field : 'gname',
+									title : '商品名',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : 'price',
+									title : '价格',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : 'des',
+									title : '商品说明',
+									width : 100,
+									align : 'center'
+								},
+								
+								{
+									field : 'statusStr',
+									title : '类型状态',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : 'sname',
+									title : '所属店铺名',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : '_operate',
+									title : '操作',
+									width : 100,
+									align : 'center',
+									formatter : function(val, row, index) {
+										return "&nbsp;&nbsp;<a href='javascript:deltegoods("+row.gid+")' class='icon-remove1  icon-padding' >删除</a>"
+												+ "<a href='javascript:updategoods("+JSON.stringify(row)+")' class='icon-edit1  icon-padding'>修改</a> ";
+									}
+								}
+
+						] ],
+						toolbar : "#goods_search"
+
+					});
+})
+
+	
+	
+	
+	
+	//弹出更新操作框
+	function updategoods(row){
+		$("#admin_updategoods").dialog("open");
+		
+		$("#update_goods_gid").val(row.gid);
+		$("#update_goods_gname").val(row.gname);
+		$("#update_goods_des").val(row.des);
+		$("#update_goods_status  option:selected").text(row.statusStr);
+		$("#update_goods_price").val(row.price);
+		
+		if(row.pic!=""){
+			$("#update_showPicDiv").attr("src","../../"+row.pic);
+		}else{
+			$("#update_showPicDiv").attr("src","../../images/zanwu.jpg");
+		}
+	}
+	
+	
+	//更新数据
+	function  update_admingood(){
+		var gid=$.trim($("#update_goods_gid").val());
+		var gname=$.trim($("#update_goods_gname").val());
+		var des=$.trim($("#update_goods_des").val());
+		var gstatus=$.trim($("#update_goods_status").val());
+		var price=$.trim($("#update_goods_price").val());
+		
+		
+			$.ajaxFileUpload({
+				url:"../../servlet/goodsInfoServlet?op=updategoodsInfo",
+				secureuri:false,
+				fileElementId:"update_goods_pic",
+				dataType:"json",
+				data:{gid:gid,gname:gname,des:des,status:gstatus,price:price},
+				success:function(data,status){
+					data=parseInt($.trim(data));
+					
+					if(data>0){
+						$.messager.show({title:'温馨提示',msg:'修改成功',timeout:2000,showType:'slide'});
+						$("#update_goods_gid").val("");
+						$("#update_goods_gname").val("");
+						$("#update_goods_des").val("");
+						$("#update_goods_status").val("");
+						$("#update_goods_price").val("");
+						
+						$("#admin_updategoods").dialog("close");
+						$('#showgoods_dataInfo').datagrid("reload");
+						
+					}
+				},
+				error:function(data,status,e){
+					$.messager.alert('失败','修改失败','error');   
+				}
+			});
+			
+	}
+	
+
+	//删除多行
+	function delteAllGoodsInfo(){
+		
+		var rows=$('#showgoods_dataInfo').datagrid("getChecked");
+		if(rows.length<=0){
+			$.messager.show({title:'温馨提示',msg:'请选择需要删除的数据',timeout:2000,showType:'slide'});
+		}else{
+			$.messager.confirm('确认删除么','确认删除么',function(rt){
+				 if(rt){
+					var gids="";
+					for(var i=0;i<rows.length-1;i++){
+						gids+=rows[i].gid+",";
+					}
+					gids+=rows[i].gid;
+					//发送到后台，从数据库中删除
+					$.post("../../servlet/goodsInfoServlet",{op:"deletegoods",gid:gids},function(data){
+						data=parseInt($.trim(data));
+					if(data>0){
+						
+						$.messager.show({title:'温馨提示',msg:'删除成功',timeout:2000,showType:'slide'});
+						$('#showgoods_dataInfo').datagrid("reload");
+					}else{
+						$.messager.alert('失败','删除失败','error');   
+					}
+					
+					});
+				} 
+			});
+			
+		}
+	}
+	
+	
+	
+	//删除一行
+	function  deltegoods(gid){
+		
+		
+		if(gid!=null){
+			 $.post("../../servlet/goodsInfoServlet",{op:"deletegoods",gid:gid},function(data){
+					data=parseInt($.trim(data));
+
+					if(data>0){
+						$.messager.show({title:'温馨提示',msg:'删除成功',timeout:2000,showType:'slide'});
+						$('#showgoods_dataInfo').datagrid("reload");
+					}else{
+						$.messager.alert('失败','删除失败','error');   
+					}
+				}); 
+		}
+	}
+
+	
+	
+
+	//查询
+	function search_goods(){
+		var price=$("#goods_select_price").val();
+		var gname=$("#goods_select_gname").val();
+		var status=$("#goods_select_status").val();
+		
+		$('#showgoods_dataInfo').datagrid({
+			url:'../../servlet/goodsInfoServlet',
+			queryParams:{op:"searchGoodsByPage",price:price,gname:gname,status:status}
+		});
+	}
+	
+	
+	
+</script>

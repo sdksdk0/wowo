@@ -34,6 +34,7 @@ import cn.tf.biz.impl.GoodstypeBizImpl;
 import cn.tf.biz.impl.RolesBizImpl;
 import cn.tf.biz.impl.ShopBizImpl;
 import cn.tf.entities.AdminInfo;
+import cn.tf.entities.Goods;
 import cn.tf.entities.GoodsType;
 import cn.tf.entities.Roles;
 import cn.tf.entities.Shopping;
@@ -55,9 +56,16 @@ public class goodsInfoServlet extends BasicServlet {
 		
 		if("addgoodsInfo".equals(op)){
 			addgoodsInfo(request,response);
+		}else if("findgoodsInfoByPage".equals(op)){
+			findgoodsInfoByPage(request,response);
+		}else if("updategoodsInfo".equals(op)){
+			updategoodsInfo(request,response);
+		}else if("deletegoods".equals(op)){
+			deletegoods(request,response);
+		}else if("searchGoodsByPage".equals(op)){
+			searchGoodsByPage(request,response);
 		}
 		
-	
 
 	}
 
@@ -65,40 +73,71 @@ public class goodsInfoServlet extends BasicServlet {
 
 
 	//条件查询
-	private void searchShoppingInfoByPage(HttpServletRequest request,
+	private void searchGoodsByPage(HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		Object obj=request.getSession().getAttribute(AttributeData.CURRENTADMINLOGIN);
 		AdminInfo  adminInfo=(AdminInfo) obj;
 		String  rid=adminInfo.getRid().toString().trim();
+		String  aid=adminInfo.getAid().toString().trim();
+		Object obj1=request.getSession().getAttribute(AttributeData.SHOPPINGINFO);
 		
-		if(rid.equals("1002") || rid.equals("1003")){
-			String tid=request.getParameter("tid");
-			String tname=request.getParameter("tname");
-			String status=request.getParameter("status");
-			String pageNo=request.getParameter("page");
-			String pageSize=request.getParameter("rows");
-			
-			
-			Map<String,String>  param=new HashMap<String,String>();
-			
-			if(!"-1".equals(tid)){
-				param.put(" g.tid=", tid);
-			}
-			if(!"-1".equals(status)){
-				param.put(" s.status=", status);
-			}
-			
-			if(tname!=null && !"".equals(tname)){
-				param.put(" s.sname like ", "%"+tname+"%");
-			}
+		String spid=null;
+		if(obj1==null){
 			
 			ShopBiz shopBiz=new ShopBizImpl();	
-			List<Shopping>  list=shopBiz.find(param,Integer.parseInt(pageNo), Integer.parseInt(pageSize));
-			List<Shopping>  list1=shopBiz.find(param,null,null);
-			this.out(response, list,list1.size());
+			Shopping list=shopBiz.findAll(aid);
 			
+			spid=list.getSpid().toString().trim();
+		}else{
+			Shopping  shoppingInfo=(Shopping) obj1;
+			 spid=shoppingInfo.getSpid().toString().trim();
 		}
+		
+		
+		String price=request.getParameter("price");
+		String gname=request.getParameter("gname");
+		String status=request.getParameter("status");
+		String pageNo=request.getParameter("page");
+		String pageSize=request.getParameter("rows");
+		Map<String,String>  param=new HashMap<String,String>();
+		
+		
+		if(!"-1".equals(price)){
+			
+			if("0".equals(price)){
+				param.put("   price<=50 and    2=", "2");
+			}else if("1".equals(price)){
+				param.put("   price>50  and price<=100  and    2=", "2");
+			}else if("2".equals(price)){
+				param.put("   price>100  and price<=200  and   2=", "2");
+			}else if("3".equals(price)){
+				param.put("   price>200 and    2=", "2");
+			}
+		}
+		
+		
+		
+		if(!"-1".equals(status)){
+			param.put(" g.status=", status);
+		}
+		
+		if(gname!=null && !"".equals(gname)){
+			param.put(" g.gname like ", "%"+gname+"%");
+		}
+		
+		if(rid.equals("1002") || rid.equals("1003")){
+			
+		}else{
+			if(spid!=null){
+				param.put("  g.spid=" , spid);
+			}		
+		}
+		
+		GoodsBiz goodsBiz=new GoodsBizImpl();	
+		List<Goods>  list=goodsBiz.find(param,Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+		List<Goods>  list1=goodsBiz.find(param,null,null);
+		this.out(response, list,list1.size());
 		
 		
 		
@@ -107,123 +146,65 @@ public class goodsInfoServlet extends BasicServlet {
 
 
 	//分页查询店铺信息
-	private void findShoppingInfoByPage(HttpServletRequest request,
+	private void findgoodsInfoByPage(HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		
-		Object obj=request.getSession().getAttribute(AttributeData.CURRENTADMINLOGIN);
-		
-		AdminInfo  adminInfo=(AdminInfo) obj;
-		String  aid=adminInfo.getAid().toString().trim();
+		Object obj2=request.getSession().getAttribute(AttributeData.CURRENTADMINLOGIN);
+		AdminInfo  adminInfo=(AdminInfo) obj2;
 		String  rid=adminInfo.getRid().toString().trim();
+		String  aid=adminInfo.getAid().toString().trim();
+		Object obj1=request.getSession().getAttribute(AttributeData.SHOPPINGINFO);
+		
+		String spid=null;
+		if(obj1==null){
+			
+			ShopBiz shopBiz=new ShopBizImpl();	
+			Shopping list=shopBiz.findAll(aid);
+			
+			spid=list.getSpid().toString().trim();
+		}else{
+			Shopping  shoppingInfo=(Shopping) obj1;
+			 spid=shoppingInfo.getSpid().toString().trim();
+		}
+		
+		System.out.println(spid);
+		System.out.println(rid);
+		
 		String pageNo=request.getParameter("page");
-		String pageSize=request.getParameter("rows");
+		String pageSize=request.getParameter("rows");	
 		
-		ShopBiz shopBiz=new ShopBizImpl();		
+		GoodsBiz goodsBiz=new GoodsBizImpl();		
 		
-		List<Shopping>  list=shopBiz.find(Integer.parseInt(aid),Integer.parseInt(rid),Integer.parseInt(pageNo),Integer.parseInt(pageSize));
+		List<Goods>  list=goodsBiz.find(Integer.parseInt(spid),Integer.parseInt(rid),Integer.parseInt(pageNo),Integer.parseInt(pageSize));
 		
-		this.out(response, list,shopBiz.getTotal(null));
+		this.out(response, list,goodsBiz.getTotal(null));
 
 	}
 
 
 	//修改店铺信息
-	private void updateshopping(HttpServletRequest request,
+	private void updategoodsInfo(HttpServletRequest request,
 			HttpServletResponse response) {
-		String gname=request.getParameter("gname");
-		String des=request.getParameter("des");
-		String price=request.getParameter("price");
-		String status=request.getParameter("status");
-		String photo=request.getParameter("photo");
 		
-		Object obj=request.getAttribute(AttributeData.SHOPPINGINFO);
 
-		Shopping  shoppingInfo=(Shopping) obj;
-		String spid= shoppingInfo.getSpid().toString().trim();
-			
-		if(photo==null || "".equals(photo)){
-			photo="images/zanwu.jpg";
-		}else{
-			PageContext pagecontext=JspFactory.getDefaultFactory().getPageContext(this,request,response,null,true,2048,true);
-			UploadUtil upload=new UploadUtil();
-			photo=upload.upload(pagecontext, photo, null);
-		}
-		
+		UploadUtil upload=new UploadUtil();
+		PageContext pagecontext=JspFactory.getDefaultFactory().getPageContext(this,request,response,null,true,2048,true);
+		Map<String,String> map=upload.upload(pagecontext);
 		
 		GoodsBiz goodsBiz=new GoodsBizImpl();
-		int result=goodsBiz.add(gname,des,price,status,photo,spid);
-		
+		int result=goodsBiz.update(map.get("gname"),map.get("des"),map.get("price"),map.get("status"),map.get("photo"),map.get("gid"));
 		this.out(response, result);
-		
-	}
 
-
-
-	//添加商品信息
-	private void addshopping(HttpServletRequest request,
-			HttpServletResponse response) {
-		
-	
-	}
-
-
-
-	private void findAlltypes(HttpServletRequest request,
-			HttpServletResponse response) {
-
-		Object types=this.getServletContext().getAttribute(AttributeData.ALLTYPES);
-		List<GoodsType>  list=null;
-		if(types!=null){
-			list=(List<GoodsType>) types;
-		}else{
-		
-			GoodstypeBiz goodstypeBiz=new GoodstypeBizImpl();
-			list=goodstypeBiz.find();		
-		}
-		//将所有角色信息返回给用户
-		this.out(response, list);
-
-	}
-
-
-
-	//查询
-	private void searchGoodsTypeByPage(HttpServletRequest request,
-			HttpServletResponse response) {
-
-
-		String tid=request.getParameter("tid");
-		String tname=request.getParameter("tname");
-		String status=request.getParameter("status");
-		String pageNo=request.getParameter("page");
-		String pageSize=request.getParameter("rows");
-		
-		Map<String,String>  param=new HashMap<String,String>();
-		
-		if(!"-1".equals(tid)){
-			param.put("tid=", tid);
-		}
-		if(!"-1".equals(status)){
-			param.put("status=", status);
-		}
-		
-		if(tname!=null && !"".equals(tname)){
-			param.put(" tname like ", "%"+tname+"%");
-		}
-		GoodstypeBiz goodstypeBiz=new GoodstypeBizImpl();
-		List<GoodsType>  list=goodstypeBiz.find(param,Integer.parseInt(pageNo), Integer.parseInt(pageSize));
-		List<GoodsType>  list1=goodstypeBiz.find(param,null,null);
-		this.out(response, list,list1.size());
 	}
 
 	//删除
-	private void deletegoodstype(HttpServletRequest request,
+	private void deletegoods(HttpServletRequest request,
 			HttpServletResponse response) {
-		String tid=request.getParameter("tid");
-		GoodstypeBiz goodstypeBiz=new GoodstypeBizImpl();
+		String gid=request.getParameter("gid");
+		GoodsBiz goodsBiz=new GoodsBizImpl();
 		
-		int result=goodstypeBiz.del(tid);
+		int result=goodsBiz.del(gid);
 		this.out(response,result);
 		
 	}
@@ -248,7 +229,7 @@ public class goodsInfoServlet extends BasicServlet {
 			spid=list.getSpid().toString().trim();
 		}else{
 			Shopping  shoppingInfo=(Shopping) obj1;
-			 spid=shoppingInfo.getSpid().toString().trim();
+			spid=shoppingInfo.getSpid().toString().trim();
 		}
 		
 		

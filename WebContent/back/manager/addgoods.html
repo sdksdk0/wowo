@@ -16,9 +16,9 @@
 						required="required" /></li>
 					<li><span>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态 : </span> <select
 								name="goods_status" id="goods_status">
+								<option value='2'>正常</option>
 								<option value='0'>已下架</option>
 								<option value='1'>缺货</option>
-								<option value='2'>正常</option>
 								<option value='3'>预定</option>
 					</select></li>
 					<span>图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片 : </span> 
@@ -52,7 +52,7 @@ function add_goodsInfo(){
 		var price=$.trim($("#goods_price").val());
 
 		
-		if(gname!="" && des!="" && status!="" && price!=""){
+		//if(gname!="" && des!="" && status!="" && price!=""){
 			$.ajaxFileUpload({
 				url:"../../servlet/goodsInfoServlet?op=addgoodsInfo",
 				secureuri:false,
@@ -75,7 +75,7 @@ function add_goodsInfo(){
 				}
 			});
 			
-		}
+		//}
 	}
 	
 	

@@ -36,6 +36,10 @@
 							 		"id":"index_goods2",    
 									"text":"查看商品信息"
 							  }	,
+							   {
+							 		"id":"index_goods1",    
+									"text":"添加商品信息"
+					  			},
 								{
 							 		"id":"index_goodstype",    
 									"text":"商品类型管理"

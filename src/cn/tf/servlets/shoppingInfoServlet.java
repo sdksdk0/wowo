@@ -131,35 +131,53 @@ public class shoppingInfoServlet extends BasicServlet {
 		Object obj=request.getSession().getAttribute(AttributeData.CURRENTADMINLOGIN);
 		AdminInfo  adminInfo=(AdminInfo) obj;
 		String  rid=adminInfo.getRid().toString().trim();
+		String  aid=adminInfo.getAid().toString().trim();
+		Object obj1=request.getSession().getAttribute(AttributeData.SHOPPINGINFO);
 		
-		if(rid.equals("1002") || rid.equals("1003")){
-			String tid=request.getParameter("tid");
-			String tname=request.getParameter("tname");
-			String status=request.getParameter("status");
-			String pageNo=request.getParameter("page");
-			String pageSize=request.getParameter("rows");
-			
-			
-			Map<String,String>  param=new HashMap<String,String>();
-			
-			if(!"-1".equals(tid)){
-				param.put(" g.tid=", tid);
-			}
-			if(!"-1".equals(status)){
-				param.put(" s.status=", status);
-			}
-			
-			if(tname!=null && !"".equals(tname)){
-				param.put(" s.sname like ", "%"+tname+"%");
-			}
+		String spid=null;
+		if(obj1==null){
 			
 			ShopBiz shopBiz=new ShopBizImpl();	
-			List<Shopping>  list=shopBiz.find(param,Integer.parseInt(pageNo), Integer.parseInt(pageSize));
-			List<Shopping>  list1=shopBiz.find(param,null,null);
-			this.out(response, list,list1.size());
+			Shopping list=shopBiz.findAll(aid);
 			
+			spid=list.getSpid().toString().trim();
+		}else{
+			Shopping  shoppingInfo=(Shopping) obj1;
+			 spid=shoppingInfo.getSpid().toString().trim();
+		}	
+
+		String tid=request.getParameter("tid");
+		String tname=request.getParameter("tname");
+		String status=request.getParameter("status");
+		String pageNo=request.getParameter("page");
+		String pageSize=request.getParameter("rows");
+		
+		Map<String,String>  param=new HashMap<String,String>();
+		
+		if(!"-1".equals(tid)){
+			param.put(" g.tid=", tid);
+		}
+		if(!"-1".equals(status)){
+			param.put(" s.status=", status);
 		}
 		
+		if(tname!=null && !"".equals(tname)){
+			param.put(" s.sname like ", "%"+tname+"%");
+		}
+		
+		if(rid.equals("1002") || rid.equals("1003")){
+			
+			
+		}else{
+			
+			if(spid!=null){
+				param.put("  s.spid=" , spid);
+			}		
+		}
+		ShopBiz shopBiz=new ShopBizImpl();	
+		List<Shopping>  list=shopBiz.find(param,Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+		List<Shopping>  list1=shopBiz.find(param,null,null);
+		this.out(response, list,list1.size());
 		
 		
 	}

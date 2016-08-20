@@ -86,7 +86,7 @@ $(function() {
 					return;
 				} else {
 					title="添加商品信息";
-					href="addshopping.html";
+					href="addgoods.html";
 				}
 			}else if(node.id=="index_goods2"){
 				if (tabs.tabs("exists", "查看商品信息")) {
@@ -95,16 +95,7 @@ $(function() {
 					return;
 				} else {
 					title="查看商品信息";
-					href="showshopping.html";
-				}
-			}else if(node.id=="index_goods3"){
-				if (tabs.tabs("exists", "修改商品信息")) {
-					// 如果存在则选中
-					tabs.tabs("select", "修改商品信息");
-					return;
-				} else {
-					title="修改商品信息";
-					href="updateshopping.html";
+					href="showgoods.html";
 				}
 			}else if(node.id=="index_goodstype"){
 				if (tabs.tabs("exists", "商品类型管理")) {
