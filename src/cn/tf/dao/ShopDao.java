@@ -17,7 +17,7 @@ public interface ShopDao {
 
 	List<Shopping> find(Integer aid,Integer rid,Integer pageNo, Integer pageSize);
 
-	Integer getTotal(Integer spid);
+	Integer getTotal(Integer aid, Integer spid);
 
 	//条件查询
 	List<Shopping> find(Map<String, String> param, Integer pageNo, Integer pageSize);

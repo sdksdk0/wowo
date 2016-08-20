@@ -66,10 +66,29 @@ public class goodsInfoServlet extends BasicServlet {
 			searchGoodsByPage(request,response);
 		}else if("checkSpid".equals(op)){
 			checkSpid(request,response);
+		}else if("findGoodsIndex".equals(op)){
+			findGoodsIndex(request,response);
 		}
 		
 		
 
+	}
+
+
+	//前台加载商品
+
+	private void findGoodsIndex(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		int pageNo=1;
+		int pageSize=4;
+
+		GoodsBiz goodsBiz=new GoodsBizImpl();		
+		
+		List<Goods>  list=goodsBiz.find(pageNo, pageSize);
+
+		this.out(response, list);	
+		
 	}
 
 
@@ -215,7 +234,7 @@ public class goodsInfoServlet extends BasicServlet {
 		
 		List<Goods>  list=goodsBiz.find(Integer.parseInt(spid),Integer.parseInt(rid),Integer.parseInt(pageNo),Integer.parseInt(pageSize));
 		
-		this.out(response, list,goodsBiz.getTotal(null));
+		this.out(response, list,goodsBiz.getTotal(Integer.parseInt(rid),Integer.parseInt(spid)));
 
 	}
 
@@ -229,7 +248,7 @@ public class goodsInfoServlet extends BasicServlet {
 		Map<String,String> map=upload.upload(pagecontext);
 		
 		GoodsBiz goodsBiz=new GoodsBizImpl();
-		int result=goodsBiz.update(map.get("gname"),map.get("des"),map.get("price"),map.get("status"),map.get("photo"),map.get("gid"));
+		int result=goodsBiz.update(map.get("gname"),map.get("des"),map.get("price"),map.get("status"),map.get("pic"),map.get("gid"));
 		this.out(response, result);
 
 	}

@@ -76,7 +76,8 @@
 								 data=parseInt(data);
 								 if(data>0){
 									 $.messager.show({title:'温馨提示',msg:'添加成功',timeout:2000,showType:'slide'});
-									 
+									 $("#add_shoppingInfo").css("background-color","gray");
+									 $("#add_shoppingInfo").attr("disabled","disabled"); 
 								 }else{
 									 $.messager.alert('失败','添加失败','error');   
 								 }			 

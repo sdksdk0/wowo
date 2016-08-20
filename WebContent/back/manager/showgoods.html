@@ -73,7 +73,7 @@
 						class="easyui-linkbutton" data-options="iconCls:'icon-add'">修改</a>
 				
 			</div>
-			<div   id="update_showPicDiv"  style="width:210px;height:210px;border-color:red;"></div>
+			<div   id="update_showPicDiv"  style="float:left;width:210px;height:210px;border-color:red;"></div>
 			</center>
 			
 		<script>
@@ -241,6 +241,8 @@
 						$("#update_goods_des").val("");
 						$("#update_goods_status").val("");
 						$("#update_goods_price").val("");
+						$("#update_goods_pic").val("");
+						$("#update_showPicDiv").html("");
 						
 						$("#admin_updategoods").dialog("close");
 						$('#showgoods_dataInfo').datagrid("reload");

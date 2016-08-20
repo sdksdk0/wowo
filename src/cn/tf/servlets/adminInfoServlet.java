@@ -319,6 +319,7 @@ public class adminInfoServlet extends BasicServlet {
 	private void LoginOut(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		request.getSession().removeAttribute(AttributeData.CURRENTADMINLOGIN);
+		request.getSession().removeAttribute(AttributeData.SHOPPINGINFO);
 		this.out(response, 1);
 	}
 

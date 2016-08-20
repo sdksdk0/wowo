@@ -12,7 +12,7 @@ public interface  GoodsBiz {
 
 	List<Goods> find(Integer a, Integer parseInt2, Integer parseInt3, Integer parseInt4);
 
-	int getTotal(Integer a);
+	int getTotal(Integer aid, Integer  spid);
 
 	int update(String string, String string2, String string3, String string4,
 			String string5, String string6);
@@ -20,5 +20,7 @@ public interface  GoodsBiz {
 	int del(String gid);
 
 	List<Goods> find(Map<String, String> param, Integer parseInt, Integer parseInt2);
+
+	List<Goods> find(Integer pageNo, Integer pageSize);
 
 }

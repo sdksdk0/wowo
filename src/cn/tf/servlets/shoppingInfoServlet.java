@@ -55,8 +55,8 @@ public class shoppingInfoServlet extends BasicServlet {
 			addgoodsType(request,response);
 		}else  if("findAlltypes".equals(op)){
 			findAlltypes(request,response);
-		}else if("findshoppingInfoByPage".equals(op)){
-			findshoppingInfoByPage(request,response);
+		}else if("findgoodstypeInfoByPage".equals(op)){
+			findgoodstypeInfoByPage(request,response);
 		}else if("updategoodsType".equals(op)){
 			updategoodsType(request,response);
 		}else if("deletegoodstype".equals(op)){
@@ -197,11 +197,25 @@ public class shoppingInfoServlet extends BasicServlet {
 		String pageNo=request.getParameter("page");
 		String pageSize=request.getParameter("rows");
 		
+		Object obj1=request.getSession().getAttribute(AttributeData.SHOPPINGINFO);
+		
+		String spid=null;
+		if(obj1==null){
+			
+			ShopBiz shopBiz=new ShopBizImpl();	
+			Shopping list=shopBiz.findAll(aid);
+			
+			spid=list.getSpid().toString().trim();
+		}else{
+			Shopping  shoppingInfo=(Shopping) obj1;
+			 spid=shoppingInfo.getSpid().toString().trim();
+		}
+		
 		ShopBiz shopBiz=new ShopBizImpl();		
 		
 		List<Shopping>  list=shopBiz.find(Integer.parseInt(aid),Integer.parseInt(rid),Integer.parseInt(pageNo),Integer.parseInt(pageSize));
 		
-		this.out(response, list,shopBiz.getTotal(null));
+		this.out(response, list,shopBiz.getTotal(Integer.parseInt(rid),Integer.parseInt(spid)));
 
 	}
 
@@ -372,7 +386,7 @@ public class shoppingInfoServlet extends BasicServlet {
 
 	//分页查询管理员信息
 	
-	private void findshoppingInfoByPage(HttpServletRequest request,
+	private void findgoodstypeInfoByPage(HttpServletRequest request,
 			HttpServletResponse response) {
 		String pageNo=request.getParameter("page");
 		String pageSize=request.getParameter("rows");

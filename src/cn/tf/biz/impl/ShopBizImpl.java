@@ -41,9 +41,9 @@ public class ShopBizImpl implements ShopBiz {
 	}
 
 	@Override
-	public int getTotal(Integer spid) {
+	public int getTotal(Integer aid,Integer spid) {
 		ShopDao shopDao=new ShopDaoImpl();
-		return shopDao.getTotal(spid);
+		return shopDao.getTotal(aid,spid);
 	}
 
 	@Override

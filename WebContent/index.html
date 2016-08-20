@@ -5,6 +5,10 @@
 		<meta charset="utf-8">
 		<title>窝窝团</title>
         <link rel="stylesheet" href="css/basic.css" />
+        <script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
+        <script  type="text/javascript"  src="js/index.js"></script>
+        
+        
 	</head>
 
 	<body id="index">
@@ -248,9 +252,12 @@
                 </li>
             </ul>
 		</div>
-        <div class="con-boxIndex clearfix">
-			<ul class="goods-allInd clearfix">
-				<li class="good-list">
+        <div class="con-boxIndex clearfix"  >
+			<ul class="goods-allInd clearfix"   id="findGoodsIndex">
+				
+			
+			
+				<!-- <li class="good-list">
 					<h2 class="good-title">
 						<a class="biaoa" title="【石鼓区】仅98元，享价值196元『熊猫餐谋环球海鲜自助餐厅』周一至周五双人自助午餐1份！提供免费WIFI，提供免费停车位！必含女士1名，提供免费专车接送，尽享环球美食！" target="_blank" href="#">
 							<strong>【石鼓区】熊猫餐谋环球海鲜自助餐厅</strong>
@@ -325,7 +332,7 @@
                         <span class="num">¥6.9</span>
                         <span class="past">价值 ¥9</span>
                     </div>
-                </li>
+                </li> -->
 			</ul>
 			<div class="con-boxrig">
 				<div class="pub-rigwrap">
@@ -542,45 +549,7 @@
 		</div>
         
         
-        <script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
-        <script>
-		
-			
-			  $(window).scroll(function () {
-				 var t=$(this).scrollTop();
-
-				if(t>300){
-					$(".gotopBtn").css("visibility","visible");
-				}else{
-					$(".gotopBtn").css("visibility","none");
-				}
-				
-			  });
-			  
-			  
-			  
-			  
-			  $(function() {
-					$.post("servlet/UserInfoServlet", {
-						op : "getLoginInfo"
-					}, function(data) {
-						if (data == "" || data == null) {
-							$("#index_loginuser").html("您好！请 [<a class=\"yellowd1\" rel=\"nofollow\" href=\"login.html\" target=\"_blank\">登录</a>]  <b class=\"borderdc\">|</b>   [<a class=\"yellowd1\" rel=\"nofollow\" href=\"reg.html\" target=\"_blank\">注册</a>]   <b class=\"borderdc p_0_10\">|</b>");
-						} else {
-							$("#index_loginuser").text("欢迎您"+data.uname);
-						}
-
-					}, "json");
-					
-					
-			  });
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-	 </script>
+      
+       
 	</body>
 </html>

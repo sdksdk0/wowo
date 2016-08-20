@@ -18,7 +18,7 @@ public interface  ShopBiz {
 
 	List<Shopping> find(Integer aid,Integer rid,Integer parseInt, Integer parseInt2);
 
-	int getTotal(Integer spid);
+	int getTotal(Integer aid, Integer  spid);
 
 	//条件查询
 	List<Shopping> find(Map<String, String> param, Integer parseInt, Integer parseInt2);

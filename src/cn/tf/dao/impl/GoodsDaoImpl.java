@@ -67,16 +67,27 @@ public class GoodsDaoImpl implements GoodsDao {
 	}
 
 	@Override
-	public int getTotal(Integer spid) {
+	public int getTotal(Integer aid,Integer spid) {
 		DBHelper db=new DBHelper();
 		String sql=null;
 		List<Object>  params=new ArrayList<Object>();
-		if(spid==null){
-			sql="select count(gid) from goods ";
+		
+		if(aid==1002 || aid==1003){
+
+			if(spid==null){
+				sql="select count(gid) from goods ";
+			}else{
+				sql="select count(gid) from goods  ";
+			}
 		}else{
-			sql="select count(gid) from goods  where spid=? ";
-			params.add(spid);
+			if(spid==null){
+				sql="select count(gid) from goods ";
+			}else{
+				sql="select count(gid) from goods  where spid=? ";
+				params.add(spid);
+			}		
 		}
+
 		return db.findByOne(sql, params);
 	}
 
@@ -148,6 +159,27 @@ public class GoodsDaoImpl implements GoodsDao {
 			params.add((pageNo-1)*pageSize);
 		}
 	
+		return db.find(sql, params,Goods.class);
+	}
+
+	@Override
+	public List<Goods> find(Integer pageNo, Integer pageSize) {
+		DBHelper db=new DBHelper();
+		List<Object>  params=new ArrayList<Object>();
+		
+		
+		String sql=null;
+		
+			if(pageNo==null){
+				sql=" select  gid,gname,des,price,pic,g.spid,s.status,s.sname,s.area  from goods g ,shopping s  where g.spid=s.spid    and  g.status=2  and s.status=2  order by gid desc  ";
+			}else{
+				
+				sql="select * from(select A.*,rownum  rn from (  select  gid,gname,des,price,pic,g.spid,s.status,s.sname,s.area  from goods g ,shopping s  where g.spid=s.spid    and  g.status=2  and s.status=2  order by gid desc  ) A  where rownum<=? ) where rn>? ";
+				params.add(pageNo*pageSize);
+				params.add((pageNo-1)*pageSize);
+			}
+		
+
 		return db.find(sql, params,Goods.class);
 	}
 

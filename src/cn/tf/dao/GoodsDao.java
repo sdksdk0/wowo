@@ -11,7 +11,7 @@ public interface  GoodsDao {
 
 	List<Goods> find(Integer aid, Integer rid, Integer pageNo, Integer pageSize);
 
-	int getTotal(Integer a);
+	int getTotal(Integer aid, Integer spid);
 
 	int update(String gname, String des, String price, String status,
 			String photo, String spid);
@@ -19,6 +19,8 @@ public interface  GoodsDao {
 	int del(String gid);
 
 	List<Goods> find(Map<String, String> param, Integer pageNo, Integer pageSize);
+
+	List<Goods> find(Integer pageNo, Integer pageSize);
 	
 
 }

@@ -25,9 +25,9 @@ public class GoodsBizImpl implements GoodsBiz {
 	}
 
 	@Override
-	public int getTotal(Integer a) {
+	public int getTotal(Integer aid,Integer spid) {
 		GoodsDao goodsDao=new GoodsDaoImpl();
-		return goodsDao.getTotal(a);
+		return goodsDao.getTotal(aid,spid);
 
 	}
 
@@ -49,6 +49,12 @@ public class GoodsBizImpl implements GoodsBiz {
 			Integer pageSize) {
 		GoodsDao goodsDao=new GoodsDaoImpl();
 		return goodsDao.find(param,pageNo,pageSize);
+	}
+
+	@Override
+	public List<Goods> find(Integer pageNo, Integer pageSize) {
+		GoodsDao goodsDao=new GoodsDaoImpl();
+		return goodsDao.find(pageNo,pageSize);
 	}
 
 }

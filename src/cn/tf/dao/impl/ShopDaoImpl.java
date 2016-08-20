@@ -106,15 +106,25 @@ public class ShopDaoImpl implements ShopDao {
 	}
 
 	@Override
-	public Integer getTotal(Integer spid) {
+	public Integer getTotal(Integer aid,Integer spid) {
 		DBHelper db=new DBHelper();
 		String sql=null;
 		List<Object>  params=new ArrayList<Object>();
-		if(spid==null){
-			sql="select count(spid) from shopping ";
+		
+		if(aid==1002 || aid==1003){
+			if(spid==null){
+				sql="select count(spid) from shopping ";
+			}else{
+				sql="select count(spid) from shopping  ";
+			}
+			
 		}else{
-			sql="select count(spid) from shopping  where spid=? ";
-			params.add(spid);
+			if(spid==null){
+				sql="select count(spid) from shopping ";
+			}else{
+				sql="select count(spid) from shopping  where spid=? ";
+				params.add(spid);
+			}
 		}
 		return db.findByOne(sql, params);
 	}
