@@ -1,0 +1,359 @@
+<link rel="stylesheet" type="text/css" href="../css/admin.css" />
+
+<table id="user_dataInfo"></table>
+
+<!-- 工具栏 -->
+<div id="user_search">
+
+	<a href="javascript:delteAllUserInfo()" class="easyui-linkbutton"
+		data-options="iconCls:'icon-remove',plain:true" style="float: left">冻结</a>
+	<div class="datagrid-btn-separator"></div>
+	
+	&nbsp; <label>请输入会员姓名：</label><input type="text" name="uname"
+		id="user_select_uname" /> <label>
+		
+	<span>省份 : </span> 
+				<select  name="manager_shopping_prov" id="manager_shopping_prov" >
+						<option value="-1" >--请选择省份--</option>
+				</select>
+				<span>城市: </span> 
+				<select  name="manager_shopping_city" id="manager_shopping_city" >
+						<option value="-1" >--请选择城市--</option>
+				</select>
+				<span>地区: </span> 
+				<select  name="manager_shopping_area" id="manager_shopping_area" >
+						<option value="-1" >--请选择地区--</option>
+				</select>
+		
+		
+		请选择状态：</label><select name="status"
+		id="user_select_status">
+		<!-- 2是大众会员，1是铜牌会员，3是白银会员，4是黄金会员 -->
+		<option value='-1'>--请选择--</option>
+		<option value='1'>铜牌会员</option>
+		<option value='2'>大众会员</option>
+		<option value='3'>白银会员</option>
+		<option value='4'>黄金会员</option>
+		<option value='5'>账号异常</option>
+	</select> &nbsp;&nbsp;<a href="javascript:search_UserInfo()"
+		class="easyui-linkbutton" data-options="iconCls:'icon-search'">查找</a>
+</div>
+
+
+	
+<script>
+
+
+	$(function(){
+		proccityarea();
+	});
+
+
+	$('#user_dataInfo')
+			.datagrid(
+					{
+						url : '../../servlet/UserInfoServlet',
+						queryParams : {
+							op : "findUserInfoByPage"
+						},
+						loadMsg : "数据加载中",
+						fitColumns : true,
+						striped : true,
+						nowrap : true,
+						pagination : true,
+						fit : true,
+						rownumbers : true,
+						pageList : [ 2, 5, 10 ],
+						pageSize : 5,
+						sortName : "usid",
+						remoteSort : false,
+						columns : [ [
+								{
+									field : 'usids',
+									title : '选择',
+									width : 80,
+									align : 'center',
+									checkbox : true
+								},
+								{
+									field : 'photo',
+									title : '图像',
+									width : 80,
+									align : 'center',
+									formatter : function(value, row, index) {
+										if (value == "") {
+											return "<img src='../../images/zanwu.jpg'  width='100px'  height='100px'  />";
+										} else {
+											return "<img src='../../"+value+"'  width='100px'  height='100px'  />";
+										}
+									}
+								},
+								{
+									field : 'usid',
+									title : '管理员编号',
+									width : 80,
+									align : 'center',
+									sortable : true
+								},
+								{
+									field : 'uname',
+									title : '管理员姓名',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : 'email',
+									title : '注册邮箱',
+									width : 100,
+									align : 'center'
+								},
+								{
+									field : 'tel',
+									title : '联系方式',
+									width : 100,
+									align : 'center'
+								},
+								{
+									field : 'addr',
+									title : '地址',
+									width : 100,
+									align : 'center'
+								},
+								{
+									field : 'statusStr',
+									title : '账号状态',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : '_operate',
+									title : '操作',
+									width : 100,
+									align : 'center',
+									formatter : function(val, row, index) {
+										return  "&nbsp;&nbsp;<a href='javascript:delteUserInfo("+row.usid+")' class='icon-remove1  icon-padding' >冻结</a>"						
+										+"&nbsp;&nbsp;<a href='javascript:delteUserInfoNO("+row.usid+")' class='icon-remove1  icon-padding' >解冻</a>";
+									}
+								}
+
+						] ],
+						toolbar : "#user_search"
+
+					});
+	
+	
+	
+
+
+	//冻结多行
+	function delteAllUserInfo(){
+		
+		var value=1;
+		var rows=$('#user_dataInfo').datagrid("getChecked");
+		if(rows.length<=0){
+			$.messager.show({title:'温馨提示',msg:'请选择需要冻结的数据',timeout:2000,showType:'slide'});
+		}else{
+			$.messager.confirm('确认冻结么','确认冻结么',function(rt){
+				 if(rt){
+					var usids="";
+					for(var i=0;i<rows.length-1;i++){
+						usids+=rows[i].usid+",";
+					}
+					usids+=rows[i].usid;
+					
+					$.post("../../servlet/UserInfoServlet",{op:"deleteUserInfo",usid:usids,value:value},function(data){
+						data=parseInt($.trim(data));
+					if(data>0){
+						
+						$.messager.show({title:'温馨提示',msg:'冻结成功',timeout:2000,showType:'slide'});
+						$('#user_dataInfo').datagrid("reload");
+					}else{
+						$.messager.alert('失败','冻结失败','error');   
+					}
+					
+					});
+				} 
+			});
+			
+		}
+	}
+	
+	
+	
+	//冻结一行
+	function  delteUserInfo(usid){
+		var value=1;
+		
+		if(usid!=null){
+			 $.post("../../servlet/UserInfoServlet",{op:"deleteUserInfo",usid:usid,value:value},function(data){
+					data=parseInt($.trim(data));
+
+					if(data>0){
+						$.messager.show({title:'温馨提示',msg:'冻结成功',timeout:2000,showType:'slide'});
+						$('#user_dataInfo').datagrid("reload");
+					}else{
+						$.messager.alert('失败','冻结失败','error');   
+					}
+				}); 
+		}
+	}
+	
+	//解冻行
+	function  delteUserInfoNO(usid){
+		var value=2;
+		
+		if(usid!=null){
+			 $.post("../../servlet/UserInfoServlet",{op:"deleteUserInfo",usid:usid,value:value},function(data){
+					data=parseInt($.trim(data));
+
+					if(data>0){
+						$.messager.show({title:'温馨提示',msg:'冻结成功',timeout:2000,showType:'slide'});
+						$('#user_dataInfo').datagrid("reload");
+					}else{
+						$.messager.alert('失败','删除失败','error');   
+					}
+				}); 
+		}
+	}
+
+	
+	
+
+	//查询
+	function search_UserInfo(){
+	
+		var uname=$("#user_select_uname").val();
+		var prov=$("#manager_shopping_prov  option:selected").text();
+		var city=$("#manager_shopping_city  option:selected").text();
+		var area= $("#manager_shopping_area  option:selected").text();
+		var status=$("#user_select_status").val();
+		
+		
+		$('#user_dataInfo').datagrid({
+			url:'../../servlet/UserInfoServlet',
+			queryParams:{op:"searchUserInfoByPage",uname:uname,prov:prov,city:city,area:area,status:status}
+		});
+	}
+	
+	
+	
+	
+	
+	
+	function proccityarea(){
+
+		var xmlDom;
+
+		if(window.DOMParser && !window.ActiveXOBject){
+			
+			var xmlhttp=new XMLHttpRequest();
+			xmlhttp.open("GET","../../city.xml",false);
+			xmlhttp.send(null);
+			if(xmlhttp.readyState==4){
+				xmlDom=xmlhttp.responseXML.documentElement;
+				var a=xmlDom.getElementsByTagName("province");
+			}
+		}else{
+			
+			xmlDom=createXmlDom();
+			xmlDom.async=false; 
+			xmlDom.load("../../city.xml");
+		}
+		
+		
+		var pro=$("#manager_shopping_prov");
+		var city=$("#manager_shopping_city");
+		var district=$("#manager_shopping_area");
+		
+		var pros=xmlDom.getElementsByTagName("province");
+		
+		for(var i=0;i<pros.length;i++){
+			addOption(pros[i],pro);	
+		}
+		
+		$("#manager_shopping_prov").bind({
+			change:function(){
+				var code=pro.val();
+				$("#manager_shopping_city").empty();
+				$("#manager_shopping_area").empty();
+				var opInfo=$("<option value='-1'>--请选择城市--</option>");
+				$("#manager_shopping_city").prepend(opInfo);
+				var opInfo=$("<option value='-1'>--请选择地区--</option>");
+				$("#manager_shopping_area").prepend(opInfo);
+				
+				for(var i=0;i<pros.length;i++){
+					if(pros[i].nodeType==1 && pros[i].getAttribute("postcode")==code){
+						var cities=pros[i].childNodes;
+						for(var j=0;j<cities.length;j++){
+							if(cities[j].nodeType==1){
+								addOption(cities[j],city);	
+							}
+						}
+					}
+				}
+			}
+		});
+		
+		$("#manager_shopping_city").bind({
+			change:function(){
+				var selPro=pro.val();
+				var code=city.val();
+				$("#manager_shopping_area").empty();
+				var opInfo=$("<option value='-1'>--请选择地区--</option>");
+				$("#manager_shopping_area").prepend(opInfo);
+				
+				for(var i=0;i<pros.length;i++){
+					if(pros[i].nodeType==1 && pros[i].getAttribute("postcode")==selPro){
+						var cities=pros[i].childNodes;
+						for(var j=0;j<cities.length;j++){
+							if(cities[j].nodeType==1 && cities[j].getAttribute("postcode")==code){
+								var area=cities[j].childNodes;
+								for(var k=0;k<area.length;k++){
+									if(area[k].nodeType==1){
+										addOption(area[k],district);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+	};
+	
+	function addOption(node,obj){
+		var opInfo=$("<option value="+node.getAttribute("postcode")+">"+node.getAttribute("name")+"</option>");
+		opInfo.appendTo(obj);
+	}
+	
+	
+	function createXmlDom(){
+		var xmlDom=null;
+		if(window.ActiveXObject){
+			xmlDom=createIeXmlDom();	
+		}else if(document.implementation.createDocument){
+			xmlDom=document.implementation.createDocument("","",null);
+		}else{
+			alert("您的浏览器不支持xmlDom,请及时更新");	
+		}
+		return xmlDom;
+	}
+	
+	function createIeXmlDom(){
+		var arr=["MSXML2.DOMDocument.6.0","MSXML2.DOMDocument.5.0","MSXML2.DOMDocument.4.0","MSXML2.DOMDocument.3.0","MSXML2.DOMDocument","Microsoft.XMLDOM"];
+		for(var i=0;i<arr.length;i++){
+			try{
+				var ieXmlDom=new ActiveXObject(arr[i]);
+				return ieXmlDom;
+			}catch(ex){
+				alert("您的浏览器不支持MSXML组件，请及时更新浏览器");	
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+</script>

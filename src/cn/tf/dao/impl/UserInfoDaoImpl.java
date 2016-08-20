@@ -2,6 +2,8 @@ package cn.tf.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import cn.tf.dao.UserInfoDao;
 import cn.tf.entities.AdminInfo;
@@ -47,6 +49,83 @@ public class UserInfoDaoImpl  implements  UserInfoDao {
 		params.add(name);
 		params.add(pwd);
 		return db.findByOne(sql, params, UserInfo.class);
+	}
+
+	@Override
+	public List<UserInfo> find(Integer pageNo, Integer pageSize) {
+		DBHelper db=new DBHelper();
+		List<Object>  params=new ArrayList<Object>();
+		String sql=null;
+		if(pageNo==null){
+			sql=" select * from userInfo order by usid desc ";
+		}else{
+			
+			params.add(pageNo*pageSize);
+			params.add((pageNo-1)*pageSize);
+			sql="select * from(select a.*,rownum  rn from (  select * from userInfo  order by usid asc ) a  where rownum<=? ) where rn>?";
+			
+		}
+		return db.find(sql, params,UserInfo.class);
+	}
+
+	@Override
+	public int getTotal(Object usid) {
+		DBHelper db=new DBHelper();
+		String sql=null;
+		List<Object>  params=new ArrayList<Object>();
+		if(usid==null){
+			sql="select count(usid) from userInfo ";
+		}else{
+			sql="select count(usid) from userInfo  where usid=? ";
+			params.add(usid);
+		}
+		return db.findByOne(sql, params);
+	}
+
+	@Override
+	public int del(String usid,String value) {
+		DBHelper db=new DBHelper();
+		String sql=null;
+		List<Object>  params=new ArrayList<Object>();
+
+		if(value.equals("1")){
+			if(usid.contains(",") && !usid.contains("or")){
+				sql="update userInfo set status=5 where usid in("+usid+")";
+			}else{
+				sql="update userInfo set status=5 where usid=? ";
+				params.add(usid);
+			}
+		}else {
+			sql="update userInfo set status=2 where usid=? ";
+			params.add(usid);
+		}
+		return db.doUpdate(sql,params);
+	}
+
+	@Override
+	public List<UserInfo> find(Map<String, String> param, Integer pageNo,
+			Integer pageSize) {
+		DBHelper db=new DBHelper();
+		List<Object>  params=new ArrayList<Object>();
+		String sql="select * from userInfo  " ;
+		if(param!=null && param.size()>0){
+			sql+=" where 1=1  ";
+			Set<String> keys=param.keySet();
+			for (String key : keys) {
+				sql+=" and "+key+" ? " ;
+				params.add(param.get(key));
+			}
+		}
+		sql+=" order by usid desc ";
+		
+		if(pageNo!=null){
+		
+			sql="select * from(select a.*,rownum  rn from (  "+sql+" ) a  where rownum<=? ) where rn>?";
+			params.add(pageNo*pageSize);
+			params.add((pageNo-1)*pageSize);
+		}
+	
+		return db.find(sql, params,UserInfo.class);
 	}
 
 }

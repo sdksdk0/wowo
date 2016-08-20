@@ -124,6 +124,15 @@ $(function() {
 					title="审核店铺信息";
 					href="checkStatus.html";
 				}
+			}else if(node.id=="index_user"){
+				if (tabs.tabs("exists", "会员信息")) {
+					// 如果存在则选中
+					tabs.tabs("select", "会员信息");
+					return;
+				} else {
+					title="会员信息";
+					href="user.html";
+				}
 			}
 			
 			

@@ -1,5 +1,8 @@
 package cn.tf.biz.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import cn.tf.biz.UserInfoBiz;
 import cn.tf.dao.UserInfoDao;
 import cn.tf.dao.impl.UserInfoDaoImpl;
@@ -21,6 +24,31 @@ public class UserInfoBizImpl implements UserInfoBiz {
 	public UserInfo login(String name, String pwd) {
 		UserInfoDao userInfoDao=new UserInfoDaoImpl();
 		return userInfoDao.login(name,pwd);
+	}
+
+	@Override
+	public List<UserInfo> find(Integer pageNo, Integer pageSize) {
+		UserInfoDao userInfoDao=new UserInfoDaoImpl();
+		return userInfoDao.find(pageNo,pageSize);
+	}
+
+	@Override
+	public int getTotal(Object object) {
+		UserInfoDao userInfoDao=new UserInfoDaoImpl();
+		return userInfoDao.getTotal(object);
+	}
+
+	@Override
+	public int del(String usid,String value) {
+		UserInfoDao userInfoDao=new UserInfoDaoImpl();
+		return userInfoDao.del(usid,value);
+	}
+
+	@Override
+	public List<UserInfo> find(Map<String, String> param, Integer pageNo,
+			Integer pageSize) {
+		UserInfoDao userInfoDao=new UserInfoDaoImpl();
+		return userInfoDao.find(param,pageNo,pageSize);
 	}
 	
 	

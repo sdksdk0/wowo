@@ -28,6 +28,8 @@
 			<option value='3'>预定</option>
 	</select> &nbsp;&nbsp;<a href="javascript:search_goods()"
 		class="easyui-linkbutton" data-options="iconCls:'icon-search'">查找</a>
+		
+		<input type="hidden"  id="update_spid"  />
 </div>
 
 
@@ -76,8 +78,7 @@
 			
 		<script>
 
-$(function(){
-	
+
 	
 	$('#showgoods_dataInfo')
 			.datagrid(
@@ -143,10 +144,15 @@ $(function(){
 									width : 100,
 									align : 'center'
 								},
-								
 								{
 									field : 'statusStr',
 									title : '类型状态',
+									width : 80,
+									align : 'center'
+								},
+								{
+									field : 'spid',
+									title : '所属店铺编号',
 									width : 80,
 									align : 'center'
 								},
@@ -155,7 +161,7 @@ $(function(){
 									title : '所属店铺名',
 									width : 80,
 									align : 'center'
-								},
+								},	
 								{
 									field : '_operate',
 									title : '操作',
@@ -171,7 +177,7 @@ $(function(){
 						toolbar : "#goods_search"
 
 					});
-})
+
 
 	
 	
@@ -179,19 +185,34 @@ $(function(){
 	
 	//弹出更新操作框
 	function updategoods(row){
-		$("#admin_updategoods").dialog("open");
 		
-		$("#update_goods_gid").val(row.gid);
-		$("#update_goods_gname").val(row.gname);
-		$("#update_goods_des").val(row.des);
-		$("#update_goods_status  option:selected").text(row.statusStr);
-		$("#update_goods_price").val(row.price);
+
 		
-		if(row.pic!=""){
-			$("#update_showPicDiv").attr("src","../../"+row.pic);
-		}else{
-			$("#update_showPicDiv").attr("src","../../images/zanwu.jpg");
-		}
+		$.post("../../servlet/goodsInfoServlet",{op:"checkSpid",spid:row.spid},function(data){
+			data=parseInt($.trim(data));
+			if(data>0){
+				
+					$("#admin_updategoods").dialog("open");
+					
+					$("#update_goods_gid").val(row.gid);
+					$("#update_goods_gname").val(row.gname);
+					$("#update_goods_des").val(row.des);
+					$("#update_goods_status  option:selected").text(row.statusStr);
+					$("#update_goods_price").val(row.price);
+					
+					if(row.pic!=""){
+						$("#update_showPicDiv").attr("src","../../"+row.pic);
+					}else{
+						$("#update_showPicDiv").attr("src","../../images/zanwu.jpg");
+					}
+			}else{
+				$.messager.show({title:'温馨提示',msg:'非自家店铺，无修改权限！',timeout:2000,showType:'slide'});
+				
+			}
+
+		});
+		
+		
 	}
 	
 	

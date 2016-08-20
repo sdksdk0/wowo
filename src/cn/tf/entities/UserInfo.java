@@ -45,6 +45,11 @@ public class UserInfo implements Serializable{
 	public void setUsid(Integer usid) {
 		this.usid = usid;
 	}
+	public void setUsids(Integer usid) {
+		this.usid = usid;
+	}
+	
+	
 	public String getUname() {
 		return uname;
 	}
@@ -93,6 +98,13 @@ public class UserInfo implements Serializable{
 	public void setArea(String area) {
 		this.area = area;
 	}
+	
+	public String getAddr( ){
+		return prov+""+city+""+area;
+	}
+	
+	
+	
 	public Integer getGrade() {
 		return grade;
 	}
@@ -102,6 +114,27 @@ public class UserInfo implements Serializable{
 	public Integer getStatus() {
 		return status;
 	}
+	
+	
+	public String getStatusStr() {
+		
+		if(status==1){
+			return "铜牌会员";
+		}else if(status==2){
+			return "大众会员";
+		}else if(status==3){
+			return "白银会员";
+		}else if(status==4){
+			return "黄金会员";
+		}else {
+			return "账号异常";
+		}
+		
+		
+	}
+	
+	
+	
 	public void setStatus(Integer status) {
 		this.status = status;
 	}

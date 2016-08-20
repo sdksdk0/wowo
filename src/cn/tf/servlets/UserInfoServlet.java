@@ -58,9 +58,91 @@ public class UserInfoServlet extends BasicServlet {
 			userLogin(request,response);
 		}else if("getLoginInfo".equals(op)){
 			getLoginInfo(request,response);
+		}else if("findUserInfoByPage".equals(op)){
+			findUserInfoByPage(request,response);
+		}else if("deleteUserInfo".equals(op)){
+			deleteUserInfo(request,response);
+		}else if("searchUserInfoByPage".equals(op)){
+			searchUserInfoByPage(request,response);
 		}
 		
 
+	}
+
+
+	//条件查询
+	private void searchUserInfoByPage(HttpServletRequest request,
+			HttpServletResponse response) {
+		String prov=request.getParameter("prov");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");	
+		String uname=request.getParameter("uname");
+		String status=request.getParameter("status");
+		
+		
+		String pageNo=request.getParameter("page");
+		String pageSize=request.getParameter("rows");
+		
+		Map<String,String>  param=new HashMap<String,String>();
+		
+		if(!"--请选择省份--".equals(prov)){
+			param.put("  prov=", prov);
+		}
+		if(!"--请选择城市--".equals(city)){
+			param.put("  city=", city);
+		}
+		if(!"--请选择地区--".equals(area)){
+			param.put("  area=", area);
+		}
+		
+		if(!"-1".equals(status)){
+			param.put(" status=", status);
+		}
+		
+		if(uname!=null && !"".equals(uname)){
+			param.put(" uname like ", "%"+uname+"%");
+		}
+		UserInfoBiz userInfoBiz=new UserInfoBizImpl();
+		List<UserInfo>  list=userInfoBiz.find(param,Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+		List<UserInfo>  list1=userInfoBiz.find(param,null,null);
+		this.out(response, list,list1.size());
+		
+		
+		
+	}
+
+
+
+	//冻结解冻客户
+	private void deleteUserInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		String value=request.getParameter("value");
+		String usid=request.getParameter("usid");
+		UserInfoBiz userInfoBiz=new UserInfoBizImpl();
+		
+		int result=userInfoBiz.del(usid,value);
+		if(result>0){
+			this.getServletContext().getAttribute(AttributeData.CURRENTUSERLOGIN);
+		}
+
+		this.out(response,result);
+		
+		
+		
+	}
+
+
+	//查询所有用户信息
+	private void findUserInfoByPage(HttpServletRequest request,
+			HttpServletResponse response) {
+		String pageNo=request.getParameter("page");
+		String pageSize=request.getParameter("rows");
+		
+		UserInfoBiz userInfoBiz=new UserInfoBizImpl();
+		List<UserInfo>  list=userInfoBiz.find(Integer.parseInt(pageNo),Integer.parseInt(pageSize));
+		
+		this.out(response, list,userInfoBiz.getTotal(null));
+		
 	}
 
 

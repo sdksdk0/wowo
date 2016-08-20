@@ -91,7 +91,6 @@ public class Goods implements Serializable{
 		}else{
 			return "状态异常";
 		}
-		
 	}
 	
 	public void setStatus(Integer status) {
