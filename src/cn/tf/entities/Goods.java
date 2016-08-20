@@ -19,6 +19,10 @@ public class Goods implements Serializable{
 	
 	private String sname;
 	
+	private String area;
+	
+	
+	
 	
 	
 /*	private String aname;
@@ -26,10 +30,18 @@ public class Goods implements Serializable{
 	private String mark;
 	private String temp;*/
 	
-
+	
+	
+	
 	
 	public void setGid(Integer gid) {
 		this.gid = gid;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
 	}
 	public Integer getGid() {
 		return gid;
