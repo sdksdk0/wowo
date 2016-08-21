@@ -133,6 +133,15 @@ $(function() {
 					title="会员信息";
 					href="user.html";
 				}
+			}else if(node.id=="index_goodsaction"){
+				if (tabs.tabs("exists", "活动信息管理")) {
+					// 如果存在则选中
+					tabs.tabs("select", "活动信息管理");
+					return;
+				} else {
+					title="活动信息管理";
+					href="goodsAction.html";
+				}
 			}
 			
 			

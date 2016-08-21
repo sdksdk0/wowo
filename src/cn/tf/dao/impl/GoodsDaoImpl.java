@@ -61,8 +61,6 @@ public class GoodsDaoImpl implements GoodsDao {
 				params.add((pageNo-1)*pageSize);
 			}
 		}
-		
-		
 		return db.find(sql, params,Goods.class);
 	}
 
@@ -204,7 +202,7 @@ public class GoodsDaoImpl implements GoodsDao {
 		DBHelper db=new DBHelper();
 		List<Object>  params=new ArrayList<Object>();
 			
-		String sql=" select gname,price  from goods where status=2  and  gid=?   ";
+		String sql=" select gid,gname,price,des,pic,status,spid  from goods where status=2  and  gid=?   ";
 		params.add(gid);
 		return db.findByOne(sql,params,Goods.class);
 	}

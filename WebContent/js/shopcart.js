@@ -6,158 +6,168 @@
 					$(".gotopBtn").css("visibility","visible");
 				}else{
 					$(".gotopBtn").css("visibility","none");
-				}
+				}	
 				
-			  });
+				
+	});
+
+  
+  $(function(){
+	  var table = document.getElementById('cartTable'); 
+	  var tr = table.children[1].rows;
+	  var selectedTotal = document.getElementById('selectedTotal');
+	  var priceTotal = document.getElementById('priceTotal'); //总计
+	  var selectInputs = document.getElementsByClassName('check');
+	  var checkAllInputs = document.getElementsByClassName('check-all');
+	  var selected = document.getElementById('selected');
+	  
+		//更新总数和总价格
+		  function getTotal() {
+				var seleted = 0;
+				var price = 0;
+				for (var i = 0, len = tr.length; i < len; i++) {
+					if (tr[i].getElementsByTagName('input')[0].checked) {
+						tr[i].className = 'on';
+						seleted += parseInt(tr[i].getElementsByTagName('input')[1].value);
+						price += parseFloat(tr[i].cells[5].innerHTML);
+					}
+					else {
+						tr[i].className = '';
+					}
+				}	
+				selectedTotal.innerHTML = seleted;
+				priceTotal.innerHTML = price.toFixed(2);
+			
+		}
+	  
+	  
+	  
+	//为每行元素添加事
+	  for (var i = 0; i < tr.length; i++) {
+	      //将点击事件绑定到tr元素
+	      tr[i].onclick = function (e) {
+	          var e = e || window.event;
+	          var el = e.target || e.srcElement; //通过事件对象的target属性获取触发
+	          var cls = el.className; //触发元素的class
+	          var countInout = this.getElementsByTagName('input')[1]; // 数目input
+	          var value = parseInt(countInout.value); //数目
+	          //通过判断触发元素的class确定用户点击了哪个
+	          switch (cls) {
+	              case 'add': //点击了加
+	                  countInout.value = value + 1;
+	                  getSubtotal(this);
+	                  break;
+	              case 'reduce': //点击了减
+	                  if (value > 1) {
+	                      countInout.value = value - 1;
+	                      getSubtotal(this);
+	                  }
+	                  break;
+	              case 'delete': //点击了删陿
+	                    var conf = confirm('确定删除此商品吗＿');
+	                    if (conf) {
+	                        this.parentNode.removeChild(this);
+	                    }
+	                    break;
+	          }
+	          getTotal();
+	      }
+	      // 给数目输入框绑定keyup事件
+	        tr[i].getElementsByTagName('input')[0].onkeyup = function () {
+	            var val = parseInt(this.value);
+	            if (isNaN(val) || val <= 0) {
+	                val = 1;
+	            }
+	            if (this.value != val) {
+	                this.value = val;
+	            }
+	            getSubtotal(this.parentNode.parentNode); //更新小计
+	            getTotal(); //更新总数
+	        }
+  
+	  }
+	  
+
+	  
+	// 计算单行价格
+	  function getSubtotal(tr) {
+	      var cells = tr.cells;
+	      var price = cells[3]; //单价
+	      var subtotal = cells[5]; //小计td
+	      var countInput = tr.getElementsByTagName('input')[1]; //数目input
+	      var span = tr.getElementsByTagName('span')[1]; //-叿
+	      //写入HTML
+	      subtotal.innerHTML = (parseInt(countInput.value) * parseFloat(price.innerHTML)).toFixed(2);
+	      //如果数目只有一个，抿-号去掿
+	      if (countInput.value == 1) {
+	          span.innerHTML = '';
+	      }else{
+	          span.innerHTML = '-';
+	      }
+	  }
+	  
+	  
+	  // 点击选择框
+	    for(var i = 0; i < selectInputs.length; i++ ){
+	        selectInputs[i].onclick = function () {
+	            if (this.className.indexOf('check-all') >= 0) { //如果是全选，则吧所有的选择框选中
+	                for (var j = 0; j < selectInputs.length; j++) {
+	                    selectInputs[j].checked = this.checked;
+	                }
+	            }
+	            if (!this.checked) { //只要有一个未勾选，则取消全选框的选中状怿
+	                for (var i = 0; i < checkAllInputs.length; i++) {
+	                    checkAllInputs[i].checked = false;
+	                }
+	            }
+	            getTotal();//选完更新总计
+	        }
+	    }
+	    
+	    
+	    // 点击全部删除
+	    deleteAll.onclick = function () {
+	        if (selectedTotal.innerHTML != 0) {
+	            var con = confirm('确定删除所选商品吗＿'); //弹出确认桿
+	            if (con) {
+	                for (var i = 0; i < tr.length; i++) {
+	                    // 如果被选中，就删除相应的行
+	                    if (tr[i].getElementsByTagName('input')[0].checked) {
+	                        tr[i].parentNode.removeChild(tr[i]); // 删除相应节点
+	                        i--; //回退下标位置
+	                    }
+	                }
+	            }
+	        } else {
+	            alert('请选择商品＿');
+	        }
+	        getTotal(); //更新总数
+	    }
+
+	  
+  });
+  
+  
+  //生成订单
+  function genOrder(){
+	  
+		$("servlet/goodsInfoServlet",{op:"genOrder"},function(data){
+			 if(data>0){
+				 location.href="pay.jsp";
+			 } else{
+				 alert("请先登录");
+				location.href="login.html";
+			 }
+			  
+		  });
+
+  }
 
   
   
-			$(".yahei").bind({
-				change:function(){
-					getPrice(this);
-				}
-			});
-			
-			function getPrice(obj){
-				var price=$(obj).parent().parent().prev().children().eq(0).text();
-				price=price.substr(1,price.length-1);
-				
-				price=price*$(obj).val();
-				$(obj).parent().parent().next().children().eq(0).text( "￥"+price);
-				
-				getAllPrice();
-			}
-			
-			
-			function getAllPrice(){
-					var allPrice=0;
-				$("tbody").children().each(function(index, element) {
-                   var singlePrice=$(element).children().eq(4).children().eq(0).text();
-				   singlePrice=singlePrice.substr(1,singlePrice.length-1);
-				   allPrice+= parseInt( singlePrice );
-                });
-				$("tfoot .price").text("￥"+allPrice);
-			}
-			
-			
-			function subNum(obj){
-				var num=$(obj).next().val();
-				if(num<=0){
-					$(obj).next().val(1);
-				}else if(num>999){
-					$(obj).next().val(999);
-				}else{
-					num--;
-					$(obj).next().val(num);
-					getPrice($(obj).next());
-				}
-			}
-			
-			function addNum(obj){
-				var num=$(obj).prev().val();
-				if(num<0){
-					$(obj).prev().val(1);
-				}else if(num>=999){
-					$(obj).prev().val(999);
-				}else{
-					num++;
-					$(obj).prev().val(num);
-					getPrice($(obj).prev());
-				}
-			}
-			
-			function removeProduct(obj){
-				$(obj).parent().parent().remove();
-				getAllPrice();
-			}
-			
-			
-			
-			
-			
-		function delOneItem(gid){
-    		var sure = window.confirm("确定要删除吗？");
-    		if(sure){
-    			location.href="${pageContext.request.contextPath}/servlet/goodsInfoServlet?op=delOneItem&gid="+gid;
-    		}
-    	}
-			
-			
-		/*window.onload=function(){
-			productCount();	
-			
-		}
-		
-		$("#productnum").blur(function(){
-			productCount();
-			}
-		);
-		
-		function productCount(){
-			var total=0;  //总金额
-			var price=0;
-			var num=0;
-			var sum=0;
-			
-			
-			
-			var oldprice=$("#wwprice").text();
-			price=$.trim(oldprice.replace("¥",""));
-
-			num=$("#productnum").val();
-			
-		var trs=document.getElementById("mytable").getElementsByTagName("tr");
-	
-		for(var i=0;i<trs.length;i++){
-		
-			if(isNaN(num)){
-				alert("您输入的数量有误，请重新输入");
-				$(this).select();
-				return;	
-			}
-			
-			
-			tot=price*num;
-			total=tot.toFixed(2);
-			
-			
-		}
-			sum+=tot;
-			
-			$("#yprice").text("¥"+total);
-			$("#tolprice").text(sum);
-			
-		}
-		
-			
-		$(".decrNum").click(function(){
-				var val1=$("#productnum").val();
-				if(val1<=1){
-					alert("不能再减了哦");
-					return;
-				}else{
-					val1--;
-					$("#productnum").attr("value",val1);
-				}
-				productCount();
-			
-		});
-		
-		$(".addNum").click(function(){
-				var val1=$("#productnum").val();
-				val1++;
-				$("#productnum").attr("value",val1);
-				productCount();
-			
-		});
-			*/
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+  
+  
+  
+  
+  
+  

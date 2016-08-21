@@ -21,7 +21,7 @@
 			  if(data.length>0){
 				  $.each(data,function(index,item){
 					  
-					  $("#detailsTitle").html("  <h2 class=\"details-h2\">["+item.area+"]"+item.sname+"</h2>"
+					  $("#detailsTitle").html("  <h2 class=\"details-h2\">["+item.area+"]"+item.gname+"</h2>"
 							  +"<p class=\"details-p\">"+item.des+"</p>");
 					  $("#wowoprice").html("<strong class=\"wowoprice\"   id=\"wowoprice\">¥"+item.price+"</strong>");
 					  $("#detailimg").html("<img width=\"456\" height=\"304\" border=\"0\" src="+item.pic+"   id=\"detailsimg\">");
@@ -32,10 +32,7 @@
 					  $("#titname").html(" <img width=\"128\" height=\"96\" src=\""+item.pic+"\"><span class=\"tit\">"+item.sname+"</span>");
 					  $("#py").html("<span class=\"py\"   id=\"py\">¥"+item.price+"</span>");
 					  $("#buysubmit").html("<a class=\"butbtn\" data=\"buySubmit\" rel=\"nofollow\" href=\"javascript:showCart("+item.gid+")\">确认购买</a>");
-				  });
-				  
-				  
-				  
+				  });  
 			  }else{
 				  alert("数据异常，请检查网络");
 			  }

@@ -24,6 +24,7 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.lang.RandomStringUtils;
 
 import cn.tf.bean.Cart;
+import cn.tf.bean.CartItem;
 import cn.tf.biz.GoodsBiz;
 import cn.tf.biz.GoodstypeBiz;
 import cn.tf.biz.IAdminInfoBiz;
@@ -37,8 +38,10 @@ import cn.tf.biz.impl.ShopBizImpl;
 import cn.tf.entities.AdminInfo;
 import cn.tf.entities.Goods;
 import cn.tf.entities.GoodsType;
+import cn.tf.entities.Orders;
 import cn.tf.entities.Roles;
 import cn.tf.entities.Shopping;
+import cn.tf.entities.UserInfo;
 import cn.tf.utils.AttributeData;
 import cn.tf.utils.SendMailThread;
 import cn.tf.utils.UploadUtil;
@@ -47,9 +50,6 @@ import cn.tf.utils.WebUtil;
 
 @WebServlet(name="goodsInfoServlet",urlPatterns="/servlet/goodsInfoServlet")
 public class goodsInfoServlet extends BasicServlet {
-
-   
-
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -73,18 +73,65 @@ public class goodsInfoServlet extends BasicServlet {
 			findGoodsDetal(request,response);
 		}else if("addGoods".equals(op)){
 			addGoods(request,response);
+		}else if("delOneItem".equals(op)){
+			delOneItem(request,response);
+		}else if("changeNum".equals(op)){
+			changeNum(request,response);
+		}else if("genOrder".equals(op)){
+			genOrder(request,response);
 		}
 	
 	}
 
-	//添加商品到购物车
+	
+	//生成订单
+	private void genOrder(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+ 
+		HttpSession session=request.getSession();
+		Object userInfo=session.getAttribute(AttributeData.CURRENTUSERLOGIN);
+		if(userInfo==null){
+			this.out(response,0);
+		}	
+	}
 
+
+	//改变数据的时候
+	private void changeNum(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		String gid=request.getParameter("gid");
+		Cart cart=(Cart) request.getSession().getAttribute("cart");
+		CartItem item=cart.getItems().get(gid);
+		item.setNumber(Integer.parseInt(request.getParameter("value")));
+		
+		
+	}
+
+
+	//从购物车中删除
+	private void delOneItem(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		String gid=request.getParameter("gid");
+
+		Cart cart=(Cart) request.getSession().getAttribute("cart");
+		
+
+		cart.getItems().remove(gid);
+		
+
+		this.out(response,1);
+
+	}
+	//添加商品到购物车
 	private void addGoods(HttpServletRequest request,
 			HttpServletResponse response) {
 		String gid=request.getParameter("gid");
 		
 		GoodsBiz goodsBiz=new GoodsBizImpl();	
-		//得到书籍
+		
 		Goods goods=goodsBiz.findGoods(gid);
 		
 		//购物车

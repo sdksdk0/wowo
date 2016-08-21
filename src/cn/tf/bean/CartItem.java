@@ -8,7 +8,7 @@ import cn.tf.entities.Goods;
 public class CartItem implements Serializable{
 	
 	private Goods goods;//该项对应的商品
-	private float price;//小计：单价*数量
+	private double price;//小计：单价*数量
 	private int number;//数量
 	
 	public CartItem(Goods goods){
@@ -23,7 +23,7 @@ public class CartItem implements Serializable{
 		this.goods = goods;
 	}
 
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
@@ -37,6 +37,12 @@ public class CartItem implements Serializable{
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	@Override
+	public String toString() {
+		return "CartItem [goods=" + goods + ", price=" + price + ", number="
+				+ number + "]";
 	}
 
 	

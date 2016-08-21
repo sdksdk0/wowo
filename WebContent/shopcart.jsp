@@ -9,58 +9,41 @@
 		<script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
         <script  type="text/javascript"  src="js/userinfo.js"></script>
          <script  type="text/javascript"  src="js/shopcart.js"></script>
-		
+
 		
 	</head>
   
-     <style>
+  <style>
+  
+.fl{float:left;}
+.fr{float:right;}
+  
+  
+.catbox{width:940px;margin:0px auto;}
+.catbox table{text-align:center;width:99%;}
+.catbox table th,.catbox table td{border:1px solid #CADEFF;}
+.catbox table th{background:#e2f2ff;border-top:3px solid #a7cbff;height:30px;}
+.catbox table td{padding:10px;color:#444;}
+.catbox table tbody tr:hover{background:RGB(238,246,255);}
+		.checkbox{width:50px;}
+.check-all{ vertical-align:middle;}
+.goods{width:300px;}
+.goods span{width:180px;margin-top:20px;text-align:left;float:left;}
+.goods img{width:100px;height:80px;margin-right:10px;float:left;}
+.price{width:130px;}
+.count{width:90px;}
+.count .add, .count input, .count .reduce{float:left;margin-right:-1px;position:relative;z-index:0;}
+.count .add, .count .reduce{height:23px;width:17px;border:1px solid #e5e5e5;background:#f0f0f0;text-align:center;line-height:23px;color:#444;}
+.count .add:hover, .count .reduce:hover{color:#f50;z-index:3;border-color:#f60;cursor:pointer;}
+.count input{width:50px;height:15px;line-height:15px;border:1px solid #aaa;color:#343434;text-align:center;padding:4px 0;background-color:#fff;z-index:2;}
+.subtotal{width:150px;color:red;font-weight:bold;}
+.operation span:hover,a:hover{cursor:pointer;color:red;text-decoration:underline;}
+.foot{margin-top:0px;color:#666;height:48px;border:1px solid #c8c8c8;border-top:0;background-color:#eaeaea;background-image:linear-gradient(RGB(241,241,241),RGB(226,226,226));position:relative;z-index:8;}
+.foot div, .foot a{line-height:48px;height:48px;}
+.foot .select-all{width:80px;height:48px;line-height:48px;color:#666;text-align:center;}
+.foot .delete{padding-left:10px;}		
 	
-		.decrNum,.addNum{
-			display:block;
-			width:30px;
-			height:35px;
-			background-color:gray;	
-			text-align:center;
-			float:left;
-			text-decoration:none;
-			font-size:16px;
-			line-height:35px;
-			margin-top:14px;
-		}
-		
-		.productnum{
-			width:60px;
-			height:30px;
-			text-align:center;
-		}
-		
-		.productNum{
-			margin-top:14px;
-			display: block;
-			float:left;
-		}
-		
-		
-		.decrNum{
-			margin-left:30px;		
-		}
-		
-		.decrNum:hover,.addNum:hover{
-			text-decoration:none;	
-		}
-		
-		.delDetal,#delDetal2{
-				margin-right:20px;
-				font-size:16px;
-				color:red;
-				float:right;
-				
-		}
-		
-		.delIt{
-			width:60px;	
-		}
-	
+
 	</style>
   
   
@@ -278,109 +261,61 @@
         
         <div id="payprocess">
 			<h1>确认订单</h1>
-			<c:if test="${empty sessionScope.cart.items}">
-    	您还没有购买任何商品
-    </c:if>
+			<div class="catbox">
+  				<table id="cartTable">
+    				<thead>
+    					<tr>
+							<c:if test="${empty sessionScope.cart.items}">
+				    	您还没有购买任何商品
+				   			 </c:if>
+				   			 </tr>
+    </thead>
+    <tbody>
     <c:if test="${!empty sessionScope.cart.items}">
-    	<table width="918" cellspacing="0" cellpadding="0" border="0" id="mytable">
     		<tr>
-    			<th></th>
+    			 <th><label><input class="check-all check" type="checkbox"/>&nbsp;&nbsp;全选</label></th>
     			<th>商品名</th>
-    			<th>原价</th>
+    			<th >原价</th>
     			<th>窝窝价</th>
     			<th>数量</th>
     			<th>小计</th>
     			<th>操作</th>
     		</tr>
     		<c:forEach items="${sessionScope.cart.items}" var="me" varStatus="vs">
-    		
+    	
+    				
+    				<tr>
+				        <td class="checkbox"><input class="check-one check" type="checkbox"  /></td>
+				        <td class="goods"><span>${me.value.goods.gname}</span></td>
+				        <td class="price">${me.value.goods.price*2}</td>
+				        <td class="price">${me.value.goods.price}</td>
+				        <td class="count">
+					          <span class="reduce">-</span>
+					          <input class="count-input" type="text"  value="${me.value.number}"   />
+					          <span class="add">+</span>
+					     </td>
+				        <td class="subtotal">${me.value.goods.price*me.value.number} </td>
+				        <td class="operation"><span class="delete">删除</span></td>
+     				 </tr>
     				
     				
-    		
-    		
-    	 		<tr class="${vs.index%2==0?'even':'odd'}">
-    				<td>${me.value.goods.gid}</td>
-	    			<td>${me.value.goods.gname}</td>
-	    			<td>${me.value.goods.price*2}</td>
-	    			<td>${me.value.goods.price}</td>
-	    			<td><input type="text" size="3" id="number" name="number" value="${me.value.number}" onchange="changeNumber(this,'${me.value.number}','${me.key}')"/></td>
-	    			<td>${me.value.goods.price}</td>
-	    			<td>
-	    				<a href="javascript:delOneItem('${me.key}')">删除</a>
-	    			</td>
-	    		</tr> 
     		</c:forEach>
-    		<tr>
+    		
     			
-    			 <td align="right" colspan="10">
-    				总数量：${sessionScope.cart.number}&nbsp;&nbsp;
-    				应付总额：${sessionScope.cart.price}&nbsp;&nbsp;
-    			</td> 
-    		</tr>
-    	</table>
+    	   </tbody>
+    	   
+  </table>
     </c:if>
+		  <div class="foot" id="foot">
+    <label class="fl select-all"><input type="checkbox" class="check-all check"/>&nbsp;&nbsp;全选</label>
+       <a class="fl delete" id="deleteAll" href="javascript:;">删除</a>
+    <div class="fr total">合计：￥<span id="priceTotal"   class="price"   style="color:red;">0.00</span></div>
+    <div class="fr selected" id="selected">已选商品<span id="selectedTotal"   style="color:red;">0</span>件</div>
+  </div>	
 			
-			
-			
-			<!-- <form id="orderform" method="post" action="/buy/insertOrder.do">
-				<table width="918" cellspacing="0" cellpadding="0" border="0">
-                    <thead>
-                        <tr>
-                            <th class="first" width="350" valign="middle">商品名称</th>
-                            <th width="130" valign="middle">价值</th>
-                            <th width="120" valign="middle">窝窝价</th>
-                            <th width="170" valign="middle">购买数量</th>
-                            <th class="last" width="138" valign="middle">
-                            	<span>总价</span>
-                            </th>
-                        </tr>
-                    </thead>
-					<tbody>
-						<tr>
-							<td valign="middle" height="60">
-                            	<div id="numimg" onclick="removeProduct(this)" ></div>
-                                <a href="#">
-                                	<span class="title">98元虾巢香辣虾双人套餐</span>
-                                </a>
-							</td>
-							<td valign="middle" height="60" align="center">
-								<span class="price">¥144.00</span>
-							</td>
-							<td valign="middle" height="60" align="center">
-								<span class="price">¥98.00</span>
-							</td>
-							<td valign="middle" height="60">
-								<div class="numbox">
-                                    <div id="numimg1" onclick="subNum(this)" ></div>
-									<input id="productnum" class="numtext yahei" type="text" value="1" autocomplete="off" style="ime-mode: disabled;" maxnum="999" minnum="1" name="number">
-                                    <div id="numimg2" onclick="addNum(this)" ></div>
-								</div>
-							</td>
-							<td class="last" valign="middle" height="60" align="center">
-								<span id="yprice" class="price">¥98.00</span>
-							</td>
-						</tr>
-					</tbody>
-                    <tfoot>
-                        <tr>
-                            <td valign="middle" height="60" colspan="4">
-                            	<span class="title redb">应付总额</span>
-                            </td>
-                            <td class="last" valign="middle" align="center">
-                            	<strong class="price" style="float:right">¥98.00</strong>
-                            	<b style="display:block;float:right;margin-right:20px;font-size:14px;line-height:33px;color:red"></b>
-                            </td>-
-                    	</tr>
-                        <tr>
-                        	<td colspan="5"></td>
-                        </tr>
-                    </tfoot>
-				</table>
-			</form> -->
 			<div class="subbox">
-				<a id="nextbtn" class="next" type="next" href="javascript:;">确认购买</a>
-				<a id="nextbtn" class="next" type="next" href="javascript:;">清空订单</a>
-				<a id="nextbtn" class="next" type="next" href="javascript:;">继续购物</a>
+				<a id="nextbtn" class="next" type="next" href="javascript:genOrder();">确认购买</a>
+				<a id="nextbtn" class="next" type="next" href="index.html">继续购物</a>
 				
 			</div>
 			<div class="extime" style="text-align:right;font-size:12px;color:#999;padding-top:20px;">订单将在次日失效，请尽快完成支付</div>

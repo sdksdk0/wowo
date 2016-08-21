@@ -25,6 +25,7 @@
 							 "id":"index_shopping2",    
 							 "text":"查看店铺信息"
 					  }
+				
 				   ]	
 			},
 			{
@@ -39,6 +40,10 @@
 							   {
 							 		"id":"index_goods1",    
 									"text":"添加商品信息"
+					  			},
+					  			  {
+							 		"id":"index_goodsaction",    
+									"text":"活动信息管理"
 					  			},
 								{
 							 		"id":"index_goodstype",    
