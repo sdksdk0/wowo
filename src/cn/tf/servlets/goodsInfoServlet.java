@@ -68,10 +68,24 @@ public class goodsInfoServlet extends BasicServlet {
 			checkSpid(request,response);
 		}else if("findGoodsIndex".equals(op)){
 			findGoodsIndex(request,response);
+		}else if("findGoodsDetal".equals(op)){
+			findGoodsDetal(request,response);
 		}
-		
-		
+	
+	}
 
+
+	//商品详情
+	private void findGoodsDetal(HttpServletRequest request,
+			HttpServletResponse response) {
+		String gid=request.getParameter("gid");
+		GoodsBiz goodsBiz=new GoodsBizImpl();	
+		
+		List<Goods>  list=null;
+		if(gid!=null){
+			  list=goodsBiz.find(gid);
+		}
+		this.out(response, list);	
 	}
 
 

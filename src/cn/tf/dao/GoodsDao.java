@@ -21,6 +21,8 @@ public interface  GoodsDao {
 	List<Goods> find(Map<String, String> param, Integer pageNo, Integer pageSize);
 
 	List<Goods> find(Integer pageNo, Integer pageSize);
+
+	List<Goods> find(String gid);
 	
 
 }

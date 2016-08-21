@@ -4,6 +4,10 @@
         <meta charset="utf-8">
         <title>物品详情|窝窝团</title>
         <link rel="stylesheet" href="css/basic.css" />
+        <script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
+        <script  type="text/javascript"  src="js/userinfo.js"></script>
+         <script  type="text/javascript"  src="js/details.js"></script>
+        
     </head>
     
     <body id="center">
@@ -215,25 +219,25 @@
 		<div class="con_box clearfix">
 			<div class="con_left clearfix">
 				<div class="details-ui clearfix">
-					<h2 class="details-h2">【石鼓区】熊猫餐谋环球海鲜自助餐厅</h2>
-					<p class="details-p">仅98元，享价值196元周一至周五双人自助午餐1份！提供免费WIFI，提供免费停车位！必含女士1名，提供免费专车接送，尽享环球美食！</p>
+				
+				
+				
+					<div id="detailsTitle" ></div>
+					
+					
+					
 					<ul class="details-lft">
 						<li class="details-rigbg"></li>
 						<li class="details-buy">
-							<strong class="wowoprice">¥98</strong>
+							<strong class="wowoprice"   id="wowoprice">¥98</strong>
 							<a class="xqbuy-a" data="buySubmit" rel="nofollow" href="#">抢购</a>
 						</li>
-                        <li class="shopprice">
-                            <span>价值</span>
-                            <span>折扣</span>
-                            <span>节省</span>
-                            <span class="ari">¥196</span>
-                            <span class="ari">5折</span>
-                            <span class="ari">¥98</span>
+                        <li class="shopprice"   id="zk">
+                            
                         </li>
                         <li class="shopmsg" style="padding-bottom: 2px; padding-top: 7px;" data="groupok">
                             <span>
-                                <strong class="ari" data="salenum">1377</strong>
+                                <strong class="ari" data="salenum"   id="peopersum">1377</strong>
                                 人已购买
                             </span>
                         	<span>已成团，可继续购买</span>
@@ -259,7 +263,7 @@
 						<div id="imgBox">
                             <ul>
                                 <li>
-                                	<img width="456" height="304" border="0" src="images/details1.jpg">
+                                	<div  id="detailimg"></div>
                                 </li>
                             </ul>
                         </div>
@@ -270,101 +274,19 @@
 						<div id="goodsAll_info_div" class="details-msgtxt">
 							<div class="pubnav-box">
 								<h2 class="xqtext_title">本单详情</h2>
-								<div class="xqtext_clue">
-									<h2 class="xqtext_title">温馨提示</h2>
-									<dl class="clue_con clearfix">
-                                        <dt>有效日期：</dt>
-                                        <dd class="orange">2014年07月08日-09月20日</dd>
-                                        <dt>限购数量：</dt>
-                                        <dd>本商品不限购买</dd>
-                                        <dt>使用规则：</dt>
-                                        <dd>每张窝窝券限一位男士和一位女士/二位女士使用</dd>
-                                        <dt>预约提醒：</dt>
-                                        <dd class="phonemore">该商品无需预约</dd>
-                                        <dt>其他提示：</dt>
-                                        <dd class="clue_other">
-                                            <ul>
-                                                <li>在公共场所娱乐消费时，请您妥善保管好自己随身携带的财物，以防丢失；注意人身安全，避免发生危险。</li>
-                                                <li>提供免费wifi</li>
-                                                <li>提供免费停车位</li>
-                                                <li>1m以下儿童免费，1－1.3m儿童半价,1.3m以上儿童按成人标准收费(含1.3m)，建议购买一张窝窝劵</li>
-                                                <li>一位购票成人限带一位免费儿童，超出部分均需购儿童票； 无需预约</li>
-                                                <li>有免费专车接送</li>
-                                                <li>团购用户不可同时享受商家其他优惠，窝窝券不兑换、不找零</li>
-                                            </ul>
-                                        </dd>
-                                	</dl>
-                                </div>
-								<div class="xqtext-table">
-									<h2 class="xqtext_title">套餐内容</h2>
-									<table id="detailtab" cellspacing="0" cellpadding="0" style="display:block;">
-											<thead>
-                                                <tr>
-                                                    <th class="first" width="282" valign="middle">内容</th>
-                                                    <th width="126" valign="middle">单价</th>
-                                                    <th width="140" valign="middle">数量/规格</th>
-                                                    <th class="last" width="118" valign="middle">总计</th>
-                                                </tr>
-											</thead>
-                                            <tbody>
-                                                <tr>
-                                                	<td class="title" valign="middle" align="center" colspan="4">2选1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="first" valign="middle" align="left">周一至周五双人自助午餐：限1位男士和1位女士</td>
-                                                    <td valign="middle" align="center">196元</td>
-                                                    <td valign="middle" align="center">1份</td>
-                                                    <td class="last" valign="middle" align="center">196元</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="first" valign="middle" align="left">周一至周五双人自助午餐：2位女士</td>
-                                                    <td valign="middle" align="center">196元</td>
-                                                    <td valign="middle" align="center">1份</td>
-                                                    <td class="last" valign="middle" align="center">196元</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bottom" valign="middle" colspan="4">
-                                                    	<span>价值：196元</span>
-                                                    	<span>窝窝价：<strong>98</strong>元</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="texcon" valign="middle" colspan="4">
-                                                    	<p>限量供应：餐厅分欧陆情、亚洲风、日本料理、韩泰美食、海鲜超市、滋补靓汤、巴西烧烤、西式甜品等40多个美食档口，荟萃1200种环球美食，以完全自主的方式任君品尝，部分菜品随机调整，请以当天为准</p>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-										</table>
-									<h2 class="xqtext_title">商品介绍</h2>
-                                    <div class="xqtext_more xqtext_sj">
-                                    	<h3>海鲜类</h3>
-                                        <img class="lazyload" height="460" src="images/images1.jpg" visibility="hidden">
-                                        <div class="context"></div>
-										<h3>熟食类</h3>
-                                        <img class="lazyload" height="460" src="images/images4.jpg" visibility="hidden">
-                                        <div class="context"></div>
-                                        <p class="gs-info">以上图片仅供参考，请以商家实际提供为准</p>
-                                    </div>
+								<div class="xqtext_clue"   id="detildes">
+								
+					
                                 </div>
                             </div>
 						</div>
                         <div class="btmbuy" style="padding: 35px;">
-							<span class="py">¥98</span>
-							<ul class="cr">
-								<li>
-                                    价值<br>
-                                    <del class="num">¥196</del>
-								</li>
-                                <li>
-                                    折扣<br>
-                                    <span class="num">5折</span>
-                                </li>
-                                <li>
-                                    节省<br>
-                                    <span class="num">¥98</span>
-                                </li>
+							<span class="py"   id="py">¥98</span>
+							<ul class="cr"  >
+								<div id="cr" ></div>
 							</ul>
-							<a class="butbtn" data="buySubmit" rel="nofollow" href="shopcart.html">确认购买</a>
+							<div id="buysubmit" ></div>
+							
 							<div class="code_bg clearfix">
 								<img class="img_o" src="images/takeOrder.jpg">
 								<div class="code_font clearfix">
@@ -385,10 +307,8 @@
                     <h2 class="pub-rigtitle">专卖店信息</h2>
                     <div class="xq-shoplist">
                         <div class="hd" style="border: 0px none;">
-                            <a target="_blank" href="#" alt="熊猫餐谋海鲜自助">
-                                <img width="128" height="96" src="images/pic4.png">
-                            </a>
-                            <span class="tit">熊猫餐谋海鲜自助</span>
+                        	<div id="titname" ></div>
+                            
                             <span class="zk">
                                 <span>
                                     折扣：<em>5.0</em>折起
@@ -563,39 +483,11 @@
 		</div>
         
         
-        <script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
-        <script>
+        
+       
 		
 			
-			  $(window).scroll(function () {
-				 var t=$(this).scrollTop();
-
-				if(t>300){
-					$(".gotopBtn").css("visibility","visible");
-				}else{
-					$(".gotopBtn").css("visibility","none");
-				}
-				
-			  });
-			  
-			  
-			  $(function() {
-					$.post("servlet/UserInfoServlet", {
-						op : "getLoginInfo"
-					}, function(data) {
-						if (data == "" || data == null) {
-							$("#index_loginuser").html("您好！请 [<a class=\"yellowd1\" rel=\"nofollow\" href=\"login.html\" target=\"_blank\">登录</a>]  <b class=\"borderdc\">|</b>   [<a class=\"yellowd1\" rel=\"nofollow\" href=\"reg.html\" target=\"_blank\">注册</a>]   <b class=\"borderdc p_0_10\">|</b>");
-						} else {
-							$("#index_loginuser").text("欢迎您"+data.uname);
-						}
-
-					}, "json");
-					
-					
-			  });
-			  
-			  
-			  
-	 </script>
+			
+			
     </body>
 </html>

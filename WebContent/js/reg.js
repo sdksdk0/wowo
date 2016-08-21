@@ -4,7 +4,7 @@ var flag2=false;
 var flag3=false;
 var flag4=false;
 var flag5=false;
-
+var flag6=false;
 
 
 
@@ -133,10 +133,13 @@ $(function () {
 				
 						if(reval==""){
 							tdInfo="*密码不能为空";
+							flag6=false;
 						}else if(val!=reval){
 							tdInfo="*两次密码不一致";	
+							flag6=false;
 						}else{
 							tdInfo="";	
+							flag6=true;
 						}
 						
 						$("#reppassword_msg").text(tdInfo);
@@ -447,12 +450,12 @@ $(function() {
 				
 				if(area!="--请选择地区--"){
 					
-					if(flag1==true && flag2==true && flag3==true && flag5==true  &&   argee>0 ){
+					if(flag1==true && flag2==true && flag3==true && flag5==true   && flag6==true &&   argee>0 ){
 						
 						$.post("servlet/UserInfoServlet",{op:"registUser",username:username,pwd:pwd,tel:tel,email:email,prov:prov,city:city,area:area},function(data){
 							data=$.trim(data);
 							if(data>0){
-								location.href="login.html";
+								location.href="regok.html";
 							}else{
 								alert("注册失败!");
 							}		

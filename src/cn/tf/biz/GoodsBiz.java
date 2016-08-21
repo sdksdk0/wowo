@@ -23,4 +23,7 @@ public interface  GoodsBiz {
 
 	List<Goods> find(Integer pageNo, Integer pageSize);
 
+	//查找商品详情
+	List<Goods> find(String gid);
+
 }

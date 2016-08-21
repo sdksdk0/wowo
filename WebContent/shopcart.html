@@ -4,6 +4,11 @@
 		<meta charset="utf-8">
 		<title>窝窝团</title>
 		<link rel="stylesheet" href="css/basic.css" type="text/css" />
+		<script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
+        <script  type="text/javascript"  src="js/userinfo.js"></script>
+         <script  type="text/javascript"  src="js/shopcart.js"></script>
+		
+		
 	</head>
   
 	<body id="index">
@@ -82,19 +87,16 @@
                     </ul>
                 </li>
                 <li class="headTopLogin">
-                	<span class="Gray7" id="toplogin">
-                        您好！请 [<a class="yellowd1" rel="nofollow" href="wwtproduct.action?op=toShowLogin">登录</a>]
-                        <b class="borderdc">|</b>
-                        [<a class="yellowd1" rel="nofollow" href="wwtproduct.action?op=toShowReg">注册</a>]
-                        <b class="borderdc p_0_10">|</b>
+                	<span class="Gray7"  id="index_loginuser">
+               
                 	</span>
-                	<span id="topusername" class="yellowd1">
+                	<!-- <span id="topusername" class="yellowd1">
 						您好，<a class="yellowd1" href="" id="uname"></a>
 						&nbsp;
 						<a class="Gray7" href="javascript:void"  id="loginout">退出</a>
 						<b class="borderdc p_0_10">|</b>
 					</span>
-                    <ul class="clearfix">
+ -->                    <ul class="clearfix">
                     	<li id="msgCount" class="headTopUlist no">
                     		<em class="messico">messico</em>
                     		<a class="Gray7" rel="nofollow" href="#">消息</a>
@@ -424,84 +426,6 @@
 			</div>
 		</div>
         
-        
-        <script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
-        <script>
-		
-			
-			  $(window).scroll(function () {
-				 var t=$(this).scrollTop();
-
-				if(t>100){
-					$(".gotopBtn").css("visibility","visible");
-				}else{
-					$(".gotopBtn").css("visibility","none");
-				}
-				
-			  });
-			  
-	 </script>
-        <script src="js/jquery-1.12.4.js"></script>
-        <script>
-			$(".yahei").bind({
-				change:function(){
-					getPrice(this);
-				}
-			});
-			
-			function getPrice(obj){
-				var price=$(obj).parent().parent().prev().children().eq(0).text();
-				price=price.substr(1,price.length-1);
-				
-				price=price*$(obj).val();
-				$(obj).parent().parent().next().children().eq(0).text( "￥"+price);
-				
-				getAllPrice();
-			}
-			
-			
-			function getAllPrice(){
-					var allPrice=0;
-				$("tbody").children().each(function(index, element) {
-                   var singlePrice=$(element).children().eq(4).children().eq(0).text();
-				   singlePrice=singlePrice.substr(1,singlePrice.length-1);
-				   allPrice+= parseInt( singlePrice );
-                });
-				$("tfoot .price").text("￥"+allPrice);
-			}
-			
-			
-			function subNum(obj){
-				var num=$(obj).next().val();
-				if(num<=0){
-					$(obj).next().val(1);
-				}else if(num>999){
-					$(obj).next().val(999);
-				}else{
-					num--;
-					$(obj).next().val(num);
-					getPrice($(obj).next());
-				}
-			}
-			
-			function addNum(obj){
-				var num=$(obj).prev().val();
-				if(num<0){
-					$(obj).prev().val(1);
-				}else if(num>=999){
-					$(obj).prev().val(999);
-				}else{
-					num++;
-					$(obj).prev().val(num);
-					getPrice($(obj).prev());
-				}
-			}
-			
-			function removeProduct(obj){
-				$(obj).parent().parent().remove();
-				getAllPrice();
-			}
-		</script>
 	</body>
 </html>
 

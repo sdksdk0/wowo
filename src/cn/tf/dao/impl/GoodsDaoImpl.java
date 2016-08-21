@@ -183,4 +183,18 @@ public class GoodsDaoImpl implements GoodsDao {
 		return db.find(sql, params,Goods.class);
 	}
 
+	
+	//查找商品详情
+	@Override
+	public List<Goods> find(String gid) {
+		
+		DBHelper db=new DBHelper();
+		List<Object>  params=new ArrayList<Object>();
+			
+		String sql=" select  gid,gname,des,price,pic,g.spid,s.status,s.sname,s.area  from goods g ,shopping s  where g.spid=s.spid    and  g.status=2  and s.status=2  and gid=?   ";
+		params.add(gid);
+		return db.find(sql, params,Goods.class);
+		
+	}
+
 }
