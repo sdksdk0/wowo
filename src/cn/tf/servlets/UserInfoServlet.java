@@ -250,7 +250,7 @@ public class UserInfoServlet extends BasicServlet {
 			public void run(){
 				session.removeAttribute("code");
 			}
-		}, 6000);
+		}, 300000);
 
 		SendMailThread1 smt=new SendMailThread1(userInfo);
 		smt.start();

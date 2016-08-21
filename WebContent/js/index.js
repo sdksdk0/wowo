@@ -1,5 +1,4 @@
-
-			
+		
 			  $(window).scroll(function () {
 				 var t=$(this).scrollTop();
 
@@ -10,8 +9,6 @@
 				}
 				
 			  });
-			  
-			  
 			  
 			  
 			  $(function() {
@@ -29,68 +26,60 @@
 					}, "json");
 					
 					
-					
-					
-					$.post("servlet/goodsInfoServlet",{op:"findGoodsIndex"},function(data){
-						
-						if(data!=null){
-							var list=data;
-							for(var i=0;i<=list.length;i++){
-								
-								$("#findGoodsIndex").html(" <ul class=\"goods-allInd clearfix\">" +
-										"<li class=\"good-list\"> "
-										+"<h2 class=\"good-title\">"
-										+"<a class=\"biaoa\"  target=\"_blank\" href=\"#\">"
-										+"<strong>["+list[i].area+"],"+list[i].gname+"</strong>"
-										+list[i].des+"</a></h2>"
-										+"<div class=\"index-smalllogo\">"
-										+"<a class=\"yuy\" target=\"_blank\" href=\"#\">免预约</a></div>"
-										+"<a class=\"picture\" target=\"_blank\" href=\"#\">"
-										+"<img width=\"348\" height=\"232\" rel=\"nofollow\" src=\""+list[i].pic+"\"></a>"
-										+"<div class=\"buy-boxInd clearfix\">"
-										+"<a class=\"bh buy_a\" rel=\"nofollow\" href=\"details.html\" target=\"_blank\" status=\"0\">去看看</a>"
-										+"<span class=\"num\">¥"+list[i].price+"</span>"
-										+"<span class=\"past\">价值 ¥196</span></div></li>");
-							}
-
-						}else{
-							alert("网络异常,加载失败");
-						}
-						
-						
-					},"json");
-					
 			  });
 			  
 			  
-			/*  
-			  <li class="good-list">
-				<h2 class="good-title">
-					<a class="biaoa" title="【石鼓区】仅98元，享价值196元『熊猫餐谋环球海鲜自助餐厅』周一至周五双人自助午餐1份！提供免费WIFI，提供免费停车位！必含女士1名，提供免费专车接送，尽享环球美食！" target="_blank" href="#">
-						<strong>【石鼓区】熊猫餐谋环球海鲜自助餐厅</strong>
-						周一至周五双人自助午餐1份！提供免费WIFI，提供免费停车位！
-					</a>
-				</h2>
-				<div class="index-smalllogo">
-					<a class="yuy" target="_blank" href="#">免预约</a>
-				</div>
-				<a class="picture" target="_blank" href="#">
-					<img width="348" height="232" rel="nofollow" src="images/show1.jpg">
-				</a>
-				<div class="buy-boxInd clearfix">
-					<a class="bh buy_a" rel="nofollow" href="details.html" target="_blank" status="0">去看看</a>
-					<span class="num">¥98</span>
-					<span class="past">价值 ¥196</span>
-				</div>
-			</li>*/
-			
-			
-			  
-			
-			  
-			
+			  //首页加载商品信息
+			  var pageNo=1;
+				var flag=true;
+				$(function(){
+					pageNo=1;
+					flag=true;
+					findGoodsIndex(pageNo,4);				
+				});
 			  
 			  
+				
+			  function loadMore(){
+					if(flag){
+						findGoodsIndex(++pageNo,4);
+					}	
+				}
+				
+				var str="";
+			  function  findGoodsIndex(pageNo,pageSize){
+				  
+				  $.post("servlet/goodsInfoServlet",{op:"findGoodsIndex",pageNo:pageNo,pageSize:pageSize},function(data){
+						
+					  if(data.length>0){
+							
+							
+							$.each(data,function(index,item){
+								str+="<li class=\"good-list\"> "
+								+"<h2 class=\"good-title\">"
+								+"<a class=\"biaoa\"  target=\"_blank\" href=\"#\">"
+								+"<strong>["+item.area+"],"+item.gname+"</strong>"
+								+item.des+"</a></h2>"
+								+"<div class=\"index-smalllogo\">"
+								+"<a class=\"yuy\" target=\"_blank\" href=\"#\">免预约</a></div>"
+								+"<a class=\"picture\" target=\"_blank\" href=\"#\">"
+								+"<img width=\"348\" height=\"232\" rel=\"nofollow\" src=\""+item.pic+"\"></a>"
+								+"<div class=\"buy-boxInd clearfix\">"
+								+"<a class=\"bh buy_a\" rel=\"nofollow\" href=\"details.html\" target=\"_blank\" status=\"0\">去看看</a>"
+								+"<span class=\"num\">¥"+item.price+"</span>"
+								+"<span class=\"past\">价值 ¥196</span></div></li>";
+							});
+							
+							$("#findGoodsIndex").html(str+" <center><li class=\"loadMoreInfo\"   id=\"loadMore\"   onclick=\"loadMore()\" >加载更多</li></center>");
+
+						}else{
+							flag=false;
+							$("#loadMore").text("没有更多了");
+						}
+					},"json");
+			  }
+		
+			
 			  
 			  
 			  

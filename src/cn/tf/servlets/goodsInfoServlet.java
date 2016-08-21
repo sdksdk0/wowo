@@ -80,12 +80,12 @@ public class goodsInfoServlet extends BasicServlet {
 	private void findGoodsIndex(HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		int pageNo=1;
-		int pageSize=4;
+		String pageNo=request.getParameter("pageNo");
+		String pageSize=request.getParameter("pageSize");
 
 		GoodsBiz goodsBiz=new GoodsBizImpl();		
 		
-		List<Goods>  list=goodsBiz.find(pageNo, pageSize);
+		List<Goods>  list=goodsBiz.find(Integer.parseInt(pageNo), Integer.parseInt(pageSize));
 
 		this.out(response, list);	
 		
