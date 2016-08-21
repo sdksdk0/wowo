@@ -23,6 +23,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.lang.RandomStringUtils;
 
+import cn.tf.bean.Cart;
 import cn.tf.biz.GoodsBiz;
 import cn.tf.biz.GoodstypeBiz;
 import cn.tf.biz.IAdminInfoBiz;
@@ -70,8 +71,34 @@ public class goodsInfoServlet extends BasicServlet {
 			findGoodsIndex(request,response);
 		}else if("findGoodsDetal".equals(op)){
 			findGoodsDetal(request,response);
+		}else if("addGoods".equals(op)){
+			addGoods(request,response);
 		}
 	
+	}
+
+	//添加商品到购物车
+
+	private void addGoods(HttpServletRequest request,
+			HttpServletResponse response) {
+		String gid=request.getParameter("gid");
+		
+		GoodsBiz goodsBiz=new GoodsBizImpl();	
+		//得到书籍
+		Goods goods=goodsBiz.findGoods(gid);
+		
+		//购物车
+		HttpSession session=request.getSession();
+		Cart cart=(Cart) session.getAttribute("cart");
+		if(cart==null){
+			cart=new Cart();
+			session.setAttribute("cart", cart);
+		}
+		cart.addGoods2Items(goods);
+		
+		this.out(response, 1);
+		
+		
 	}
 
 

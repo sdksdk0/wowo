@@ -26,4 +26,7 @@ public interface  GoodsBiz {
 	//查找商品详情
 	List<Goods> find(String gid);
 
+	//订单
+	Goods findGoods(String gid);
+
 }

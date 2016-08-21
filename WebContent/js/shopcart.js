@@ -70,3 +70,94 @@
 				$(obj).parent().parent().remove();
 				getAllPrice();
 			}
+			
+			
+			
+			
+			
+		function delOneItem(gid){
+    		var sure = window.confirm("确定要删除吗？");
+    		if(sure){
+    			location.href="${pageContext.request.contextPath}/servlet/goodsInfoServlet?op=delOneItem&gid="+gid;
+    		}
+    	}
+			
+			
+		/*window.onload=function(){
+			productCount();	
+			
+		}
+		
+		$("#productnum").blur(function(){
+			productCount();
+			}
+		);
+		
+		function productCount(){
+			var total=0;  //总金额
+			var price=0;
+			var num=0;
+			var sum=0;
+			
+			
+			
+			var oldprice=$("#wwprice").text();
+			price=$.trim(oldprice.replace("¥",""));
+
+			num=$("#productnum").val();
+			
+		var trs=document.getElementById("mytable").getElementsByTagName("tr");
+	
+		for(var i=0;i<trs.length;i++){
+		
+			if(isNaN(num)){
+				alert("您输入的数量有误，请重新输入");
+				$(this).select();
+				return;	
+			}
+			
+			
+			tot=price*num;
+			total=tot.toFixed(2);
+			
+			
+		}
+			sum+=tot;
+			
+			$("#yprice").text("¥"+total);
+			$("#tolprice").text(sum);
+			
+		}
+		
+			
+		$(".decrNum").click(function(){
+				var val1=$("#productnum").val();
+				if(val1<=1){
+					alert("不能再减了哦");
+					return;
+				}else{
+					val1--;
+					$("#productnum").attr("value",val1);
+				}
+				productCount();
+			
+		});
+		
+		$(".addNum").click(function(){
+				var val1=$("#productnum").val();
+				val1++;
+				$("#productnum").attr("value",val1);
+				productCount();
+			
+		});
+			*/
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			

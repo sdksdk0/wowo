@@ -63,4 +63,10 @@ public class GoodsBizImpl implements GoodsBiz {
 		return goodsDao.find(gid);
 	}
 
+	@Override
+	public Goods findGoods(String gid) {
+		GoodsDao goodsDao=new GoodsDaoImpl();
+		return goodsDao.findGoods(gid);
+	}
+
 }

@@ -50,8 +50,21 @@
   
   
   function  showCart(gid){
+	  if(gid>0){
+		  
+		  $.post("servlet/goodsInfoServlet",{op:"addGoods",gid:gid},function(data){
+			  data=parseInt(data);
+			  if(data>0){
+				  location.href="shopcart.jsp";
+			  }else{
+				  alert("添加购物车失败");
+			  }
+			  		
+		  });
+
+		  
+	  }
 	  
-	  alert(gid);
 	  
   }
   

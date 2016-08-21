@@ -23,6 +23,8 @@ public interface  GoodsDao {
 	List<Goods> find(Integer pageNo, Integer pageSize);
 
 	List<Goods> find(String gid);
+
+	Goods findGoods(String gid);
 	
 
 }

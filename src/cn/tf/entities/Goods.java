@@ -49,7 +49,7 @@ public class Goods implements Serializable{
 	public Integer  getGids() {
 		return gid;
 	}
-	
+
 	
 	
 	public String getGname() {

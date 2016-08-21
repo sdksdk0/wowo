@@ -197,4 +197,21 @@ public class GoodsDaoImpl implements GoodsDao {
 		
 	}
 
+	
+	@Override
+	public Goods findGoods(String gid) {
+		
+		DBHelper db=new DBHelper();
+		List<Object>  params=new ArrayList<Object>();
+			
+		String sql=" select gname,price  from goods where status=2  and  gid=?   ";
+		params.add(gid);
+		return db.findByOne(sql,params,Goods.class);
+	}
+
+	
+	
+	
+	
+	
 }
