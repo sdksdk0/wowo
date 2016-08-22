@@ -23,6 +23,7 @@ public class Orders implements Serializable{
 	public String getOrdernum() {
 		return ordernum;
 	}
+	
 	public void setOrdernum(String ordernum) {
 		this.ordernum = ordernum;
 	}

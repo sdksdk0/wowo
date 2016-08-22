@@ -88,13 +88,13 @@ $(function(){
 	        //写入HTML
 	        changeNumber(countInput,numgid);
 	        
-	        subtotal.innerHTML = (parseInt(countInput.value) * parseFloat(price.innerHTML)).toFixed(2);
+	        /*subtotal.innerHTML = (parseInt(countInput.value) * parseFloat(price.innerHTML)).toFixed(2);
 	        //如果数目只有一个，抿-号去掿
 	        if (countInput.value == 1) {
 	            span.innerHTML = '';
 	        }else{
 	            span.innerHTML = '-';
-	        }
+	        }*/
 	    }
 
 	  
@@ -194,13 +194,14 @@ $(function(){
 	  if(totprice>0){
 
 		  $.post("servlet/goodsInfoServlet",{op:"genOrder",totprice:totprice},function(data){
-				 if(data>0){
-					 location.href="pay.jsp";
-				 } else{
-					 alert("请先登录");
-					location.href="login.html";
-				 }
+
+			  if(data!=null){
+				  location.href="pay.jsp";
 				  
+			  }else{
+				  alert("请先登录");
+				  location.href="login.html";
+			  }
 			  });
 		  
 	  }else{

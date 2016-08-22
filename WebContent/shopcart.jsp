@@ -260,6 +260,7 @@
         </div>
         
         <div id="payprocess">
+        ${order.ordernum }
 			<h1>确认订单</h1>
 			<div class="catbox">
   				<table id="cartTable">

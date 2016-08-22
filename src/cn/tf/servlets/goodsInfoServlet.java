@@ -104,7 +104,7 @@ public class goodsInfoServlet extends BasicServlet {
 		Cart cart=(Cart) request.getSession().getAttribute("cart");
 		
 		Orders order=new Orders();
-		//order.setOrdernum(UUID.randomUUID().toString());
+		
 		order.setOrdernum(OrderNumUtil.genOrderNum());
 		order.setPrice(Float.parseFloat( totprice));
 		order.setNumber(cart.getNumber());
@@ -124,12 +124,16 @@ public class goodsInfoServlet extends BasicServlet {
 		}
 		//建立和订单的关系
 		order.setItems(oItems);
-		OrderBiz orderBiz=new OrderBizImpl();	
-		 orderBiz.genOrder(order);
-	
-		request.setAttribute("order", order);
-
-		this.out(response,1);
+		
+		int result=0;
+		if(order!=null){
+			OrderBiz orderBiz=new OrderBizImpl();	
+			orderBiz.genOrder(order);
+			result=1;
+		}
+		request.getSession().setAttribute("order", order);
+		
+		this.out(response,result);
 	
 	}
 

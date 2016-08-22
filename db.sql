@@ -151,7 +151,7 @@ create table orderitems(
 --订单编号表
 
 create table ordernum(
-	prefix date,
+	prefix varchar2(100),
 	num int	
 )
 

@@ -30,7 +30,7 @@ public class PayServlet extends HttpServlet {
 		String p2_Order = ordernum;
 		String p3_Amt = money;
 		String p4_Cur = "CNY";
-		String p5_Pid = "goods";  //商品名称
+		String p5_Pid = "ZLH_WOWO_goods";  //商品名称
 		String p6_Pcat = "unknown";
 		String p7_Pdesc = "descrition";
 		String p8_Url = "http://localhost:8081/servlet/ResponsePayServlet";

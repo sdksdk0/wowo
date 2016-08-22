@@ -6,18 +6,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.apache.commons.lang.RandomStringUtils;
 
 
 
 //订单生成器
 public class OrderNumUtil {
 	
-	public static String genOrderNum()  {
+	public static String genOrderNum() {
 		
-//得到当前的日期,用日期去查找是否有对应记录
+		//得到当前的日期,用日期去查找是否有对应记录
 		
 	    QueryRunner qr=new QueryRunner(C3P0Util.getDataSource());
 		Date now=new Date();
@@ -26,19 +28,23 @@ public class OrderNumUtil {
 		
 		StringBuffer sb=new StringBuffer(date.replace("-", ""));
 		
+		String random=RandomStringUtils.randomNumeric(8);
 		
-		//没有对应记录，则插入当前日期和数字1
+		sb.append(random);
+		
+		return sb.toString();
+		/*//没有对应记录，则插入当前日期和数字1
 		
 	    //有对应记录，则去除数字，返回数字加1，同时更新数据库
 		try {
-			Integer num=(Integer) qr.query("select num from ordernum where prefix=to_date(?,'yyyy-MM-dd')  ", new ScalarHandler(1),date);
+			Integer num=(Integer) qr.query("select nums from ordernum where prefix=? ", new ScalarHandler(1),date);
 			if(num==null){
 				num=new Integer(1);
-				qr.update("insert into ordernum(prefix, num) values(to_date(?,'yyyy-MM-dd'),?)",date,num);
+				qr.update("insert into ordernum(prefix, nums) values(?,?)",date,num);
 				
 			}else{
 				num=num+1;
-				qr.update("update  ordernum  set num=? where prefix=to_date(?,'yyyy-MM-dd')  ",num,date);
+				qr.update("update  ordernum  set nums=? where prefix=?  ",num,date);
 			}
 			
 			int numLength=num.toString().length();
@@ -50,11 +56,9 @@ public class OrderNumUtil {
 		} catch (SQLException e) {
 			
 			throw new RuntimeException(e);
-		}
-			
-		
-		
+		}*/
 	}
+	
 	
 	
 }

@@ -15,6 +15,7 @@
 	  var url=document.location.href;
 	  var gid=url.substring(url.indexOf("?")+1);
 	  
+	  
 	  if(gid>0){
 		  $.post("servlet/goodsInfoServlet",{op:"findGoodsDetal",gid:gid},function(data){
 			

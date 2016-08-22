@@ -1,14 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
+  <head> 
     <title>在线支付</title>
     
 	<meta http-equiv="pragma" content="no-cache">
@@ -19,16 +13,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
   </head>
-  
   <body>
+  
+ 
   <center>
+  
   <img src="images/logo.jpg.jpg"  />
     <form action="servlet/PayServlet" method="post">
 		<table width="60%">
 			<tr>
 				<td bgcolor="#F7FEFF" colspan="4">
-				订单号：<INPUT TYPE="text" NAME="ordernum" value="${order.ordernum}${param.ordernum}"  readonly="readonly"> 
-				支付金额：<INPUT TYPE="text" NAME="money" size="6" value="${order.price }"  readonly="readonly">元</td>
+				订单号：<input type="text" name="ordernum"    value="${order.ordernum}"  readonly="readonly"> 
+				支付金额：<input type="text" name="money" size="6" value="${order.price }"  readonly="readonly">元</td>
 			</tr>
 			<tr>
 				<td><br />
