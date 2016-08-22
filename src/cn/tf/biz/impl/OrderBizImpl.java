@@ -18,4 +18,23 @@ public class OrderBizImpl implements OrderBiz {
 		
 	}
 
+	@Override
+	public Orders findOrderByNum(String ordernum) {
+		OrderDao orderDao=new OrderDaoImpl();
+		return orderDao.findByNum(ordernum);
+	}
+
+	@Override
+	public void updateOrder(Orders order) {
+		OrderDao orderDao=new OrderDaoImpl();
+		orderDao.update(order);
+		
+	}
+
+	@Override
+	public void changeOrderStatus(int status, String ordernum) {
+		Orders order=findOrderByNum(ordernum);
+		order.setStatus(status);
+		updateOrder(order);
+	}
 }

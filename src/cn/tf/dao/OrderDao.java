@@ -6,4 +6,8 @@ public interface  OrderDao {
 
 	void save(Orders order);
 
+	Orders findByNum(String ordernum);
+
+	void update(Orders order);
+
 }

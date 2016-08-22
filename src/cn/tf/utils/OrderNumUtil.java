@@ -31,7 +31,7 @@ public class OrderNumUtil {
 		
 	    //有对应记录，则去除数字，返回数字加1，同时更新数据库
 		try {
-			Integer num=(Integer) qr.query("select num from ordernum where prefix=? ", new ScalarHandler(1),date);
+			Integer num=(Integer) qr.query("select num from ordernum where prefix=to_date(?,'yyyy-MM-dd')  ", new ScalarHandler(1),date);
 			if(num==null){
 				num=new Integer(1);
 				qr.update("insert into ordernum(prefix, num) values(to_date(?,'yyyy-MM-dd'),?)",date,num);
