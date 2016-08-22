@@ -285,17 +285,17 @@
     	
     				
     				<tr>
-				        <td class="checkbox"><input class="check-one check" type="checkbox"  /></td>
+				        <td class="checkbox"><input class="check-one check" type="checkbox"  value="${me.value.goods.gid}"/></td>
 				        <td class="goods"><span>${me.value.goods.gname}</span></td>
 				        <td class="price">${me.value.goods.price*2}</td>
 				        <td class="price">${me.value.goods.price}</td>
 				        <td class="count">
-					          <span class="reduce">-</span>
-					          <input class="count-input" type="text"  value="${me.value.number}"   />
-					          <span class="add">+</span>
+					          <span class="reduce"  onclick="getGid('${me.value.goods.gid}')" >-</span>
+					          <input class="count-input" type="text"    value="${me.value.number}"  onchange="changeNumber(this,'${me.key}')"  />
+					          <span class="add"  onclick="getGid('${me.value.goods.gid}')" >+</span>
 					     </td>
 				        <td class="subtotal">${me.value.goods.price*me.value.number} </td>
-				        <td class="operation"><span class="delete">删除</span></td>
+				        <td class="operation"><span class="delete"    onclick="delOneItem('${me.key}')">删除</span></td>
      				 </tr>
     				
     				

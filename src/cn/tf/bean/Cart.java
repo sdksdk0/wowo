@@ -17,6 +17,9 @@ public class Cart implements Serializable{
 	public Map<Object, CartItem> getItems() {
 		return items;
 	}
+
+	
+
 	//向items中添加一项
 	public void addGoods2Items(Goods goods){
 		//如果已经在items中有：数量加1

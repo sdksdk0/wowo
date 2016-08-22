@@ -11,8 +11,12 @@
 				
 	});
 
-  
-  $(function(){
+  var numgid=null;
+$(function(){
+	
+
+	  
+	  
 	  var table = document.getElementById('cartTable'); 
 	  var tr = table.children[1].rows;
 	  var selectedTotal = document.getElementById('selectedTotal');
@@ -20,6 +24,9 @@
 	  var selectInputs = document.getElementsByClassName('check');
 	  var checkAllInputs = document.getElementsByClassName('check-all');
 	  var selected = document.getElementById('selected');
+	 
+	  
+	  
 	  
 		//更新总数和总价格
 		  function getTotal() {
@@ -40,12 +47,13 @@
 			
 		}
 	  
-	  
+
 	  
 	//为每行元素添加事
 	  for (var i = 0; i < tr.length; i++) {
 	      //将点击事件绑定到tr元素
 	      tr[i].onclick = function (e) {
+	    	 
 	          var e = e || window.event;
 	          var el = e.target || e.srcElement; //通过事件对象的target属性获取触发
 	          var cls = el.className; //触发元素的class
@@ -54,57 +62,41 @@
 	          //通过判断触发元素的class确定用户点击了哪个
 	          switch (cls) {
 	              case 'add': //点击了加
-	                  countInout.value = value + 1;
+	            	  countInout.value = value + 1;
 	                  getSubtotal(this);
 	                  break;
 	              case 'reduce': //点击了减
 	                  if (value > 1) {
-	                      countInout.value = value - 1;
+	                	  countInout.value = value - 1;
 	                      getSubtotal(this);
 	                  }
 	                  break;
-	              case 'delete': //点击了删陿
-	                    var conf = confirm('确定删除此商品吗＿');
-	                    if (conf) {
-	                        this.parentNode.removeChild(this);
-	                    }
-	                    break;
 	          }
 	          getTotal();
 	      }
-	      // 给数目输入框绑定keyup事件
-	        tr[i].getElementsByTagName('input')[0].onkeyup = function () {
-	            var val = parseInt(this.value);
-	            if (isNaN(val) || val <= 0) {
-	                val = 1;
-	            }
-	            if (this.value != val) {
-	                this.value = val;
-	            }
-	            getSubtotal(this.parentNode.parentNode); //更新小计
-	            getTotal(); //更新总数
-	        }
   
 	  }
 	  
 
-	  
-	// 计算单行价格
-	  function getSubtotal(tr) {
-	      var cells = tr.cells;
-	      var price = cells[3]; //单价
-	      var subtotal = cells[5]; //小计td
-	      var countInput = tr.getElementsByTagName('input')[1]; //数目input
-	      var span = tr.getElementsByTagName('span')[1]; //-叿
-	      //写入HTML
-	      subtotal.innerHTML = (parseInt(countInput.value) * parseFloat(price.innerHTML)).toFixed(2);
-	      //如果数目只有一个，抿-号去掿
-	      if (countInput.value == 1) {
-	          span.innerHTML = '';
-	      }else{
-	          span.innerHTML = '-';
-	      }
-	  }
+	  // 计算单行价格
+	    function getSubtotal(tr) {
+	        var cells = tr.cells;
+	        var price = cells[2]; //单价
+	        var subtotal = cells[5]; //小计td
+	        var countInput = tr.getElementsByTagName('input')[1]; //数目input
+	        var span = tr.getElementsByTagName('span')[1]; //-
+	        //写入HTML
+	        changeNumber(countInput,numgid);
+	        
+	        subtotal.innerHTML = (parseInt(countInput.value) * parseFloat(price.innerHTML)).toFixed(2);
+	        //如果数目只有一个，抿-号去掿
+	        if (countInput.value == 1) {
+	            span.innerHTML = '';
+	        }else{
+	            span.innerHTML = '-';
+	        }
+	    }
+
 	  
 	  
 	  // 点击选择框
@@ -144,14 +136,68 @@
 	        getTotal(); //更新总数
 	    }
 
-	  
-  });
+	    
+
+		
+	    
+	    
+	    
+	    
+	 
   
+});
+  
+  
+	//删除商品项
+	function delOneItem(gid){
+		var sure = window.confirm("确定要删除吗？");
+		if(sure){
+			$.post("servlet/goodsInfoServlet",{op:"delOneItem",gid:gid},function(data){
+				 if(data>0){
+					 location.href="shopcart.jsp";
+				 } else{
+					 alert("网络异常");
+				 }
+				  
+			  });
+		}
+	}
+
+
+	//改变数量
+	
+	function changeNumber(inputObj,gid){
+		var value = inputObj.value;
+		//验证值必须是自然整数
+		if(!/^[1-9][0-9]*$/.test(value)){
+			//改为1
+			inputObj.value=1;
+			this.focus();
+			return;
+		}
+		
+		$.post("servlet/goodsInfoServlet",{op:"changeNum",value:value,gid:gid},function(data){
+			 if(data>0){
+				 location.href="shopcart.jsp";
+			 } else{
+				 alert("网络异常");
+			 }
+			  
+		  });
+	}
+	
+	  function getGid(gid){
+			numgid=gid;
+		}
+	
+	
+	
+	
   
   //生成订单
   function genOrder(){
 	  
-		$("servlet/goodsInfoServlet",{op:"genOrder"},function(data){
+		$.post("servlet/goodsInfoServlet",{op:"genOrder"},function(data){
 			 if(data>0){
 				 location.href="pay.jsp";
 			 } else{

@@ -94,6 +94,10 @@ public class goodsInfoServlet extends BasicServlet {
 		if(userInfo==null){
 			this.out(response,0);
 		}	
+		
+		
+		
+		
 	}
 
 
@@ -103,25 +107,22 @@ public class goodsInfoServlet extends BasicServlet {
 		
 		String gid=request.getParameter("gid");
 		Cart cart=(Cart) request.getSession().getAttribute("cart");
-		CartItem item=cart.getItems().get(gid);
-		item.setNumber(Integer.parseInt(request.getParameter("value")));
+		CartItem item=cart.getItems().get(Integer.parseInt(gid));
 		
 		
+		item.setNumber(Integer.parseInt(request.getParameter("value")));	
+		this.out(response, 1);
 	}
 
 
 	//从购物车中删除
 	private void delOneItem(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response) {
 		
 		String gid=request.getParameter("gid");
-
 		Cart cart=(Cart) request.getSession().getAttribute("cart");
 		
-
-		cart.getItems().remove(gid);
-		
-
+		cart.getItems().remove(Integer.parseInt(gid));
 		this.out(response,1);
 
 	}
