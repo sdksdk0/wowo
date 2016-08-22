@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.tf.entities.Goods;
+import cn.tf.entities.Orders;
 
 public interface  GoodsBiz {
 
@@ -26,7 +27,9 @@ public interface  GoodsBiz {
 	//查找商品详情
 	List<Goods> find(String gid);
 
-	//订单
+	//订
 	Goods findGoods(String gid);
+
+
 
 }

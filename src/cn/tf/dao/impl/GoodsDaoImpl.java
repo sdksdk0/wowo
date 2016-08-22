@@ -8,6 +8,7 @@ import java.util.Set;
 import cn.tf.dao.GoodsDao;
 import cn.tf.entities.Goods;
 import cn.tf.entities.GoodsType;
+import cn.tf.entities.Orders;
 import cn.tf.entities.Shopping;
 import cn.tf.utils.DBHelper;
 
@@ -207,9 +208,7 @@ public class GoodsDaoImpl implements GoodsDao {
 		return db.findByOne(sql,params,Goods.class);
 	}
 
-	
-	
-	
-	
+
+
 	
 }

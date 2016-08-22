@@ -42,7 +42,7 @@ public class Cart implements Serializable{
 		}
 		return price;
 	}
-	public void setPrice(float price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	public int getNumber() {

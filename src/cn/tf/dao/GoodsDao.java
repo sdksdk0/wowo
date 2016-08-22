@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.tf.entities.Goods;
+import cn.tf.entities.Orders;
 
 public interface  GoodsDao {
 
@@ -25,6 +26,7 @@ public interface  GoodsDao {
 	List<Goods> find(String gid);
 
 	Goods findGoods(String gid);
+
 	
 
 }

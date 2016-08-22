@@ -135,15 +135,7 @@ $(function(){
 	        }
 	        getTotal(); //更新总数
 	    }
-
-	    
-
-		
-	    
-	    
-	    
-	    
-	 
+ 
   
 });
   
@@ -197,15 +189,24 @@ $(function(){
   //生成订单
   function genOrder(){
 	  
-		$.post("servlet/goodsInfoServlet",{op:"genOrder"},function(data){
-			 if(data>0){
-				 location.href="pay.jsp";
-			 } else{
-				 alert("请先登录");
-				location.href="login.html";
-			 }
-			  
-		  });
+	 var totprice= $("#priceTotal").text();
+	
+	  if(totprice>0){
+
+		  $.post("servlet/goodsInfoServlet",{op:"genOrder",totprice:totprice},function(data){
+				 if(data>0){
+					 location.href="pay.jsp";
+				 } else{
+					 alert("请先登录");
+					location.href="login.html";
+				 }
+				  
+			  });
+		  
+	  }else{
+		  alert("请先选择商品");
+	  }
+		
 
   }
 

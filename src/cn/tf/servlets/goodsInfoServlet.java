@@ -2,6 +2,7 @@ package cn.tf.servlets;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,14 +26,17 @@ import org.apache.commons.lang.RandomStringUtils;
 
 import cn.tf.bean.Cart;
 import cn.tf.bean.CartItem;
+import cn.tf.bean.OrderItem;
 import cn.tf.biz.GoodsBiz;
 import cn.tf.biz.GoodstypeBiz;
 import cn.tf.biz.IAdminInfoBiz;
 import cn.tf.biz.IRolesBiz;
+import cn.tf.biz.OrderBiz;
 import cn.tf.biz.ShopBiz;
 import cn.tf.biz.impl.AdminInfoBizImpl;
 import cn.tf.biz.impl.GoodsBizImpl;
 import cn.tf.biz.impl.GoodstypeBizImpl;
+import cn.tf.biz.impl.OrderBizImpl;
 import cn.tf.biz.impl.RolesBizImpl;
 import cn.tf.biz.impl.ShopBizImpl;
 import cn.tf.entities.AdminInfo;
@@ -43,6 +47,7 @@ import cn.tf.entities.Roles;
 import cn.tf.entities.Shopping;
 import cn.tf.entities.UserInfo;
 import cn.tf.utils.AttributeData;
+import cn.tf.utils.OrderNumUtil;
 import cn.tf.utils.SendMailThread;
 import cn.tf.utils.UploadUtil;
 import cn.tf.utils.WebUtil;
@@ -95,9 +100,37 @@ public class goodsInfoServlet extends BasicServlet {
 			this.out(response,0);
 		}	
 		
+		String  totprice=request.getParameter("totprice");
+		Cart cart=(Cart) request.getSession().getAttribute("cart");
+		
+		Orders order=new Orders();
+		//order.setOrdernum(UUID.randomUUID().toString());
+		order.setOrdernum(OrderNumUtil.genOrderNum());
+		order.setPrice(Float.parseFloat( totprice));
+		order.setNumber(cart.getNumber());
+		order.setUserInfo((UserInfo) userInfo);
 		
 		
+		List<OrderItem>  oItems=new ArrayList<OrderItem>();
+		//设置订单项
+		for(Map.Entry<Object, CartItem>  me:cart.getItems().entrySet()){
 		
+			OrderItem item=new OrderItem();
+			item.setId(UUID.randomUUID().toString());
+			item.setNumber(me.getValue().getNumber());
+			item.setPrice(me.getValue().getGoods().getPrice()*me.getValue().getNumber());
+			item.setGoods(me.getValue().getGoods());
+			oItems.add(item);
+		}
+		//建立和订单的关系
+		order.setItems(oItems);
+		OrderBiz orderBiz=new OrderBizImpl();	
+		 orderBiz.genOrder(order);
+	
+		request.setAttribute("order", order);
+
+		this.out(response,1);
+	
 	}
 
 
@@ -108,8 +141,7 @@ public class goodsInfoServlet extends BasicServlet {
 		String gid=request.getParameter("gid");
 		Cart cart=(Cart) request.getSession().getAttribute("cart");
 		CartItem item=cart.getItems().get(Integer.parseInt(gid));
-		
-		
+
 		item.setNumber(Integer.parseInt(request.getParameter("value")));	
 		this.out(response, 1);
 	}
@@ -388,7 +420,6 @@ public class goodsInfoServlet extends BasicServlet {
 		int result=goodsBiz.add(map.get("gname"),map.get("des"),map.get("price"),map.get("status"),map.get("photo"),spid);
 		this.out(response, result);
 	}
-	
 	
 
 }

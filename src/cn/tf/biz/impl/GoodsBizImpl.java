@@ -7,6 +7,7 @@ import cn.tf.biz.GoodsBiz;
 import cn.tf.dao.GoodsDao;
 import cn.tf.dao.impl.GoodsDaoImpl;
 import cn.tf.entities.Goods;
+import cn.tf.entities.Orders;
 
 public class GoodsBizImpl implements GoodsBiz {
 
@@ -68,5 +69,6 @@ public class GoodsBizImpl implements GoodsBiz {
 		GoodsDao goodsDao=new GoodsDaoImpl();
 		return goodsDao.findGoods(gid);
 	}
+
 
 }

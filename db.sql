@@ -127,14 +127,33 @@ create sequence  seq_message_mid start with 1001;
 
 --订单表
 create table orders(
-       oid  varchar(200) primary key, --订单编号
-       odate  date,  --订单日期
-       usid  number(10)  constraint FK_orders_userInfo_usid references userInfo(usid),
-       gaid  number(10) constraints FK_orders_goodsAction_gaid  references goodsAction(gaid),
-       nums  number(10),  --订单份数
-       totalprice number(10,2),  --总额
-       status number(2)  --订单状态
-);
+	ordernum varchar2(100) primary key,  --订单号
+	price number(10,2),  --总价格
+	nums  int,   --数量
+	status int,    --0已生成订单   1 ：已支付    2已发货  3：已收货   4：评价完成
+	usid  number(10),
+	CONSTRAINT userinfoId_fk FOREIGN KEY (usid) REFERENCES userinfo(usid)  
+)
+
+
+--订单详情表
+
+create table orderitems(
+	id varchar2(100) primary key,
+	nums  int,   --单个的总数
+	price number(10,2),
+	ordernum varchar2(100),
+	gid number(20),
+	CONSTRAINT ordernum_fk FOREIGN KEY (ordernum) REFERENCES orders(ordernum),
+	CONSTRAINT gid_fk FOREIGN KEY (gid) REFERENCES goods(gid)    
+)
+
+--订单编号表
+
+create table ordernum(
+	prefix date,
+	num int	
+)
 
 drop table goods;
 drop table goodsAction;
