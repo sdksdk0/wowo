@@ -17,24 +17,28 @@ public class Order implements Serializable{
 	private double price;
 	private Integer  nums;
 	private Integer  status;
-	
+	private String stime;
 	
 	private String pic;
-/*	private String year;
-	private String month;
-	private String day;*/
+	private Integer  year;
+	private Integer month;
 	
 	
 	
-	
-/*	public String getDay() {
-		return day;
-	}
-	public void setDay(String day) {
-		this.day = day;
-	}*/
 	public String getSname() {
 		return sname;
+	}
+	public Integer getYear() {
+		return year;
+	}
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+	public String getStime() {
+		return stime;
+	}
+	public void setStime(String stime) {
+		this.stime = stime;
 	}
 	public void setSname(String sname) {
 		this.sname = sname;
@@ -51,18 +55,12 @@ public class Order implements Serializable{
 	public void setPic(String pic) {
 		this.pic = pic;
 	}
-/*	public String getYear() {
-		return year;
-	}
-	public void setYear(String year) {
-		this.year = year;
-	}
-	public String getMonth() {
+	public Integer getMonth() {
 		return month;
 	}
-	public void setMonth(String month) {
+	public void setMonth(Integer month) {
 		this.month = month;
-	}*/
+	}
 	public String getOrdernum() {
 		return ordernum;
 	}
@@ -111,15 +109,9 @@ public class Order implements Serializable{
 	public void setUsid(Integer usid) {
 		this.usid = usid;
 	}
-
-	@Override
-	public String toString() {
-		return "Order [usid=" + usid + ", gname=" + gname + ", sname=" + sname
-				+ ", ordernum=" + ordernum + ", price=" + price + ", nums="
-				+ nums + ", status=" + status + ", pic=" + pic + "]";
-	}
 	public Order(Integer usid, String gname, String sname, String ordernum,
-			double price, Integer nums, Integer status, String pic) {
+			double price, Integer nums, Integer status, String stime,
+			String pic, Integer year, Integer month) {
 		super();
 		this.usid = usid;
 		this.gname = gname;
@@ -128,16 +120,27 @@ public class Order implements Serializable{
 		this.price = price;
 		this.nums = nums;
 		this.status = status;
+		this.stime = stime;
 		this.pic = pic;
+		this.year = year;
+		this.month = month;
 	}
 	public Order() {
 		super();
+	}
+	@Override
+	public String toString() {
+		return "Order [usid=" + usid + ", gname=" + gname + ", sname=" + sname
+				+ ", ordernum=" + ordernum + ", price=" + price + ", nums="
+				+ nums + ", status=" + status + ", stime=" + stime + ", pic="
+				+ pic + ", year=" + year + ", month=" + month + "]";
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((gname == null) ? 0 : gname.hashCode());
+		result = prime * result + ((month == null) ? 0 : month.hashCode());
 		result = prime * result + ((nums == null) ? 0 : nums.hashCode());
 		result = prime * result
 				+ ((ordernum == null) ? 0 : ordernum.hashCode());
@@ -147,7 +150,9 @@ public class Order implements Serializable{
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((sname == null) ? 0 : sname.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((stime == null) ? 0 : stime.hashCode());
 		result = prime * result + ((usid == null) ? 0 : usid.hashCode());
+		result = prime * result + ((year == null) ? 0 : year.hashCode());
 		return result;
 	}
 	@Override
@@ -163,6 +168,11 @@ public class Order implements Serializable{
 			if (other.gname != null)
 				return false;
 		} else if (!gname.equals(other.gname))
+			return false;
+		if (month == null) {
+			if (other.month != null)
+				return false;
+		} else if (!month.equals(other.month))
 			return false;
 		if (nums == null) {
 			if (other.nums != null)
@@ -192,14 +202,25 @@ public class Order implements Serializable{
 				return false;
 		} else if (!status.equals(other.status))
 			return false;
+		if (stime == null) {
+			if (other.stime != null)
+				return false;
+		} else if (!stime.equals(other.stime))
+			return false;
 		if (usid == null) {
 			if (other.usid != null)
 				return false;
 		} else if (!usid.equals(other.usid))
 			return false;
+		if (year == null) {
+			if (other.year != null)
+				return false;
+		} else if (!year.equals(other.year))
+			return false;
 		return true;
 	}
 
+	
 
 	
 	

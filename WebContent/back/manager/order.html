@@ -5,7 +5,12 @@
 		class="easyui-linkbutton" onclick="order_num()">订单分析</a> <a
 		class="easyui-linkbutton" onclick="order_map()">买家地图</a>
 </div>
-
+<style>
+#listOrder, #ordernum, #map1 {
+	width: 100%;
+	height: 490px;
+}
+</style>
 
 <div id="listOrder">
 
@@ -33,25 +38,19 @@
 			class="easyui-linkbutton" data-options="iconCls:'icon-search'">查找</a>
 	</div>
 
-
-
-
-
-
-
-
-
-
 </div>
-<div id="ordernum">order</div>
-<div id="map1">map1</div>
+<div id="ordernum" >
+     
+		<div id="main" style="height:490px;width:1200px;border:1px solid #ccc;padding:10px;"></div>
+    	
+		
+</div>
+<div id="map1">
 
-<style>
-#listOrder, #ordernum, #map1 {
-	width: 100%;
-	height: 490px;
-}
-</style>
+	<div id="mainMap" style="height:490px;width:1200px;border:1px solid #ccc;padding:10px;"></div>
+</div>
+
+
 <script>
   
   
@@ -67,6 +66,11 @@
  		$("#listOrder").hide();
  		$("#ordernum").show();
  		$("#map1").hide();
+ 		
+ 		
+ 		findData();
+ 		
+ 		
  	}
  	
  	function order_map(){
@@ -76,6 +80,8 @@
  	}
    
    
+ 	
+ 	//---------------------------------------第一个div
  	$(function(){
  		order_list();
  		
@@ -106,7 +112,7 @@
 					rownumbers : true,
 					pageList : [ 2, 4, 10 ],
 					pageSize : 4,
-					sortName : "ordernum",
+					sortName : "stime",
 					remoteSort : false,
 					columns : [ [
 					     	{
@@ -230,12 +236,12 @@
  	}
  	
  	function search_orderInfo(){
- 		var year=$("#order_select_year").val();
-		var month=$("#order_select_month").val();
+ 		var year=$("#order_select_year   option:selected").text();
+		var month=$("#order_select_month  option:selected").text();
 		var ordernum=$("#order_select_ordernum").val();
 		var status=$("#order_select_status").val();
 		
-		
+
 		$('#listOrder_dataInfo').datagrid({
 			url:'../../servlet/orderServlet',
 			queryParams:{op:"searchOrdersByPage",year:year,month:month,ordernum:ordernum,status:status}
@@ -244,11 +250,133 @@
  		
  	}
  	
+ 	</script>
  	
  	
-
-</script>
-
+ 	<script>
+ 	
+ 	//查找下单数和成交数
+ 		function findData(){
+ 			
+ 			$.post("../../servlet/orderServlet",{op:"findData"},function(data){
+				data=parseInt($.trim(data));
+				alert(data);
+				
+				
+			}); 
+ 			
+ 		}
+ 	
+ 	
+ 	</script>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	<script src="../echarts/echarts.js"></script>
+ 	<script type="text/javascript">
+ 
+    require.config({
+        paths: {
+            echarts: '../echarts'
+        }
+    });
+    
+    require(
+        [
+            'echarts',
+            'echarts/chart/bar',
+            'echarts/chart/line',
+            'echarts/chart/map'
+        ],
+        function (ec) {
+            //--- 折柱 ---
+            var myChart = ec.init(document.getElementById('main'));
+            myChart.setOption({
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:['下单量','成交量']
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        magicType : {show: true, type: ['line', 'bar']},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                calculable : true,
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value',
+                        splitArea : {show : true}
+                    }
+                ],
+                series : [
+                    {
+                        name:'下单数',
+                        type:'bar',
+                        data:[
+                              
+                              
+                              
+                              
+                              ]
+                    },
+                    {
+                        name:'成交数',
+                        type:'bar',
+                        data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                    }
+                ]
+            });
+            
+            // --- 地图 ---
+            var myChart2 = ec.init(document.getElementById('mainMap'));
+            myChart2.setOption({
+                tooltip : {
+                    trigger: 'item',
+                    formatter: '{b}'
+                },
+                series : [
+                    {
+                        name: '中国',
+                        type: 'map',
+                        mapType: 'china',
+                        selectedMode : 'multiple',
+                        itemStyle:{
+                            normal:{label:{show:true}},
+                            emphasis:{label:{show:true}}
+                        },
+                        data:[
+                            {name:'广东',selected:true}
+                        ]
+                    }
+                ]
+            });
+        }
+    );
+    </script>
 
 
 

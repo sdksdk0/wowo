@@ -57,12 +57,27 @@ public class orderServlet extends BasicServlet {
 			updateorderInfo(request,response);
 		}else if("searchOrdersByPage".equals(op)){
 			searchOrdersByPage(request,response);
+		}else if("findData".equals(op)){
+			findData(request,response);
 		}
 		
 
 	}
 
 	
+
+
+	//查找成交量和下单量，按月分组
+	private void findData(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		
+		
+		
+		
+	}
+
+
 
 
 	//更新状态
@@ -110,12 +125,14 @@ public class orderServlet extends BasicServlet {
 		
 		Map<String,String>  param=new HashMap<String,String>();
 		
-	/*	if(!"-1".equals(year)){
-			param.put("rid=", rid);
+		if(!"--请选择--".equals(year)){
+			param.put("   extract(year from o.stime)=", year);
 		}
-		if(!"-1".equals(month)){
-			param.put("rid=", rid);
-		}*/
+		if(!"--请选择--".equals(month)){
+			param.put("  extract(month from o.stime)=", month);
+		}
+		
+		
 		if(!"-1".equals(status)){
 			param.put("  o.status=", status);
 		}

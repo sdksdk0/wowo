@@ -96,7 +96,7 @@ public class OrderDaoImpl implements OrderDao {
 				params.add(spid);
 			}else{*/
 				
-				sql="select * from(select A.*,rownum  rn from (  select   o.usid,g.gname,s.sname,o.ordernum,oi.price,oi.nums,o.status,g.pic   "
+				sql="select * from(select A.*,rownum  rn from (  select   o.usid,g.gname,s.sname,o.ordernum,oi.price,oi.nums,o.status,o.stime,g.pic,extract(year from o.stime) year ,extract(month from o.stime) month  "
 						+" from orders   o    join  orderitems oi   on o.ordernum=oi.ordernum   join  goods g  on  oi.gid=g.gid    join   shopping s   on s.spid=g.spid    and s.spid=?   ) A  where rownum<=? ) where rn>? ";
 				params.add(spid);
 				params.add(pageNo*pageSize);
@@ -151,7 +151,7 @@ public class OrderDaoImpl implements OrderDao {
 		
 		DBHelper db=new DBHelper();
 		List<Object>  params=new ArrayList<Object>();
-		String sql=" select   o.usid,g.gname,s.sname,o.ordernum,oi.price,oi.nums,o.status,g.pic   from orders   o    join  orderitems oi   on o.ordernum=oi.ordernum   join  goods g  on  oi.gid=g.gid    join   shopping s   on s.spid=g.spid    " ;
+		String sql=" select   o.usid,g.gname,s.sname,o.ordernum,oi.price,oi.nums,o.status,o.stime,g.pic   from orders   o    join  orderitems oi   on o.ordernum=oi.ordernum   join  goods g  on  oi.gid=g.gid    join   shopping s   on s.spid=g.spid    " ;
 		if(param!=null && param.size()>0){
 			Set<String> keys=param.keySet();
 			for (String key : keys) {
