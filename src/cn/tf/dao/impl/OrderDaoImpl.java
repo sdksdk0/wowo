@@ -174,4 +174,29 @@ public class OrderDaoImpl implements OrderDao {
 		
 		
 	}
+
+	@Override
+	public List<Order> find(String year,String spid, Integer i) {
+		DBHelper db=new DBHelper();
+		List<Object>  params=new ArrayList<Object>();
+		String sql=null;
+		if(i==1){
+			sql=" select extract(year from o.stime)  year,extract(month from o.stime) month,o.status,s.spid,count(o.ordernum)  count  from orders   o    join  orderitems oi   on o.ordernum=oi.ordernum  " 
+					+" join  goods g  on  oi.gid=g.gid    join   shopping s   on s.spid=g.spid  group by extract(year from o.stime),extract(month from o.stime),o.status,s.spid "
+					+"  having 1=1   and  extract(year from o.stime)=?   and o.status=0  and s.spid=?   order by extract(month from o.stime) asc  ";
+			params.add(year);
+			params.add(spid);
+		}else if(i==2){
+			
+			
+			sql="  select extract(year from o.stime)  year,u.prov,o.status,s.spid,count(o.ordernum)  count "
+					+" from orders   o    join  orderitems oi   on o.ordernum=oi.ordernum  join userInfo u on o.usid=u.usid  join  goods g  on  oi.gid=g.gid    join   shopping s   on s.spid=g.spid  "
+					+" group by extract(year from o.stime),u.prov,o.status,s.spid    having 1=1    and  extract(year from o.stime)=?  and s.spid=? ";
+			params.add(year);
+			params.add(spid);
+		}
+		
+		return db.find(sql, params,Order.class);
+
+	}
 }

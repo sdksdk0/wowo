@@ -26,6 +26,9 @@ public interface OrderBiz {
 
 	int del(String ordernum);
 
-	List<Order> find(Map<String, String> param, Integer pageNo, Integer  pageSize);
+
+	List<Order> find(String year, String spid,Integer i);
+
+	List<Order> find(Map<String, String> param, Integer pageNo, Integer pageSize);
 
 }

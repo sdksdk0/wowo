@@ -68,4 +68,10 @@ public class OrderBizImpl implements OrderBiz {
 		OrderDao orderDao=new OrderDaoImpl();
 		return orderDao.find(param,pageNo,pageSize);
 	}
+
+	@Override
+	public List<Order> find(String year,String spid, Integer i) {
+		OrderDao orderDao=new OrderDaoImpl();
+		return orderDao.find(year,spid,i);
+	}
 }

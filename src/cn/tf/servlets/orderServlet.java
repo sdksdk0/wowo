@@ -59,6 +59,8 @@ public class orderServlet extends BasicServlet {
 			searchOrdersByPage(request,response);
 		}else if("findData".equals(op)){
 			findData(request,response);
+		}else if("findprov".equals(op)){
+			findprov(request,response);
 		}
 		
 
@@ -67,13 +69,66 @@ public class orderServlet extends BasicServlet {
 	
 
 
+	//查找用户的省份信息
+	private void findprov(HttpServletRequest request,
+			HttpServletResponse response) {
+	String year=request.getParameter("year");
+		
+		
+		Object obj=request.getSession().getAttribute(AttributeData.CURRENTADMINLOGIN);
+		AdminInfo  adminInfo=(AdminInfo) obj;
+		String  aid=adminInfo.getAid().toString().trim();
+		Object obj1=request.getSession().getAttribute(AttributeData.SHOPPINGINFO);
+		
+		String spid=null;
+		if(obj1==null){
+			
+			ShopBiz shopBiz=new ShopBizImpl();	
+			Shopping list=shopBiz.findAll(aid);
+			
+			spid=list.getSpid().toString().trim();
+		}else{
+			Shopping  shoppingInfo=(Shopping) obj1;
+			 spid=shoppingInfo.getSpid().toString().trim();
+		}
+		
+		OrderBiz orderBiz=new OrderBizImpl();
+		List<Order> list= orderBiz.find(year,spid,2);
+		System.out.println(list);
+		this.out(response, list);
+		
+	}
+
+
+
+
 	//查找成交量和下单量，按月分组
 	private void findData(HttpServletRequest request,
 			HttpServletResponse response) {
+		String year=request.getParameter("year");
 		
 		
+		Object obj=request.getSession().getAttribute(AttributeData.CURRENTADMINLOGIN);
+		AdminInfo  adminInfo=(AdminInfo) obj;
+		String  aid=adminInfo.getAid().toString().trim();
+		Object obj1=request.getSession().getAttribute(AttributeData.SHOPPINGINFO);
 		
+		String spid=null;
+		if(obj1==null){
+			
+			ShopBiz shopBiz=new ShopBizImpl();	
+			Shopping list=shopBiz.findAll(aid);
+			
+			spid=list.getSpid().toString().trim();
+		}else{
+			Shopping  shoppingInfo=(Shopping) obj1;
+			 spid=shoppingInfo.getSpid().toString().trim();
+		}
 		
+		OrderBiz orderBiz=new OrderBizImpl();
+		List<Order> list= orderBiz.find(year,spid,1);
+		
+		this.out(response, list);
 		
 	}
 

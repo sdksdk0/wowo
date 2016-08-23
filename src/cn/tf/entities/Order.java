@@ -23,8 +23,23 @@ public class Order implements Serializable{
 	private Integer  year;
 	private Integer month;
 	
+	private Integer count;
+	private String prov;
 	
 	
+	
+	public String getProv() {
+		return prov;
+	}
+	public void setProv(String prov) {
+		this.prov = prov;
+	}
+	public Integer getCount() {
+		return count;
+	}
+	public void setCount(Integer count) {
+		this.count = count;
+	}
 	public String getSname() {
 		return sname;
 	}
@@ -109,9 +124,22 @@ public class Order implements Serializable{
 	public void setUsid(Integer usid) {
 		this.usid = usid;
 	}
+	
+	public Order() {
+		super();
+	}
+	
+	@Override
+	public String toString() {
+		return "Order [usid=" + usid + ", gname=" + gname + ", sname=" + sname
+				+ ", ordernum=" + ordernum + ", price=" + price + ", nums="
+				+ nums + ", status=" + status + ", stime=" + stime + ", pic="
+				+ pic + ", year=" + year + ", month=" + month + ", count="
+				+ count + ", prov=" + prov + "]";
+	}
 	public Order(Integer usid, String gname, String sname, String ordernum,
 			double price, Integer nums, Integer status, String stime,
-			String pic, Integer year, Integer month) {
+			String pic, Integer year, Integer month, Integer count, String prov) {
 		super();
 		this.usid = usid;
 		this.gname = gname;
@@ -124,21 +152,14 @@ public class Order implements Serializable{
 		this.pic = pic;
 		this.year = year;
 		this.month = month;
-	}
-	public Order() {
-		super();
-	}
-	@Override
-	public String toString() {
-		return "Order [usid=" + usid + ", gname=" + gname + ", sname=" + sname
-				+ ", ordernum=" + ordernum + ", price=" + price + ", nums="
-				+ nums + ", status=" + status + ", stime=" + stime + ", pic="
-				+ pic + ", year=" + year + ", month=" + month + "]";
+		this.count = count;
+		this.prov = prov;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((count == null) ? 0 : count.hashCode());
 		result = prime * result + ((gname == null) ? 0 : gname.hashCode());
 		result = prime * result + ((month == null) ? 0 : month.hashCode());
 		result = prime * result + ((nums == null) ? 0 : nums.hashCode());
@@ -148,6 +169,7 @@ public class Order implements Serializable{
 		long temp;
 		temp = Double.doubleToLongBits(price);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((prov == null) ? 0 : prov.hashCode());
 		result = prime * result + ((sname == null) ? 0 : sname.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((stime == null) ? 0 : stime.hashCode());
@@ -164,6 +186,11 @@ public class Order implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
+		if (count == null) {
+			if (other.count != null)
+				return false;
+		} else if (!count.equals(other.count))
+			return false;
 		if (gname == null) {
 			if (other.gname != null)
 				return false;
@@ -191,6 +218,11 @@ public class Order implements Serializable{
 			return false;
 		if (Double.doubleToLongBits(price) != Double
 				.doubleToLongBits(other.price))
+			return false;
+		if (prov == null) {
+			if (other.prov != null)
+				return false;
+		} else if (!prov.equals(other.prov))
 			return false;
 		if (sname == null) {
 			if (other.sname != null)

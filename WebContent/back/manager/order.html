@@ -40,8 +40,8 @@
 
 </div>
 <div id="ordernum" >
-     
-		<div id="main" style="height:490px;width:1200px;border:1px solid #ccc;padding:10px;"></div>
+     	<center><h3>订单量与访问量的月度报表(x轴:月份,y轴:数量)<h3></h3></center>
+		<div id="main" style="height:450px;width:1200px;border:1px solid #ccc;padding:10px;"></div>
     	
 		
 </div>
@@ -71,12 +71,22 @@
  		findData();
  		
  		
+ 		setTimeout(function(){
+ 			cc();
+				
+ 		},500);
+
  	}
  	
  	function order_map(){
  		$("#listOrder").hide();
  		$("#ordernum").hide();
  		$("#map1").show();
+ 		
+ 		findprov();
+ 		alert();
+ 		alert(datamap);
+ 		cc();
  	}
    
    
@@ -255,17 +265,61 @@
  	
  	<script>
  	
+ 	
+ 	
+ 	var monthdata=[];  //设置月份
+ 	var datac=[];   //设置下单量
+ 	var datal=[];   //设置浏览量
+ 	
  	//查找下单数和成交数
  		function findData(){
  			
- 			$.post("../../servlet/orderServlet",{op:"findData"},function(data){
-				data=parseInt($.trim(data));
-				alert(data);
+ 			var myDate = new Date();
+ 			var year=myDate.getFullYear();;        //获取当前年份(2位)
+ 		
+ 			$.post("../../servlet/orderServlet",{op:"findData",year:year},function(data){
+
+				$.each(data,function(i,item){
+					monthdata[i]=item.month+"月";
+					datac[i]=item.count;
+					datal[i]=item.count*8;
+				});
 				
 				
-			}); 
+			},"json"); 
  			
  		}
+ 	
+ 	
+ 	var datamap=[];
+ 	
+ 	//查找用户的省份信息
+ 	function findprov(){
+ 		
+ 			var myDate = new Date();
+			var year=myDate.getFullYear();        //获取当前年份(2位)
+		
+			$.post("../../servlet/orderServlet",{op:"findprov",year:year},function(data){
+				 /* {name: '北京',value: Math.round(Math.random()*1000)}, */
+			 $.each(data,function(i,item){
+				 alert(item.prov);
+				 alert(item.count);
+				datamap[i]={name:item.prov,value:item.count}
+				alert(datamap[i]);
+			}); 
+			
+			
+		},"json"); 
+ 		
+ 	}
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
  	
  	
  	</script>
@@ -277,14 +331,16 @@
  	
  	
  	
- 	
- 	
- 	
- 	
- 	
+ 
  	
  	<script src="../echarts/echarts.js"></script>
  	<script type="text/javascript">
+ 
+ 	//var data3=[2.0, 4.9];
+ 	//var data4=[2.6, 5.9];
+ 	// ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+ 	
+ 	function cc(){
  
     require.config({
         paths: {
@@ -302,12 +358,13 @@
         function (ec) {
             //--- 折柱 ---
             var myChart = ec.init(document.getElementById('main'));
+            
             myChart.setOption({
                 tooltip : {
                     trigger: 'axis'
                 },
                 legend: {
-                    data:['下单量','成交量']
+                    data:['下单量','访问量']
                 },
                 toolbox: {
                     show : true,
@@ -323,7 +380,7 @@
                 xAxis : [
                     {
                         type : 'category',
-                        data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                        data : monthdata 
                     }
                 ],
                 yAxis : [
@@ -334,19 +391,14 @@
                 ],
                 series : [
                     {
-                        name:'下单数',
+                        name:'下单量',
                         type:'bar',
-                        data:[
-                              
-                              
-                              
-                              
-                              ]
+                        data:datac
                     },
                     {
-                        name:'成交数',
+                        name:'访问量',
                         type:'bar',
-                        data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                        data:datal
                     }
                 ]
             });
@@ -354,28 +406,96 @@
             // --- 地图 ---
             var myChart2 = ec.init(document.getElementById('mainMap'));
             myChart2.setOption({
-                tooltip : {
-                    trigger: 'item',
-                    formatter: '{b}'
-                },
-                series : [
-                    {
-                        name: '中国',
-                        type: 'map',
-                        mapType: 'china',
-                        selectedMode : 'multiple',
-                        itemStyle:{
-                            normal:{label:{show:true}},
-                            emphasis:{label:{show:true}}
-                        },
-                        data:[
-                            {name:'广东',selected:true}
-                        ]
-                    }
-                ]
+            		    title : {
+            		        text: '商品销量',
+            		        subtext: '纯属虚构',
+            		        x:'center'
+            		    },
+            		    tooltip : {
+            		        trigger: 'item'
+            		    },
+            		    legend: {
+            		        orient: 'vertical',
+            		        x:'left',
+            		        data:['本店商品']
+            		    },
+            		    dataRange: {
+            		        min: 0,
+            		        max: 100,
+            		        x: 'left',
+            		        y: 'bottom',
+            		        text:['高','低'],           // 文本，默认为数值文本
+            		        calculable : true
+            		    },
+            		    toolbox: {
+            		        show: true,
+            		        orient : 'vertical',
+            		        x: 'right',
+            		        y: 'center',
+            		        feature : {
+            		            mark : {show: true},
+            		            dataView : {show: true, readOnly: false},
+            		            restore : {show: true},
+            		            saveAsImage : {show: true}
+            		        }
+            		    },
+            		    roamController: {
+            		        show: true,
+            		        x: 'right',
+            		        mapTypeControl: {
+            		            'china': true
+            		        }
+            		    },
+            		    series : [
+            		        {
+            		            name: '本店商品数量',
+            		            type: 'map',
+            		            mapType: 'china',
+            		            roam: false,
+            		            itemStyle:{
+            		                normal:{label:{show:true}},
+            		                emphasis:{label:{show:true}}
+            		            },
+            		            data:datamap
+            		        }
+            		    ]
+            	
+        
             });
         }
     );
+    
+ 	}
+ 	
+ 	
+ 	
+ 	
+	
+    /* tooltip : {
+        trigger: 'item',
+        formatter: '{b}'
+    },
+    series : [
+        {
+            name: '中国',
+            type: 'map',
+            mapType: 'china',
+            selectedMode : 'multiple',
+            itemStyle:{
+                normal:{label:{show:true}},
+                emphasis:{label:{show:true}}
+            },
+            data:[
+                {name:'湖南',value:4,selected:true}
+            ]
+        }
+    ] */
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
     </script>
 
 
