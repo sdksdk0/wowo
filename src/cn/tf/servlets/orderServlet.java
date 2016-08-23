@@ -51,8 +51,13 @@ public class orderServlet extends BasicServlet {
 		
 		if("findOrdersByPage".equals(op)){
 			findOrdersByPage(request,response);
+		}else if("deleteorderstype".equals(op)){
+			deleteorderstype(request,response);
+		}else if("updateorderInfo".equals(op)){
+			updateorderInfo(request,response);
+		}else if("searchOrdersByPage".equals(op)){
+			searchOrdersByPage(request,response);
 		}
-		
 		
 
 	}
@@ -60,50 +65,91 @@ public class orderServlet extends BasicServlet {
 	
 
 
+	//更新状态
+	private void updateorderInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		String ordernum=request.getParameter("ordernum");
+		OrderBiz orderBiz=new OrderBizImpl();
+		orderBiz.changeOrderStatus(2, ordernum);
+		this.out(response, 1);
+	}
+
+
+
+
 	//查询
-	private void searchAdminInfoByPage(HttpServletRequest request,
+	private void searchOrdersByPage(HttpServletRequest request,
 			HttpServletResponse response) {
 
 
-		String rid=request.getParameter("rid");
-		String aname=request.getParameter("aname");
+		String year=request.getParameter("year");
+		String month=request.getParameter("month");
+		String ordernum=request.getParameter("ordernum");
 		String status=request.getParameter("status");
 		String pageNo=request.getParameter("page");
 		String pageSize=request.getParameter("rows");
 		
+		
+		
+		Object obj=request.getSession().getAttribute(AttributeData.CURRENTADMINLOGIN);
+		AdminInfo  adminInfo=(AdminInfo) obj;
+		String  aid=adminInfo.getAid().toString().trim();
+		Object obj1=request.getSession().getAttribute(AttributeData.SHOPPINGINFO);
+		
+		String spid=null;
+		if(obj1==null){
+			
+			ShopBiz shopBiz=new ShopBizImpl();	
+			Shopping list=shopBiz.findAll(aid);
+			
+			spid=list.getSpid().toString().trim();
+		}else{
+			Shopping  shoppingInfo=(Shopping) obj1;
+			 spid=shoppingInfo.getSpid().toString().trim();
+		}
+		
 		Map<String,String>  param=new HashMap<String,String>();
 		
-		if(!"-1".equals(rid)){
+	/*	if(!"-1".equals(year)){
 			param.put("rid=", rid);
 		}
+		if(!"-1".equals(month)){
+			param.put("rid=", rid);
+		}*/
 		if(!"-1".equals(status)){
-			param.put("status=", status);
+			param.put("  o.status=", status);
 		}
 		
-		if(aname!=null && !"".equals(aname)){
-			param.put(" aname like ", "%"+aname+"%");
+		if(ordernum!=null && !"".equals(ordernum)){
+			param.put(" o.ordernum  like ", "%"+ordernum+"%");
 		}
-		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
-		List<AdminInfo>  list=adminInfoBiz.find(param,Integer.parseInt(pageNo), Integer.parseInt(pageSize));
-		List<AdminInfo>  list1=adminInfoBiz.find(param,null,null);
+		
+		if(spid!=null){
+			param.put("  g.spid=" , spid);
+		}	
+		
+		
+		OrderBiz orderBiz=new OrderBizImpl();
+		List<Order>  list=orderBiz.find(param,Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+		List<Order>  list1=orderBiz.find(param,null,null);
 		this.out(response, list,list1.size());
 	}
 
 	//删除
-	private void deleteAdminInfo(HttpServletRequest request,
+	private void deleteorderstype(HttpServletRequest request,
 			HttpServletResponse response) {
-		String aid=request.getParameter("aid");
-		IAdminInfoBiz adminInfoBiz=new AdminInfoBizImpl();
+		String ordernum=request.getParameter("ordernum");
+		OrderBiz orderBiz=new OrderBizImpl();
 		
-		int result=adminInfoBiz.del(aid);
-		if(result>0){
-			this.getServletContext().getAttribute(AttributeData.CURRENTADMINLOGIN);
-		}
-
+		int result=orderBiz.del(ordernum);
 		this.out(response,result);
 		
 	}
 
+	
+	
+	
+	
 	
 
 
@@ -137,7 +183,7 @@ public class orderServlet extends BasicServlet {
 		OrderBiz adminInfoBiz=new OrderBizImpl();
 		List<Order>  list=adminInfoBiz.find(Integer.parseInt(spid),Integer.parseInt(rid),Integer.parseInt(pageNo),Integer.parseInt(pageSize));
 	
-		this.out(response, list,adminInfoBiz.getTotal(null));
+		this.out(response, list,adminInfoBiz.getTotal(Integer.parseInt(rid),Integer.parseInt(spid)));
 	}
 
 	

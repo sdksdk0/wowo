@@ -1,6 +1,7 @@
 package cn.tf.biz.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.tf.bean.Orders;
 import cn.tf.biz.OrderBiz;
@@ -47,9 +48,24 @@ public class OrderBizImpl implements OrderBiz {
 		return orderDao.find(spid,rid,pageNo,pageSize);
 	}
 
+
+
 	@Override
-	public int getTotal(Object object) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getTotal(Integer rid, Integer spid) {
+		OrderDao orderDao=new OrderDaoImpl();
+		return orderDao.getTotal(rid,spid);
+	}
+
+	@Override
+	public int del(String ordernum) {
+		OrderDao orderDao=new OrderDaoImpl();
+		return orderDao.del(ordernum);
+	}
+
+	@Override
+	public List<Order> find(Map<String, String> param, Integer pageNo,
+			Integer pageSize) {
+		OrderDao orderDao=new OrderDaoImpl();
+		return orderDao.find(param,pageNo,pageSize);
 	}
 }

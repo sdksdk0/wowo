@@ -134,7 +134,8 @@ public class GoodsDaoImpl implements GoodsDao {
 			sql="delete  goods  where gid=? ";
 			params.add(gid);
 		}
-		return db.doUpdate(sql,params);	}
+		return db.doUpdate(sql,params);	
+	}
 
 	@Override
 	public List<Goods> find(Map<String, String> param, Integer pageNo, Integer pageSize) {

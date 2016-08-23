@@ -3,6 +3,8 @@ package cn.tf.dao.impl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -10,6 +12,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import cn.tf.bean.OrderItem;
 import cn.tf.bean.Orders;
 import cn.tf.dao.OrderDao;
+import cn.tf.entities.Goods;
 import cn.tf.entities.Order;
 import cn.tf.entities.Shopping;
 import cn.tf.entities.UserInfo;
@@ -71,7 +74,7 @@ public class OrderDaoImpl implements OrderDao {
 		
 
 		String sql=null;
-		if(rid==1002 || rid==1003){
+	/*	if(rid==1002 || rid==1003){
 			if(pageNo==null){
 				sql="  select   o.usid,g.gname,s.sname,o.ordernum,oi.price,oi.nums,o.status,g.pic ,extract(year from o.stime) year, extract(month from o.stime) month , extract(day from o.stime) day " 
 						+" from orders   o    join  orderitems oi   on o.ordernum=oi.ordernum   "
@@ -91,17 +94,84 @@ public class OrderDaoImpl implements OrderDao {
 						+" from orders   o    join  orderitems oi   on o.ordernum=oi.ordernum   "
 						+" join  goods g  on  oi.gid=g.gid    join   shopping s   on s.spid=g.spid   and s.spid=? ";
 				params.add(spid);
-			}else{
+			}else{*/
 				
 				sql="select * from(select A.*,rownum  rn from (  select   o.usid,g.gname,s.sname,o.ordernum,oi.price,oi.nums,o.status,g.pic   "
 						+" from orders   o    join  orderitems oi   on o.ordernum=oi.ordernum   join  goods g  on  oi.gid=g.gid    join   shopping s   on s.spid=g.spid    and s.spid=?   ) A  where rownum<=? ) where rn>? ";
 				params.add(spid);
 				params.add(pageNo*pageSize);
 				params.add((pageNo-1)*pageSize);
-			}
-		}
+		/*	}
+		}*/
 		
 		
 		return db.find(sql, params,Order.class);
+	}
+
+	@Override
+	public int getTotal(Integer rid, Integer spid) {
+		DBHelper db=new DBHelper();
+		String sql=null;
+		List<Object>  params=new ArrayList<Object>();
+		
+		/*if(rid==1002 || rid==1003){
+
+			if(spid==null){
+				sql="select count(gid) from orderitems ";
+			}else{
+				sql="select count(gid) from orderitems  ";
+			}
+		}else{*/
+			
+				sql="select count(oi.gid) from orderitems  oi join goods g on oi.gid=g.gid  join  shopping s on s.spid=g.spid  and   s.spid=? ";
+				params.add(spid);
+				
+		//}
+
+		return db.findByOne(sql, params);
+	}
+
+	@Override
+	public int del(String ordernum) {
+		
+		
+		DBHelper db=new DBHelper();
+		String sql=null;
+		List<Object>  params=new ArrayList<Object>();
+
+			sql="delete  orderitems  where ordernum=? ";
+			params.add(ordernum);
+
+		return db.doUpdate(sql,params);	
+	}
+
+	@Override
+	public List<Order> find(Map<String, String> param, Integer pageNo,
+			Integer pageSize) {
+		
+		DBHelper db=new DBHelper();
+		List<Object>  params=new ArrayList<Object>();
+		String sql=" select   o.usid,g.gname,s.sname,o.ordernum,oi.price,oi.nums,o.status,g.pic   from orders   o    join  orderitems oi   on o.ordernum=oi.ordernum   join  goods g  on  oi.gid=g.gid    join   shopping s   on s.spid=g.spid    " ;
+		if(param!=null && param.size()>0){
+			Set<String> keys=param.keySet();
+			for (String key : keys) {
+				sql+=" and "+key+" ? " ;
+				params.add(param.get(key));
+			}
+		}
+
+		sql+=" order by ordernum desc ";
+	
+		if(pageNo!=null){
+		
+			sql="select * from(select a.*,rownum  rn from (  "+sql+" ) a  where rownum<=? ) where rn>?";
+			params.add(pageNo*pageSize);
+			params.add((pageNo-1)*pageSize);
+		}
+	
+		return db.find(sql, params,Order.class);
+		
+		
+		
 	}
 }
