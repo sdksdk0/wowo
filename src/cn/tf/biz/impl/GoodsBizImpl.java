@@ -3,11 +3,11 @@ package cn.tf.biz.impl;
 import java.util.List;
 import java.util.Map;
 
+import cn.tf.bean.Orders;
 import cn.tf.biz.GoodsBiz;
 import cn.tf.dao.GoodsDao;
 import cn.tf.dao.impl.GoodsDaoImpl;
 import cn.tf.entities.Goods;
-import cn.tf.entities.Orders;
 
 public class GoodsBizImpl implements GoodsBiz {
 

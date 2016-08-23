@@ -1,10 +1,10 @@
-package cn.tf.entities;
+package cn.tf.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.tf.bean.OrderItem;
+import cn.tf.entities.UserInfo;
 
 public class Orders implements Serializable{
 
@@ -17,6 +17,8 @@ public class Orders implements Serializable{
 	private float price;
 	private int number;
 	private int status;
+	
+	private  String stime;
 	
 	private UserInfo userInfo;
 	private List<OrderItem> items=new ArrayList<OrderItem>();
@@ -60,12 +62,24 @@ public class Orders implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getStime() {
+		return stime;
+	}
+
+	public void setStime(String stime) {
+		this.stime = stime;
+	}
+
 	@Override
 	public String toString() {
 		return "Orders [ordernum=" + ordernum + ", price=" + price
-				+ ", number=" + number + ", status=" + status + ", userInfo="
-				+ userInfo + ", items=" + items + "]";
+				+ ", number=" + number + ", status=" + status + ", stime="
+				+ stime + ", userInfo=" + userInfo + ", items=" + items + "]";
 	}
+	
+	
+
 	
 	
 	

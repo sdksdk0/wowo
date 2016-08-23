@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cn.tf.bean.Orders;
 import cn.tf.dao.GoodsDao;
 import cn.tf.entities.Goods;
 import cn.tf.entities.GoodsType;
-import cn.tf.entities.Orders;
 import cn.tf.entities.Shopping;
 import cn.tf.utils.DBHelper;
 

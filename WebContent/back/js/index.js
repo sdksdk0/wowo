@@ -133,15 +133,17 @@ $(function() {
 					title="会员信息";
 					href="user.html";
 				}
-			}else if(node.id=="index_goodsaction"){
-				if (tabs.tabs("exists", "活动信息管理")) {
+			}else if(node.id=="index_order"){
+				if (tabs.tabs("exists", "订单管理")) {
 					// 如果存在则选中
-					tabs.tabs("select", "活动信息管理");
+					tabs.tabs("select", "订单管理");
 					return;
 				} else {
-					title="活动信息管理";
-					href="goodsAction.html";
+					title="订单管理";
+					href="order.html";
 				}
+			}else{
+				return;
 			}
 			
 			
@@ -170,3 +172,53 @@ function headexit() {
 		}
 	});
 }
+
+
+
+
+		var dayofweek=new Array();
+		dayofweek[0]="星期天";
+		dayofweek[1]="星期一";
+		dayofweek[2]="星期二";
+		dayofweek[3]="星期三";
+		dayofweek[4]="星期四";
+		dayofweek[5]="星期五";
+		dayofweek[6]="星期六";
+		
+	window.setInterval("show()",1000);
+	
+	function show(){
+		var now=new Date();
+		var year=now.getFullYear();
+		var month=now.getMonth()+1;
+		var day=now.getDate();
+		
+		var week=dayofweek[now.getDay()];
+		
+		var h=now.getHours();
+		if(h<=9){
+			h="0"+h;	
+		}
+		var m=now.getMinutes();
+		if(m<=9){
+			m="0"+m;	
+		}
+		var s=now.getSeconds();
+		if(s<=9){
+			s="0"+s;	
+		}
+	
+		document.getElementById("time").innerHTML=year+"年"+month+"月"+day+"日"+week+" "+h+":"+m+":"+s;
+	}
+
+
+
+
+
+
+
+
+
+
+
+

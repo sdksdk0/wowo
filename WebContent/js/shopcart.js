@@ -195,7 +195,7 @@ $(function(){
 
 		  $.post("servlet/goodsInfoServlet",{op:"genOrder",totprice:totprice},function(data){
 
-			  if(data!=null){
+			  if(data>0){
 				  location.href="pay.jsp";
 				  
 			  }else{

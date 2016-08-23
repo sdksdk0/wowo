@@ -1,6 +1,9 @@
 package cn.tf.dao;
 
-import cn.tf.entities.Orders;
+import java.util.List;
+
+import cn.tf.bean.Orders;
+import cn.tf.entities.Order;
 
 public interface  OrderDao {
 
@@ -9,5 +12,7 @@ public interface  OrderDao {
 	Orders findByNum(String ordernum);
 
 	void update(Orders order);
+
+	List<Order> find(Integer spid, Integer rid,Integer pageNo, Integer pageSize);
 
 }

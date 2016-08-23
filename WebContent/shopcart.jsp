@@ -140,10 +140,12 @@
                     	</li>
                     	<b class="borderdc p_1_10">|</b>
                     </ul>
-                	<a id="integration" href="#">
+					<a id="integration" href="#">
                 		<em></em>
                 		领积分抵钱
                 	</a>
+                	&nbsp;&nbsp;&nbsp;
+                	<a href="back/login.html"  target="_blank" >卖家入口</a>
                 </li>
             </ul>
         </div>
@@ -260,7 +262,6 @@
         </div>
         
         <div id="payprocess">
-        ${order.ordernum }
 			<h1>确认订单</h1>
 			<div class="catbox">
   				<table id="cartTable">
@@ -287,7 +288,7 @@
     				
     				<tr>
 				        <td class="checkbox"><input class="check-one check" type="checkbox"  value="${me.value.goods.gid}"/></td>
-				        <td class="goods"><span>${me.value.goods.gname}</span></td>
+				        <td class="goods"><img src="${me.value.goods.pic}"  alt=""/><span>${me.value.goods.gname}</span></td>
 				        <td class="price">${me.value.goods.price*2}</td>
 				        <td class="price">${me.value.goods.price}</td>
 				        <td class="count">

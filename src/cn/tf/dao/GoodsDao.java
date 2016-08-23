@@ -3,8 +3,8 @@ package cn.tf.dao;
 import java.util.List;
 import java.util.Map;
 
+import cn.tf.bean.Orders;
 import cn.tf.entities.Goods;
-import cn.tf.entities.Orders;
 
 public interface  GoodsDao {
 

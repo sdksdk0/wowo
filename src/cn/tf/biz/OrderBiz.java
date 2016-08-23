@@ -1,6 +1,9 @@
 package cn.tf.biz;
 
-import cn.tf.entities.Orders;
+import java.util.List;
+
+import cn.tf.bean.Orders;
+import cn.tf.entities.Order;
 
 public interface OrderBiz {
 
@@ -15,5 +18,9 @@ public interface OrderBiz {
 
 	// 更新订单状态
 	void changeOrderStatus(int status, String ordernum);
+
+	List<Order> find(Integer spid, Integer rid, Integer pageNo, Integer pageSize);
+
+	int getTotal(Object object);
 
 }

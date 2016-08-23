@@ -1,9 +1,12 @@
 package cn.tf.biz.impl;
 
+import java.util.List;
+
+import cn.tf.bean.Orders;
 import cn.tf.biz.OrderBiz;
 import cn.tf.dao.OrderDao;
 import cn.tf.dao.impl.OrderDaoImpl;
-import cn.tf.entities.Orders;
+import cn.tf.entities.Order;
 
 public class OrderBizImpl implements OrderBiz {
 
@@ -36,5 +39,17 @@ public class OrderBizImpl implements OrderBiz {
 		Orders order=findOrderByNum(ordernum);
 		order.setStatus(status);
 		updateOrder(order);
+	}
+
+	@Override
+	public List<Order> find(Integer spid,Integer rid,Integer pageNo, Integer pageSize) {
+		OrderDao orderDao=new OrderDaoImpl();
+		return orderDao.find(spid,rid,pageNo,pageSize);
+	}
+
+	@Override
+	public int getTotal(Object object) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

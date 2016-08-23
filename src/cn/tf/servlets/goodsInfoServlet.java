@@ -27,6 +27,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import cn.tf.bean.Cart;
 import cn.tf.bean.CartItem;
 import cn.tf.bean.OrderItem;
+import cn.tf.bean.Orders;
 import cn.tf.biz.GoodsBiz;
 import cn.tf.biz.GoodstypeBiz;
 import cn.tf.biz.IAdminInfoBiz;
@@ -42,7 +43,6 @@ import cn.tf.biz.impl.ShopBizImpl;
 import cn.tf.entities.AdminInfo;
 import cn.tf.entities.Goods;
 import cn.tf.entities.GoodsType;
-import cn.tf.entities.Orders;
 import cn.tf.entities.Roles;
 import cn.tf.entities.Shopping;
 import cn.tf.entities.UserInfo;
@@ -131,9 +131,11 @@ public class goodsInfoServlet extends BasicServlet {
 			orderBiz.genOrder(order);
 			result=1;
 		}
-		request.getSession().setAttribute("order", order);
 		
+		request.getSession().setAttribute("order", order);
+
 		this.out(response,result);
+		
 	
 	}
 
