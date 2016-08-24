@@ -395,9 +395,9 @@ public class DBHelper {
 									method.invoke(t, rs.getString(cname));
 								}else if("BigDecimal".equals(ctypeName)){
 									try {
-										method.invoke(t, rs.getInt(cname));
+										method.invoke(t, rs.getBigDecimal(cname));
 									} catch (Exception e) {
-										method.invoke(t, rs.getDouble(cname));
+										method.invoke(t, rs.getInt(cname));
 									}
 								}else{
 									method.invoke(t, rs.getString(cname));
@@ -458,9 +458,9 @@ public class DBHelper {
 									method.invoke(t, rs.getString(cname));
 								}else if("BigDecimal".equals(ctypeName)){
 									try {
-										method.invoke(t, rs.getInt(cname));
+										method.invoke(t, rs.getBigDecimal(cname));
 									} catch (Exception e) {
-										method.invoke(t, rs.getDouble(cname));
+										method.invoke(t, rs.getInt(cname));
 									}
 								}else{
 									method.invoke(t, rs.getString(cname));

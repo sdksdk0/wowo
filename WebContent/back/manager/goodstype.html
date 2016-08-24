@@ -42,7 +42,6 @@
 					</li>
 					<li><span>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态 : </span> <select
 								name="goodstype_status" id="goodstype_status">
-								<option value='-1'>--请选择--</option>
 								<option value='0'>已下架</option>
 								<option value='1'>正常</option>
 					</select></li>
@@ -210,7 +209,7 @@
 		$("#update_goodstype_tid").val(row.tid);
 		$("#update_goodstype_tname").val(row.tname);
 		$("#update_goodstype_des").val(row.des);
-		$("#update_goodstype_status").val(row.status);
+		$("#update_goodstype_status  option:selected").val(row.status);
 	}
 	
 	

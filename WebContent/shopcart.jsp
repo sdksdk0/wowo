@@ -98,7 +98,7 @@
                                 	<a rel="nofollow" href="servlet/orderServlet?op=showOrders">我的订单</a>
                                 </li>
                                 <li>
-                                	<a rel="nofollow" href="#">我的收藏</a>
+                                	<a rel="nofollow" href="shopcart.jsp">我的购物车</a>
                                 </li>
                                 <li>
                                 	<a rel="nofollow" href="#">我的积分</a>
@@ -262,7 +262,7 @@
         </div>
         
         <div id="payprocess">
-			<h1>确认订单</h1>
+			<h1>我的购物车(警告:不同店铺的的商品需要分开下单)</h1>
 			<div class="catbox">
   				<table id="cartTable">
     				<thead>

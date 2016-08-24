@@ -118,7 +118,7 @@ public class goodsInfoServlet extends BasicServlet {
 			OrderItem item=new OrderItem();
 			item.setId(UUID.randomUUID().toString());
 			item.setNumber(me.getValue().getNumber());
-			item.setPrice(me.getValue().getGoods().getPrice()*me.getValue().getNumber());
+			item.setPrice(me.getValue().getPrice());  //me.getValue().getGoods().getPrice()*me.getValue().getNumber()
 			item.setGoods(me.getValue().getGoods());
 			oItems.add(item);
 		}

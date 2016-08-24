@@ -1,6 +1,7 @@
 package cn.tf.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class Goods implements Serializable{
 
@@ -12,7 +13,7 @@ public class Goods implements Serializable{
 	private Integer gid;
 	private String gname;
 	private String des;
-	private double price;
+	private BigDecimal price;
 	private String pic;
 	private Integer status;
 	private Integer spid;
@@ -64,10 +65,10 @@ public class Goods implements Serializable{
 	public void setDes(String des) {
 		this.des = des;
 	}
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 	public String getPic() {
@@ -136,7 +137,7 @@ public class Goods implements Serializable{
 					+ ", price=" + price + ", pic=" + pic + ", status="
 					+ status + ", spid=" + spid + ", sname=" + sname + "]";
 		}
-	public Goods(Integer gid, String gname, String des, double price,
+	public Goods(Integer gid, String gname, String des, BigDecimal price,
 				String pic, Integer status, Integer spid, String sname) {
 			super();
 			this.gid = gid;

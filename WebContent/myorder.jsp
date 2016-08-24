@@ -102,7 +102,7 @@
                                 	<a rel="nofollow" href="myorder.jsp">我的订单</a>
                                 </li>
                                 <li>
-                                	<a rel="nofollow" href="#">我的收藏</a>
+                                	<a rel="nofollow" href="shopcart.jsp">我的购物车</a>
                                 </li>
                                 <li>
                                 	<a rel="nofollow" href="#">我的积分</a>
