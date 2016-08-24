@@ -74,4 +74,10 @@ public class OrderBizImpl implements OrderBiz {
 		OrderDao orderDao=new OrderDaoImpl();
 		return orderDao.find(year,spid,i);
 	}
+
+	@Override
+	public List<Orders> findOrdersByUserId(Integer usid) {
+		OrderDao orderDao=new OrderDaoImpl();
+		return orderDao.findOrdersByUserId(usid);
+	}
 }

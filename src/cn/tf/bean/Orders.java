@@ -15,7 +15,7 @@ public class Orders implements Serializable{
 	
 	private String ordernum;
 	private float price;
-	private int number;
+	private int nums;
 	private int status;
 	
 	private  String stime;
@@ -35,11 +35,11 @@ public class Orders implements Serializable{
 	public void setPrice(float price) {
 		this.price = price;
 	}
-	public int getNumber() {
-		return number;
+	public int getNums() {
+		return nums;
 	}
-	public void setNumber(int number) {
-		this.number = number;
+	public void setNums(int nums) {
+		this.nums = nums;
 	}
 	public int getStatus() {
 		return status;
@@ -70,13 +70,35 @@ public class Orders implements Serializable{
 	public void setStime(String stime) {
 		this.stime = stime;
 	}
+	
+	
+	public String getStatusStr() {
+		
+		if(status==0){
+			return "已提交订单";
+		}else if(status==1){
+			return "已支付";
+		}else if(status==2){
+			return "消费成功";
+		}else if(status==3){
+			return "已取消";
+		}else{
+			return "订单异常";
+		}
+		
+		
+	}
+	
 
 	@Override
 	public String toString() {
 		return "Orders [ordernum=" + ordernum + ", price=" + price
-				+ ", number=" + number + ", status=" + status + ", stime="
+				+ ", nums=" + nums + ", status=" + status + ", stime="
 				+ stime + ", userInfo=" + userInfo + ", items=" + items + "]";
 	}
+
+
+
 	
 	
 

@@ -33,6 +33,7 @@ import cn.tf.biz.impl.ShopBizImpl;
 import cn.tf.entities.AdminInfo;
 import cn.tf.entities.Order;
 import cn.tf.entities.Shopping;
+import cn.tf.entities.UserInfo;
 import cn.tf.utils.AttributeData;
 import cn.tf.utils.SendMailThread;
 import cn.tf.utils.UploadUtil;
@@ -61,12 +62,36 @@ public class orderServlet extends BasicServlet {
 			findData(request,response);
 		}else if("findprov".equals(op)){
 			findprov(request,response);
+		}else if("showOrders".equals(op)){
+			showOrders(request,response);
 		}
 		
 
 	}
 
 	
+
+
+	//查看订单详情
+	private void showOrders(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		
+		//检测是否登录； 
+		HttpSession session=request.getSession();
+		UserInfo obj=(UserInfo) session.getAttribute(AttributeData.CURRENTUSERLOGIN);
+		if(obj==null){
+			response.getWriter().write("请先登录");
+			response.setHeader("Refresh", "2;URL="+request.getContextPath());
+			return ;
+		}
+		OrderBiz orderBiz=new OrderBizImpl();
+		List<Orders>  orders=orderBiz.findOrdersByUserId(obj.getUsid());
+		
+		request.getSession().setAttribute("orders", orders);
+		response.sendRedirect("../myorder.jsp");
+	}
+
+
 
 
 	//查找用户的省份信息
@@ -94,7 +119,7 @@ public class orderServlet extends BasicServlet {
 		
 		OrderBiz orderBiz=new OrderBizImpl();
 		List<Order> list= orderBiz.find(year,spid,2);
-		System.out.println(list);
+		
 		this.out(response, list);
 		
 	}
@@ -140,8 +165,22 @@ public class orderServlet extends BasicServlet {
 			HttpServletResponse response) {
 		String ordernum=request.getParameter("ordernum");
 		OrderBiz orderBiz=new OrderBizImpl();
-		orderBiz.changeOrderStatus(2, ordernum);
-		this.out(response, 1);
+		
+		
+		Orders list=orderBiz.findOrderByNum(ordernum);
+		int status=list.getStatus();
+		int result=0;
+		if(status==1){   //订单已支付，可以消费
+			orderBiz.changeOrderStatus(2, ordernum);
+			result=1;
+		}else if(status==3){
+			result=2;    //订单已取消，无法消费
+		}else{
+			result=0;   //订单未付款，无法消费
+		}
+		this.out(response, result);
+		
+	
 	}
 
 
@@ -207,15 +246,29 @@ public class orderServlet extends BasicServlet {
 		this.out(response, list,list1.size());
 	}
 
-	//删除
+	//删除（取消订单)
 	private void deleteorderstype(HttpServletRequest request,
 			HttpServletResponse response) {
-		String ordernum=request.getParameter("ordernum");
+		/*String ordernum=request.getParameter("ordernum");
 		OrderBiz orderBiz=new OrderBizImpl();
 		
 		int result=orderBiz.del(ordernum);
-		this.out(response,result);
+		this.out(response,result);*/
 		
+		String ordernum=request.getParameter("ordernum");
+		OrderBiz orderBiz=new OrderBizImpl();
+		
+		Orders list=orderBiz.findOrderByNum(ordernum);
+		int status=list.getStatus();
+		int result=0;
+		if(status!=2){
+			orderBiz.changeOrderStatus(3, ordernum);
+			result=1;
+		}else{
+			result=0;
+		}
+		this.out(response, result);
+			
 	}
 
 	

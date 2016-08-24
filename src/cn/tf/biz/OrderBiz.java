@@ -31,4 +31,7 @@ public interface OrderBiz {
 
 	List<Order> find(Map<String, String> param, Integer pageNo, Integer pageSize);
 
+	//通过用户id查找订单信息
+	List<Orders> findOrdersByUserId(Integer usid);
+
 }

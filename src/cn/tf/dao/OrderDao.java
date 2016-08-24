@@ -24,4 +24,6 @@ public interface  OrderDao {
 
 	List<Order> find(String year, String spid,Integer i);
 
+	List<Orders> findOrdersByUserId(Integer usid);
+
 }

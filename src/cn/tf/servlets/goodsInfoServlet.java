@@ -107,7 +107,7 @@ public class goodsInfoServlet extends BasicServlet {
 		
 		order.setOrdernum(OrderNumUtil.genOrderNum());
 		order.setPrice(Float.parseFloat( totprice));
-		order.setNumber(cart.getNumber());
+		order.setNums(cart.getNumber());
 		order.setUserInfo((UserInfo) userInfo);
 		
 		

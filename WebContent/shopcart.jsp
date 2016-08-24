@@ -95,7 +95,7 @@
                         	<b class="triangleT">triangle</b>
                         	<ul class="ulbox linkBox">
                                 <li>
-                                	<a rel="nofollow" href="#">我的订单</a>
+                                	<a rel="nofollow" href="servlet/orderServlet?op=showOrders">我的订单</a>
                                 </li>
                                 <li>
                                 	<a rel="nofollow" href="#">我的收藏</a>

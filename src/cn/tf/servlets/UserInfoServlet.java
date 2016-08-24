@@ -64,9 +64,24 @@ public class UserInfoServlet extends BasicServlet {
 			deleteUserInfo(request,response);
 		}else if("searchUserInfoByPage".equals(op)){
 			searchUserInfoByPage(request,response);
+		}else if("loginout".equals(op)){
+			loginout(request,response);
 		}
 		
 
+	}
+
+
+	//退出登录
+	private void loginout(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		request.getSession().removeAttribute(AttributeData.CURRENTUSERLOGIN);
+		this.out(response, 1);
+		
+		
+		
+		
 	}
 
 

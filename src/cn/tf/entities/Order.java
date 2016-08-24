@@ -105,8 +105,10 @@ public class Order implements Serializable{
 		}else if(status==1){
 			return "已支付";
 		}else if(status==2){
-			return "已发货";
-		}else {
+			return "消费成功";
+		}else if(status==3){
+			return "已取消";
+		}else{
 			return "订单异常";
 		}
 		

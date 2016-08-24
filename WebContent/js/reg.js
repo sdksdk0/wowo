@@ -81,7 +81,7 @@ $(function () {
 							tdInfo="*请输入用户名";
 							flag1=false;
 						}else if(!reg.test(val)){
-							tdInfo="*由2-17位的中文、字母、数字和下划线组成";	
+							tdInfo="*2-17位的中文、字母、数字和下划线";	
 							flag1=false;
 						}else{
 							tdInfo="";	

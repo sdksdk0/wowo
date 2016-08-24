@@ -16,7 +16,7 @@ var flag3=false;
 			  
 			  
 			  $(function(){
-					//checkInfo();
+					checkInfo();
 					
 					$("#logsafecode").focus(function(){
 						$("#logsafecode").css("border-color","#eee");
@@ -41,7 +41,7 @@ var flag3=false;
 					$("#pwd").next().css("color","red");
 					$("#pwd").next().css("font-size","12px");
 					
-					$("#uname").bind({
+					/*$("#uname").bind({
 						blur:function(){
 							var val=$("#uname").val();
 							var reg=/^\d{4}$/;
@@ -64,7 +64,7 @@ var flag3=false;
 						focus:function(){
 							$("#uname").next().text("");
 						}
-					})	
+					})	*/
 					
 					$("#pwd").bind({
 						blur:function(){
@@ -120,7 +120,7 @@ var flag3=false;
 						return false;
 					}
 
-				//	if(flag1==true && flag2==true ){
+					if(/*flag1==true &&*/ flag2==true ){
 
 						$.post("servlet/UserInfoServlet",{op:"userLogin",name:name,pwd:pwd,code:code},function(data){
 							data=parseInt($.trim(data));
@@ -134,7 +134,7 @@ var flag3=false;
 							}
 						});
 						
-				//	}
+					}
 					
 					return false;
 					

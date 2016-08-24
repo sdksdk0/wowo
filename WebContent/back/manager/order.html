@@ -34,6 +34,8 @@
 			<option value='0'>已下单</option>
 			<option value='1'>已付款</option>
 			<option value='2'>已消费</option>
+			<option value='3'>已取消</option>
+			<option value='4'>异常订单</option>
 		</select> &nbsp;&nbsp;<a href="javascript:search_orderInfo()"
 			class="easyui-linkbutton" data-options="iconCls:'icon-search'">查找</a>
 	</div>
@@ -84,9 +86,11 @@
  		$("#map1").show();
  		
  		findprov();
- 		alert();
- 		alert(datamap);
- 		cc();
+ 	
+ 		setTimeout(function(){
+ 			cc();
+				
+ 		},2000);
  	}
    
    
@@ -187,8 +191,8 @@
 								width : 100,
 								align : 'center',
 								formatter : function(val, row, index) {
-									return "&nbsp;&nbsp;<a href='javascript:delteOrderInfo("+row.ordernum+")' class='icon-remove1  icon-padding' >删除订单</a>"
-											+ "<a href='javascript:updateOrderInfo("+row.ordernum+")' class='icon-edit1  icon-padding'>发货</a> ";
+									return "&nbsp;&nbsp;<a href='javascript:delteOrderInfo("+row.ordernum+")' class='icon-remove1  icon-padding' >取消订单</a>"
+											+ "<a href='javascript:updateOrderInfo("+row.ordernum+")' class='icon-edit1  icon-padding'>消费验证</a> ";
 								}
 							}
 
@@ -207,16 +211,16 @@
 
 		if(ordernum!=null){
 			
-			$.messager.confirm('确认删除么','确认删除么',function(rt){
+			$.messager.confirm('取消订单','确认取消么',function(rt){
 				 if(rt){
 			 		$.post("../../servlet/orderServlet",{op:"deleteorderstype",ordernum:ordernum},function(data){
 					data=parseInt($.trim(data));
 
 					if(data>0){
-						$.messager.show({title:'温馨提示',msg:'删除成功',timeout:2000,showType:'slide'});
+						$.messager.show({title:'温馨提示',msg:'取消订单成功',timeout:2000,showType:'slide'});
 						$('#listOrder_dataInfo').datagrid("reload");
 					}else{
-						$.messager.alert('失败','删除失败','error');   
+						$.messager.alert('失败','已成功消费，无法取消订单','error');   
 					}
 				}); 
 			   }
@@ -234,11 +238,13 @@
 				 $.post("../../servlet/orderServlet",{op:"updateorderInfo",ordernum:ordernum},function(data){
 						data=parseInt($.trim(data));
 
-						if(data>0){
-							$.messager.show({title:'温馨提示',msg:'发货成功',timeout:2000,showType:'slide'});
+						if(data==1){
+							$.messager.show({title:'温馨提示',msg:'消费成功',timeout:2000,showType:'slide'});
 							$('#listOrder_dataInfo').datagrid("reload");
+						}else  if(data==0){
+							$.messager.alert('失败','该订单还未支付，无法消费','error');   
 						}else{
-							$.messager.alert('失败','发货失败','error');   
+							$.messager.alert('失败','该订单已取消，无法消费','error');   
 						}
 					}); 
 					 
@@ -301,12 +307,13 @@
 		
 			$.post("../../servlet/orderServlet",{op:"findprov",year:year},function(data){
 				 /* {name: '北京',value: Math.round(Math.random()*1000)}, */
-			 $.each(data,function(i,item){
-				 alert(item.prov);
-				 alert(item.count);
-				datamap[i]={name:item.prov,value:item.count}
-				alert(datamap[i]);
-			}); 
+			  $.each(data,function(i,item){
+				 // datamap[i]={'name':item.prov,'value':item.count};
+				 //datamap[i]={name:item.prov,value:item.count}
+				   datamap[i]={name:item.prov+"",value:item.count+"",selected:true};
+				 
+				
+			 });  
 			
 			
 		},"json"); 
@@ -335,11 +342,7 @@
  	
  	<script src="../echarts/echarts.js"></script>
  	<script type="text/javascript">
- 
- 	//var data3=[2.0, 4.9];
- 	//var data4=[2.6, 5.9];
- 	// ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
- 	
+
  	function cc(){
  
     require.config({
@@ -408,7 +411,7 @@
             myChart2.setOption({
             		    title : {
             		        text: '商品销量',
-            		        subtext: '纯属虚构',
+            		        subtext: '',
             		        x:'center'
             		    },
             		    tooltip : {

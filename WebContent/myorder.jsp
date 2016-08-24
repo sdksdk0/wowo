@@ -1,18 +1,53 @@
-
-<!doctype html>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<title>窝窝团</title>
-        <link rel="stylesheet" href="css/basic.css" />
-        <script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
-        <script  type="text/javascript"  src="js/index.js"></script>
-         <script  type="text/javascript"  src="js/userinfo.js"></script>
-        
-	</head>
+		<link rel="stylesheet" href="css/basic.css" type="text/css" />
+		<script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
+        <script  type="text/javascript"  src="js/userinfo.js"></script>
 
+		
+	</head>
+  
+  <style>
+  
+.fl{float:left;}
+.fr{float:right;}
+  
+  
+.catbox{width:940px;margin:0px auto;}
+.catbox table{text-align:center;width:99%;}
+.catbox table th,.catbox table td{border:1px solid #CADEFF;}
+.catbox table th{background:#e2f2ff;border-top:3px solid #a7cbff;height:30px;}
+.catbox table td{padding:10px;color:#444;}
+.catbox table tbody tr:hover{background:RGB(238,246,255);}
+		.checkbox{width:50px;}
+.check-all{ vertical-align:middle;}
+.goods{width:300px;}
+.goods span{width:180px;margin-top:20px;text-align:left;float:left;}
+.goods img{width:100px;height:80px;margin-right:10px;float:left;}
+.price{width:250px;}
+.nums{width:100px;}
+.count .add, .count input, .count .reduce{float:left;margin-right:-1px;position:relative;z-index:0;}
+.count .add, .count .reduce{height:23px;width:17px;border:1px solid #e5e5e5;background:#f0f0f0;text-align:center;line-height:23px;color:#444;}
+.count .add:hover, .count .reduce:hover{color:#f50;z-index:3;border-color:#f60;cursor:pointer;}
+.count input{width:50px;height:15px;line-height:15px;border:1px solid #aaa;color:#343434;text-align:center;padding:4px 0;background-color:#fff;z-index:2;}
+.subtotal{width:150px;color:red;font-weight:bold;}
+.operation span:hover,a:hover{cursor:pointer;color:red;text-decoration:underline;}
+.foot{margin-top:0px;color:#666;height:48px;border:1px solid #c8c8c8;border-top:0;background-color:#eaeaea;background-image:linear-gradient(RGB(241,241,241),RGB(226,226,226));position:relative;z-index:8;}
+.foot div, .foot a{line-height:48px;height:48px;}
+.foot .select-all{width:80px;height:48px;line-height:48px;color:#666;text-align:center;}
+.foot .delete{padding-left:10px;}		
+	
+
+	</style>
+  
+  
+  
 	<body id="index">
-    	<input id="currentTime_" type="hidden" value="1409623012768">
     	<div id="headTop">
         	<ul class="headTopUl clearfix">
                 <li class="headTopUser">
@@ -59,7 +94,7 @@
                         	<b class="triangleT">triangle</b>
                         	<ul class="ulbox linkBox">
                                 <li>
-                                	<a rel="nofollow" href="servlet/orderServlet?op=showOrders">我的订单</a>
+                                	<a rel="nofollow" href="myorder.jsp">我的订单</a>
                                 </li>
                                 <li>
                                 	<a rel="nofollow" href="#">我的收藏</a>
@@ -89,16 +124,22 @@
                 </li>
                 <li class="headTopLogin">
                 	<span class="Gray7"  id="index_loginuser">
-                      
+               
                 	</span>
-                    <ul class="clearfix">
+                	<!-- <span id="topusername" class="yellowd1">
+						您好，<a class="yellowd1" href="" id="uname"></a>
+						&nbsp;
+						<a class="Gray7" href="javascript:void"  id="loginout">退出</a>
+						<b class="borderdc p_0_10">|</b>
+					</span>
+ -->                    <ul class="clearfix">
                     	<li id="msgCount" class="headTopUlist no">
                     		<em class="messico">messico</em>
                     		<a class="Gray7" rel="nofollow" href="#">消息</a>
                     	</li>
                     	<b class="borderdc p_1_10">|</b>
                     </ul>
-                	<a id="integration" href="#">
+					<a id="integration" href="#">
                 		<em></em>
                 		领积分抵钱
                 	</a>
@@ -218,119 +259,71 @@
                 </li>
             </ul>
         </div>
-        <div id="wowoFocus" class="focuswowo">
-			<ul style="height: 540px; top: -90px;">
-                <li>
-                    <a target="_blank" href="#">
-                    	<img class="lazyload" width="960" height="90" original="images/ggs1.jpg" src="images/ggs1.jpg" visibility="hidden">
-                    </a>
-                </li>
-                <li>
-                    <a target="_blank" href="#">
-                    	<img width="960" height="90" src="images/ggs2.jpg">
-                    </a>
-                </li>
-                <li>
-                	<a target="_blank" href="#">
-                    	<img class="lazyload" width="960" height="90" original="images/ggs3.jpg" src="images/ggs3.jpg" visibility="hidden">
-                    </a>
-                </li>
-                <li>
-                	<a target="_blank" href="#">
-                    	<img class="lazyload" width="960" height="90" original="images/ggs4.jpg" src="images/ggs4.jpg" visibility="hidden">
-                    </a>
-                </li>
-                <li>
-                    <a target="_blank" href="#">
-                        <img class="lazyload" width="960" height="90" original="images/ggs5.jpg" src="images/ggs5.jpg" visibility="hidden">
-                    </a>
-                </li>
-                <li>
-                	<a target="_blank" href="#">
-                    	<img class="lazyload" width="960" height="90" original="images/ggs1.jpg" src="images/ggs1.jpg" visibility="hidden">
-                    </a>
-                </li>
-            </ul>
+        
+        <div id="payprocess">
+			<h1>我的订单</h1>
+			<div class="catbox">
+  				<table id="cartTable">
+    				<thead>
+    					<tr>
+							<c:if test="${empty orders}">
+    							您还没有购买任何商品
+    						</c:if>
+				   			 </tr>
+    </thead>
+    <tbody>
+    <c:if test="${!empty orders}">
+    		<tr>
+    			 <th><label><input class="check-all check" type="checkbox"/>&nbsp;&nbsp;全选</label></th>
+    			<th>订单编号</th>
+    			<th>总价格</th>
+    			<th>总数量</th>
+    			<th>状态</th>
+    			<th>操作</th>
+    		</tr>
+    		<c:forEach items="${orders}" var="o" varStatus="vs">
+    	
+    				
+    				<tr>
+				        <td class="checkbox"><input class="check-one check" type="checkbox"  /></td>
+				        <td class="price">${o.ordernum}</td>
+				        <td class="nums">${o.price}</td>
+				        <td class="nums">${o.nums}</td>
+				        <td class="subtotal">${o.statusStr} </td>
+				        <td class="operation">
+					        <c:choose>
+		    					<c:when test="${o.status==0}">
+		    						<a href="${pageContext.request.contextPath}/pay.jsp?ordernum=${o.ordernum}&price=${o.price}">去付款</a>
+		    					</c:when>
+		    					<c:when test="${o.status==1}">
+		    						<a href="#" >已支付</a>
+		    					</c:when>
+		    					<c:when test="${o.status==2}">
+		    						 <a href="#" >再来一单</a>
+		    					</c:when>
+		    					<c:when test="${o.status==3}">
+		    						 <a href="#" >重新下单</a>
+		    					</c:when>
+					        </c:choose>
+					        </td>
+     				 </tr>
+    				
+    				
+    		</c:forEach>
+    		
+    			
+    	   </tbody>
+    	   
+  </table>
+    </c:if>
+		  <div class="foot" id="foot">
+    <label class="fl select-all"><input type="checkbox" class="check-all check"/>&nbsp;&nbsp;全选</label>
+  </div>	
+			
+			
+			<div class="extime" style="text-align:right;font-size:12px;color:#999;padding-top:20px;">订单将在次日失效，请尽快完成支付</div>
 		</div>
-        <div class="con-boxIndex clearfix"  >
-        	
-			<ul class="goods-allInd clearfix"   id="findGoodsIndex">
-				   
-			</ul>
-			<div class="con-boxrig">
-				<div class="pub-rigwrap">
-                    <a rel="nofollow" target="_blank" href="#">
-                        <img class="baozhangimg" width="218" height="120" src="images/baozhang.png">
-                    </a>
-				</div>
-                <a href="#" gae="AD_ALL-SY-RT-00000003-0-82" target="_blank">
-                    <img class="right_ggimg" width="218" height="120" src="images/ggs_index.gif">
-                </a>
-                <div class="pub-rigwrap">
-                    <a rel="nofollow" target="_blank" href="#">
-                        <img class="baozhangimg" width="218" height="120" src="images/pic1.jpg">
-                    </a>
-				</div>
-                <div class="pub-rigwrap">
-                    <a rel="nofollow" target="_blank" href="#">
-                        <img class="baozhangimg" width="218" height="120" src="images/pic2.jpg">
-                    </a>
-				</div>
-                <div class="pub-rigwrap">
-                    <a rel="nofollow" target="_blank" href="#">
-                        <img class="baozhangimg" width="218" height="120" src="images/pic3.jpg">
-                    </a>
-				</div>
-			</div>
-		</div>
-        <dl id="FriendLink">
-            <dt class="hd">
-                <ul class="tit">
-                    <li class="titlist">
-                    	<a class="aBtn" href="#">热门城市</a>
-                    </li>
-                    <li class="titlist">
-                    	<a class="aBtn" href="#">友情链接</a>
-                    </li>
-                </ul>
-            </dt>
-            <dd class="bd">
-                <ul class="linkbox" style="display: block;">
-                    <li class="linkList">
-                    	<a class="aLink" href="#" target="_blank">湘潭团购</a>
-                    </li>
-                    <li class="linkList">
-                    	<a class="aLink" href="#" target="_blank">常德团购</a>
-                    </li>
-                    <li class="linkList">
-                    	<a class="aLink" href="#" target="_blank">株洲团购</a>
-                    </li>
-                    <li class="linkList">
-                    	<a class="aLink" href="#" target="_blank">衡阳团购</a>
-                    </li>
-                    <li class="linkList">
-                    	<a class="aLink" href="#" target="_blank">长沙团购</a>
-                    </li>
-				</ul>
-				<ul class="linkbox" style="display: none;">
-                    <li class="linkList">
-                    	<a class="aLink" href="#" target="_blank">衡阳招聘</a>
-                    </li>
-                    <li class="linkList">
-                    	<a class="aLink" href="#" target="_blank">衡阳租房</a>
-                    </li>
-                    <li class="linkList">
-                    	<a class="aLink" href="#" target="_blank">衡阳旅游线路</a>
-                    </li>
-                    <li class="linkList">
-                    	<a class="aLink" href="#" target="_blank">衡阳团购</a>
-                    </li>
-                    <li class="linkList">
-                    	<a class="aLink" href="#" target="_blank">衡阳天气</a>
-                    </li>
-                </ul>
-            </dd>
-        </dl>
+        
         <div id="footer">
             <div class="bottom-box clearfix">
                 <div class="boul">
@@ -349,7 +342,7 @@
                         </li>
                         <li>
                         	<a class="bolist-a" rel="nofollow" href="#">积分规则</a>
-                        </li>
+                        </li>-
                         <li>
                         	<a class="bolist-a" rel="nofollow" href="#">代金券说明</a>
                         </li>
@@ -445,7 +438,7 @@
                 <a class="fawu-5" rel="nofollow" href="#" target="_blank">经营性网站备案信息</a>
             </div>
         </div>
-         <div id="ritfllow" style="position: fixed; bottom: 60px; right:30px;">
+       <div id="ritfllow" style="position: fixed; bottom: 60px; right:30px;">
            <a class="gotopBtn" href="#" style="visibility: none; height: 38px;" >top</a>
 			<div class="mobileBtn" style="visibility: visible; display: block;">
 				<div class="codeImg">
@@ -458,8 +451,6 @@
 			<a href="#" target="_blank" class="fee_opin" style="border-top-style: none; height: 30px;">意见反馈</a>
 			<!--意见反馈-->
 		</div>
-		
-    
         <div id="ritCode" style="position: fixed; top: 358px; right: 30px; visibility: visible;">
 			
         
@@ -471,8 +462,8 @@
 			</div>
 		</div>
         
-        
-      
-       
 	</body>
 </html>
+
+
+

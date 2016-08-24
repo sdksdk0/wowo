@@ -83,7 +83,7 @@ $(function() {
 					
 				}else{
 					$("#email").css("border-color","red");
-					$("#emailspan").text("该邮箱不存在");
+					$("#emailspan").text("该邮箱未注册");
 					$("#emailspan").css("color","red");
 					flag2=false;
 				}	
