@@ -224,7 +224,7 @@ function getCodeInfo(){
 	var username=$.trim($("#username").val());
 	var email=$.trim($("#email").val());
 
-			if( flag1==true && flag2==true ){
+			if( /*flag1==true &&   */ flag2==true ){
 				
 				$("#navigation li").removeClass("selected");
 				$("#navigation li:eq(1)").addClass("selected");
@@ -237,8 +237,6 @@ function getCodeInfo(){
 							$("#email").val();
 							
 						}
-						
-						
 				});	
 			}	
 		}

@@ -12,7 +12,12 @@
 		
 	</head>
   
+
+  
   <style>
+  tr td{
+  	height:40px;
+  }
   
 .fl{float:left;}
 .fr{float:right;}
@@ -289,7 +294,7 @@
 				        <td class="price">${o.ordernum}</td>
 				        <td class="nums">${o.price}</td>
 				        <td class="nums">${o.nums}</td>
-				        <td class="subtotal">${o.statusStr} </td>
+				        <td class="status">${o.statusStr } </td>
 				        <td class="operation">
 					        <c:choose>
 		    					<c:when test="${o.status==0}">
@@ -319,9 +324,6 @@
 		  <div class="foot" id="foot">
     <label class="fl select-all"><input type="checkbox" class="check-all check"/>&nbsp;&nbsp;全选</label>
   </div>	
-			
-			
-			<div class="extime" style="text-align:right;font-size:12px;color:#999;padding-top:20px;">订单将在次日失效，请尽快完成支付</div>
 		</div>
         
         <div id="footer">
