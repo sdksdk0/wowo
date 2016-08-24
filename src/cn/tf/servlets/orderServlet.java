@@ -80,7 +80,7 @@ public class orderServlet extends BasicServlet {
 		HttpSession session=request.getSession();
 		UserInfo obj=(UserInfo) session.getAttribute(AttributeData.CURRENTUSERLOGIN);
 		if(obj==null){
-			response.getWriter().write("请先登录");
+			response.getWriter().write("请先登录,2秒后跳转到登录界面");
 			response.setHeader("Refresh", "2;URL="+request.getContextPath());
 			return ;
 		}

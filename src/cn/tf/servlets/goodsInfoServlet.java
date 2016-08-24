@@ -188,7 +188,7 @@ public class goodsInfoServlet extends BasicServlet {
 	}
 
 
-	//商品详情
+	//前台的商品详情
 	private void findGoodsDetal(HttpServletRequest request,
 			HttpServletResponse response) {
 		String gid=request.getParameter("gid");

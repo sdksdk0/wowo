@@ -129,8 +129,6 @@ public class UserInfo implements Serializable{
 		}else {
 			return "账号异常";
 		}
-		
-		
 	}
 	
 	

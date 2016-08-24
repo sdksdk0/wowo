@@ -179,7 +179,6 @@ public class shoppingInfoServlet extends BasicServlet {
 		List<Shopping>  list1=shopBiz.find(param,null,null);
 		this.out(response, list,list1.size());
 		
-		
 	}
 
 

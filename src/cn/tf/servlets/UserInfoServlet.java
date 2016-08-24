@@ -78,10 +78,6 @@ public class UserInfoServlet extends BasicServlet {
 		
 		request.getSession().removeAttribute(AttributeData.CURRENTUSERLOGIN);
 		this.out(response, 1);
-		
-		
-		
-		
 	}
 
 
