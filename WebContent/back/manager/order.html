@@ -276,23 +276,38 @@
  	var monthdata=[];  //设置月份
  	var datac=[];   //设置下单量
  	var datal=[];   //设置浏览量
- 	
+
  	//查找下单数和成交数
  		function findData(){
  			
  			var myDate = new Date();
- 			var year=myDate.getFullYear();;        //获取当前年份(2位)
+ 			var year=myDate.getFullYear();        //获取当前年份(2位)
  		
- 			$.post("../../servlet/orderServlet",{op:"findData",year:year},function(data){
+ 			var value1=1;
+ 			$.post("../../servlet/orderServlet",{op:"findData",year:year,value:value1},function(data){
 
 				$.each(data,function(i,item){
 					monthdata[i]=item.month+"月";
 					datac[i]=item.count;
-					datal[i]=item.count*8;
-				});
-				
-				
+					//datal[i]=item.count*8;
+				});	
 			},"json"); 
+ 			
+ 			var value3=3;
+ 			$.post("../../servlet/orderServlet",{op:"findData",year:year,value:value3},function(data){
+
+				$.each(data,function(i,item){
+					monthdata[i]=item.month+"月";
+					//datac[i]=item.count;
+					datal[i]=item.count;
+					
+					
+				});	
+			},"json"); 
+ 			
+ 			
+ 			
+ 			
  			
  		}
  	
@@ -367,7 +382,7 @@
                     trigger: 'axis'
                 },
                 legend: {
-                    data:['下单量','访问量']
+                    data:['未处理','成交量']
                 },
                 toolbox: {
                     show : true,
@@ -394,12 +409,12 @@
                 ],
                 series : [
                     {
-                        name:'下单量',
+                        name:'未处理',
                         type:'bar',
                         data:datac
                     },
                     {
-                        name:'访问量',
+                        name:'成交量',
                         type:'bar',
                         data:datal
                     }

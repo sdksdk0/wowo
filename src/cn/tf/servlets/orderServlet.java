@@ -131,7 +131,7 @@ public class orderServlet extends BasicServlet {
 	private void findData(HttpServletRequest request,
 			HttpServletResponse response) {
 		String year=request.getParameter("year");
-		
+		String value=request.getParameter("value");
 		
 		Object obj=request.getSession().getAttribute(AttributeData.CURRENTADMINLOGIN);
 		AdminInfo  adminInfo=(AdminInfo) obj;
@@ -151,7 +151,7 @@ public class orderServlet extends BasicServlet {
 		}
 		
 		OrderBiz orderBiz=new OrderBizImpl();
-		List<Order> list= orderBiz.find(year,spid,1);
+		List<Order> list= orderBiz.find(year,spid,Integer.parseInt(value));
 		
 		this.out(response, list);
 		
