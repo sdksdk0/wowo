@@ -57,7 +57,7 @@ public class ResponsePayServlet extends HttpServlet {
 				s.updateOrder(order);*/
 				orderBiz.changeOrderStatus(1, r6_Order);
 				request.getSession().removeAttribute("cart");
-				response.setHeader("Refresh", "2;URL="+request.getContextPath()+"myorder.jsp");
+				response.setHeader("Refresh", "2;URL="+request.getContextPath()+"/myorder.jsp");
 			}
 		}
 	}

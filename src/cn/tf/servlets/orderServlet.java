@@ -81,7 +81,7 @@ public class orderServlet extends BasicServlet {
 		UserInfo obj=(UserInfo) session.getAttribute(AttributeData.CURRENTUSERLOGIN);
 		if(obj==null){
 			response.getWriter().write("请先登录,2秒后跳转到登录界面");
-			response.setHeader("Refresh", "2;URL="+request.getContextPath());
+			response.setHeader("Refresh", "2;URL="+request.getContextPath()+"/login.html");
 			return ;
 		}
 		OrderBiz orderBiz=new OrderBizImpl();
