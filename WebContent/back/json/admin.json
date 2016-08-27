@@ -56,10 +56,6 @@
 				
 			},
 			{
-			   "id":"index_message",
-			   "text":"消息管理"		
-			},
-			{
 			   "id":"index_order",
 			   "text":"订单管理"		
 			}
